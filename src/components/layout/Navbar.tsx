@@ -28,7 +28,8 @@ const Navbar = () => {
     { name: "Services", path: "/services" },
     { name: "Marketplace", path: "/marketplace" },
     { name: "3D Printing", path: "/3d-printing" },
-    { name: "Gifting", path: "/gifting" }
+    { name: "Gifting", path: "/gifting" },
+    { name: "ClassRoom", path: "/classroom" }
   ];
 
   return (

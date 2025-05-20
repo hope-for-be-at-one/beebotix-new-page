@@ -10,6 +10,7 @@ import Marketplace from "./pages/Marketplace";
 import Printing from "./pages/Printing";
 import Gifting from "./pages/Gifting";
 import Contact from "./pages/Contact";
+import ClassRoom from "./pages/ClassRoom";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/3d-printing" element={<Printing />} />
           <Route path="/gifting" element={<Gifting />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/classroom" element={<ClassRoom />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
