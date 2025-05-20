@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sphere, Cube, Torus } from "lucide-react";
+import { ArrowRight, Bot, Box, CircleDashed, CircleDot } from "lucide-react";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,16 +22,16 @@ const HeroSection = () => {
           
           {/* 3D Effect Elements */}
           <div className="absolute top-[15%] left-[20%] animate-float">
-            <Sphere className="h-10 w-10 text-beebotix-yellow opacity-70" />
+            <CircleDot className="h-10 w-10 text-beebotix-yellow opacity-70" />
           </div>
           <div className="absolute bottom-[25%] left-[15%] animate-float" style={{ animationDelay: "1s" }}>
-            <Cube className="h-16 w-16 text-beebotix-navy opacity-60" />
+            <Box className="h-16 w-16 text-beebotix-navy opacity-60" />
           </div>
           <div className="absolute top-[30%] right-[20%] animate-float" style={{ animationDelay: "2s" }}>
-            <Torus className="h-12 w-12 text-beebotix-orange opacity-70" />
+            <Bot className="h-12 w-12 text-beebotix-orange opacity-70" />
           </div>
           <div className="absolute bottom-[15%] right-[25%] animate-float" style={{ animationDelay: "1.5s" }}>
-            <Sphere className="h-8 w-8 text-beebotix-teal opacity-60" />
+            <CircleDashed className="h-8 w-8 text-beebotix-teal opacity-60" />
           </div>
         </div>
         
