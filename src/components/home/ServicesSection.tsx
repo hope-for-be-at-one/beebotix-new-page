@@ -3,25 +3,25 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Robot, Cube, Box, Wrench, Settings, Briefcase } from "lucide-react";
+import { Bot, Box, Wrench, Settings, Briefcase } from "lucide-react";
 
 const services = [
   {
     title: "Development Boards",
     description: "Custom and standard development boards for industry, hobbyists, and innovators.",
-    icon: <Cube className="h-8 w-8 text-beebotix-yellow" />,
+    icon: <Bot className="h-8 w-8 text-beebotix-yellow" />,
     link: "/services#development-boards"
   },
   {
     title: "Custom Robots & Embedded Systems",
     description: "Fully tailored robotic solutions and embedded systems designed to your specifications.",
-    icon: <Robot className="h-8 w-8 text-beebotix-yellow" />,
+    icon: <Bot className="h-8 w-8 text-beebotix-yellow" />,
     link: "/services#custom-robots"
   },
   {
     title: "3D Printing Services",
     description: "High-quality 3D printing in PLA, PETG, TPU materials with 20x20x25cm bed size.",
-    icon: <Cube className="h-8 w-8 text-beebotix-yellow" />,
+    icon: <Box className="h-8 w-8 text-beebotix-yellow" />,
     link: "/3d-printing"
   },
   {

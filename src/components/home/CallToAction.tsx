@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Robot, ArrowRight } from "lucide-react";
+import { Bot, ArrowRight } from "lucide-react";
 
 const CallToAction = () => {
   return (
@@ -28,7 +28,7 @@ const CallToAction = () => {
             <Link to="/services">
               <Button className="border-2 border-white bg-transparent hover:bg-white/10 text-white font-medium px-6 py-3 rounded-md text-lg">
                 Explore Services
-                <Robot className="ml-2 h-4 w-4" />
+                <Bot className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>
