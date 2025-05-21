@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import YouTubeEmbed from "./YouTubeEmbed";
 import { Book, BookOpen, Lock } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export interface CourseChapter {
   id: string;
@@ -38,6 +39,11 @@ const CoursePlaylist: React.FC<CoursePlaylistProps> = ({
     if (!chapter.isPremium) {
       setActiveChapter(chapter);
     }
+  };
+
+  // Get YouTube thumbnail URL
+  const getYouTubeThumbnail = (videoId: string) => {
+    return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
   };
 
   // Sample course handout content for each chapter
@@ -125,67 +131,102 @@ const CoursePlaylist: React.FC<CoursePlaylistProps> = ({
               </button>
             </CardHeader>
 
-            <CardContent className="p-0">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div className="lg:col-span-1 lg:order-2 bg-gray-50 p-4 max-h-[400px] overflow-y-auto border-l border-gray-200">
-                  <h3 className="font-bold text-lg mb-3">Chapters</h3>
-                  <ul className="space-y-2">
-                    {chapters.map((chapter) => (
-                      <li 
-                        key={chapter.id}
-                        onClick={() => handleChapterSelect(chapter)}
-                        className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-all ${
-                          activeChapter?.id === chapter.id 
-                            ? "bg-beebotix-yellow/20 border-l-4 border-beebotix-yellow" 
-                            : "hover:bg-gray-100 border-l-4 border-transparent"
-                        }`}
-                      >
-                        <span className="flex items-center">
-                          {chapter.isPremium ? (
-                            <Lock className="h-4 w-4 mr-2 text-beebotix-gray-dark" />
-                          ) : (
-                            <BookOpen className="h-4 w-4 mr-2 text-beebotix-navy" />
+            <CardContent className="p-4">
+              <div className="grid grid-cols-1 gap-8">
+                {/* Course Chapters List - Thumbnails on left, description on right */}
+                {chapters.map((chapter) => (
+                  <div 
+                    key={chapter.id} 
+                    className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ${
+                      chapter.isPremium ? "opacity-90" : "hover:shadow-lg"
+                    }`}
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {/* Left Column: Video Thumbnail */}
+                      <div className="md:col-span-1 relative">
+                        <div className="relative aspect-video h-full min-h-[180px] overflow-hidden rounded-l-lg">
+                          <img 
+                            src={getYouTubeThumbnail(chapter.videoId)} 
+                            alt={`Thumbnail for ${chapter.title}`} 
+                            className="w-full h-full object-cover"
+                          />
+                          {chapter.isPremium && (
+                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                              <Lock className="h-10 w-10 text-beebotix-yellow" />
+                            </div>
                           )}
-                          {chapter.title}
-                        </span>
-                        {chapter.isPremium && (
-                          <Badge variant="outline" className="bg-beebotix-navy text-white">
-                            Premium
-                          </Badge>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="lg:col-span-2 lg:order-1 p-4 grid grid-cols-1 gap-4">
-                  {activeChapter ? (
-                    <>
-                      <div className="animate-fade-in">
-                        <h3 className="font-bold text-lg mb-3">{activeChapter.title}</h3>
-                        <YouTubeEmbed videoId={activeChapter.videoId} title={activeChapter.title} />
-                      </div>
-                      <div className="mt-4">
-                        <h4 className="font-semibold text-lg mb-2">Course Handout</h4>
-                        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                          <p className="text-sm leading-relaxed">{getChapterHandout(activeChapter.id)}</p>
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            <Badge className="bg-beebotix-navy">Key Concepts</Badge>
-                            <Badge className="bg-beebotix-navy">Terminology</Badge>
-                            <Badge className="bg-beebotix-navy">Exercises</Badge>
-                          </div>
+                          {!chapter.isPremium && (
+                            <button 
+                              className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity"
+                              onClick={() => handleChapterSelect(chapter)}
+                            >
+                              <div className="w-12 h-12 rounded-full bg-beebotix-yellow flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-beebotix-navy" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                                </svg>
+                              </div>
+                            </button>
+                          )}
                         </div>
                       </div>
-                    </>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center h-[300px] bg-gray-50 rounded-lg">
-                      <Lock className="h-12 w-12 text-beebotix-gray-dark mb-2" />
-                      <p className="text-lg font-medium text-beebotix-gray-dark">
-                        Select a chapter to start learning
-                      </p>
+                      
+                      {/* Right Column: Chapter Info */}
+                      <div className="md:col-span-2 p-4">
+                        <div className="flex justify-between items-start">
+                          <h3 className="text-lg font-semibold text-beebotix-navy">{chapter.title}</h3>
+                          {chapter.isPremium && (
+                            <Badge variant="outline" className="bg-beebotix-navy text-white">
+                              Premium
+                            </Badge>
+                          )}
+                        </div>
+                        
+                        <p className="mt-2 text-sm text-beebotix-gray-dark">
+                          {getChapterHandout(chapter.id).substring(0, 120)}...
+                        </p>
+                        
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          <Badge className="bg-beebotix-gray-dark/80">Key Concepts</Badge>
+                          <Badge className="bg-beebotix-gray-dark/80">Exercises</Badge>
+                        </div>
+                        
+                        {!chapter.isPremium && (
+                          <Button
+                            onClick={() => handleChapterSelect(chapter)}
+                            variant="outline"
+                            className="mt-4 bg-beebotix-yellow text-beebotix-navy hover:bg-beebotix-yellow/80"
+                          >
+                            Watch Now
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                ))}
+                
+                {/* Active Chapter Content */}
+                {activeChapter && (
+                  <div className="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200 animate-fade-in">
+                    <h2 className="text-2xl font-bold text-beebotix-navy mb-4">{activeChapter.title}</h2>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      {/* Video Player on Left */}
+                      <div className="lg:col-span-2">
+                        <YouTubeEmbed videoId={activeChapter.videoId} title={activeChapter.title} />
+                      </div>
+                      
+                      {/* Course Handout on Right */}
+                      <div className="lg:col-span-1">
+                        <div className="bg-white p-4 rounded-lg border border-gray-200 h-full">
+                          <h3 className="font-semibold text-lg mb-3 text-beebotix-navy">Course Handout</h3>
+                          <p className="text-sm leading-relaxed text-beebotix-gray-dark">
+                            {getChapterHandout(activeChapter.id)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
