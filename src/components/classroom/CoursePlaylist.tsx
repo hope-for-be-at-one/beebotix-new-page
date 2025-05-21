@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import YouTubeEmbed from "./YouTubeEmbed";
@@ -38,6 +38,18 @@ const CoursePlaylist: React.FC<CoursePlaylistProps> = ({
     if (!chapter.isPremium) {
       setActiveChapter(chapter);
     }
+  };
+
+  // Sample course handout content for each chapter
+  const getChapterHandout = (chapterId: string) => {
+    const handouts: Record<string, string> = {
+      default: "This handout covers the basics of this topic. You'll find key concepts, terminology, and exercises to practice. For premium chapters, unlock to access the complete handout with advanced examples and project ideas.",
+      "r101-ch1": "In this handout, we explore the definition of robots, their history, and their applications in modern society. Robots are programmable machines that can autonomously perform tasks. The history of robotics dates back to ancient civilizations, but modern robotics began in the mid-20th century.",
+      "r101-ch2": "This handout details the key components of a robot: sensors (input), controllers (processing), actuators (output), and power systems. We'll examine how each component functions and interacts with others to create a functional robotic system.",
+      "ardu-ch1": "Arduino is an open-source electronics platform based on easy-to-use hardware and software. This handout introduces the Arduino ecosystem, its history, and why it's an excellent platform for beginners in electronics and robotics."
+    };
+
+    return handouts[chapterId] || handouts.default;
   };
 
   return (
@@ -115,7 +127,7 @@ const CoursePlaylist: React.FC<CoursePlaylistProps> = ({
 
             <CardContent className="p-0">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div className="lg:col-span-1 bg-gray-50 p-4 max-h-[400px] overflow-y-auto border-r border-gray-200">
+                <div className="lg:col-span-1 lg:order-2 bg-gray-50 p-4 max-h-[400px] overflow-y-auto border-l border-gray-200">
                   <h3 className="font-bold text-lg mb-3">Chapters</h3>
                   <ul className="space-y-2">
                     {chapters.map((chapter) => (
@@ -146,12 +158,25 @@ const CoursePlaylist: React.FC<CoursePlaylistProps> = ({
                   </ul>
                 </div>
 
-                <div className="lg:col-span-2 p-4">
+                <div className="lg:col-span-2 lg:order-1 p-4 grid grid-cols-1 gap-4">
                   {activeChapter ? (
-                    <div className="animate-fade-in">
-                      <h3 className="font-bold text-lg mb-3">{activeChapter.title}</h3>
-                      <YouTubeEmbed videoId={activeChapter.videoId} title={activeChapter.title} />
-                    </div>
+                    <>
+                      <div className="animate-fade-in">
+                        <h3 className="font-bold text-lg mb-3">{activeChapter.title}</h3>
+                        <YouTubeEmbed videoId={activeChapter.videoId} title={activeChapter.title} />
+                      </div>
+                      <div className="mt-4">
+                        <h4 className="font-semibold text-lg mb-2">Course Handout</h4>
+                        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                          <p className="text-sm leading-relaxed">{getChapterHandout(activeChapter.id)}</p>
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            <Badge className="bg-beebotix-navy">Key Concepts</Badge>
+                            <Badge className="bg-beebotix-navy">Terminology</Badge>
+                            <Badge className="bg-beebotix-navy">Exercises</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </>
                   ) : (
                     <div className="flex flex-col items-center justify-center h-[300px] bg-gray-50 rounded-lg">
                       <Lock className="h-12 w-12 text-beebotix-gray-dark mb-2" />

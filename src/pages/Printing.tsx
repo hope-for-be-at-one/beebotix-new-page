@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -17,7 +17,8 @@ import {
   FileText,
   Truck,
   Upload,
-  CheckCircle
+  CheckCircle,
+  IndianRupee
 } from "lucide-react";
 import {
   Carousel,
@@ -29,16 +30,20 @@ import {
 
 const Printing = () => {
   const [activeTab, setActiveTab] = useState("materials");
-  const [fileUploaded, setFileUploaded] = useState(false);
   
-  // Materials data
+  // This useEffect ensures page starts from the top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
+  // Materials data - Updated with ABS
   const materials = [
     {
       name: "PLA",
       description: "Polylactic Acid - Biodegradable and easy to print",
       colors: ["Black", "White", "Red", "Blue", "Yellow", "Green", "Grey", "Orange"],
       properties: "Medium strength, low flexibility, biodegradable",
-      costPerCm: "$0.10/cm³",
+      costPerMeter: "₹15/meter",
       bestFor: "Prototypes, decorative items, STEM projects"
     },
     {
@@ -46,7 +51,7 @@ const Printing = () => {
       description: "Polyethylene Terephthalate Glycol - Durable and chemical resistant",
       colors: ["Black", "White", "Red", "Blue", "Clear", "Grey"],
       properties: "High strength, medium flexibility, water resistant",
-      costPerCm: "$0.12/cm³",
+      costPerMeter: "₹18/meter",
       bestFor: "Functional parts, outdoor use, containers"
     },
     {
@@ -54,8 +59,16 @@ const Printing = () => {
       description: "Thermoplastic Polyurethane - Flexible and durable",
       colors: ["Black", "White", "Red", "Blue", "Grey"],
       properties: "Medium strength, high flexibility, excellent durability",
-      costPerCm: "$0.18/cm³",
+      costPerMeter: "₹22/meter",
       bestFor: "Flexible components, grips, protective cases"
+    },
+    {
+      name: "ABS",
+      description: "Acrylonitrile Butadiene Styrene - Heat resistant and durable",
+      colors: ["Black", "White", "Red", "Blue", "Yellow", "Green"],
+      properties: "High strength, heat resistant up to 100°C, impact resistant",
+      costPerMeter: "₹20/meter",
+      bestFor: "Mechanical parts, automotive components, enclosures"
     }
   ];
   
@@ -100,17 +113,10 @@ const Printing = () => {
       title: "Mechanical Gear System",
       description: "Custom gear set for robotics project",
       image: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PETG",
+      material: "ABS",
       complexity: "High"
     }
   ];
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFileUploaded(true);
-      // In a real app, you would handle file upload to server here
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -151,7 +157,7 @@ const Printing = () => {
                 
                 <div className="flex items-center">
                   <div className="h-12 w-12 rounded-full bg-beebotix-yellow/20 flex items-center justify-center mr-3">
-                    <span className="text-beebotix-yellow font-bold">3</span>
+                    <span className="text-beebotix-yellow font-bold">4</span>
                   </div>
                   <div>
                     <p className="font-semibold">Materials Available</p>
@@ -184,7 +190,7 @@ const Printing = () => {
               </TabsList>
               
               <TabsContent value="materials">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {materials.map((material) => (
                     <Card key={material.name} className="overflow-hidden hover:shadow-md transition-shadow">
                       <div className="bg-beebotix-navy p-3 text-white">
@@ -211,7 +217,7 @@ const Printing = () => {
                         
                         <div className="mb-3">
                           <h4 className="text-sm font-semibold mb-1">Cost:</h4>
-                          <p className="text-sm">{material.costPerCm}</p>
+                          <p className="text-sm">{material.costPerMeter}</p>
                         </div>
                         
                         <div>
@@ -367,7 +373,7 @@ const Printing = () => {
               {/* Timeline line */}
               <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-beebotix-navy/20 -ml-0.5"></div>
               
-              {/* Timeline steps */}
+              {/* Timeline steps - Fixed the number alignment to be centered on the line */}
               <div className="space-y-12">
                 {/* Step 1 */}
                 <div className="flex flex-col md:flex-row">
@@ -468,14 +474,14 @@ const Printing = () => {
             </div>
           </section>
           
-          {/* Pricing & Quote Form */}
+          {/* Pricing & Quote Form - Updated to use rupees and modify form */}
           <section className="bg-gray-50 rounded-xl p-8 mb-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div>
                 <h2 className="heading-md mb-6">Pricing & Quotation</h2>
                 <p className="text-beebotix-gray-dark mb-6">
-                  Our pricing is based on material volume, print time, and complexity. 
-                  For an accurate quote, submit your design using the form.
+                  Our pricing is based on material used and print time. For an accurate quote, 
+                  submit your requirements using the form.
                 </p>
                 
                 <div className="mb-6">
@@ -490,24 +496,24 @@ const Printing = () => {
                     </thead>
                     <tbody>
                       <tr className="border-b border-gray-200">
-                        <td className="p-3">Small Prototype (25cm³)</td>
+                        <td className="p-3">Small Prototype (2m)</td>
                         <td className="p-3">PLA</td>
-                        <td className="p-3">$15</td>
+                        <td className="p-3 flex items-center"><IndianRupee className="h-3 w-3 mr-1" />30</td>
                       </tr>
                       <tr className="border-b border-gray-200">
-                        <td className="p-3">Medium Part (50cm³)</td>
+                        <td className="p-3">Medium Part (5m)</td>
                         <td className="p-3">PETG</td>
-                        <td className="p-3">$35</td>
+                        <td className="p-3 flex items-center"><IndianRupee className="h-3 w-3 mr-1" />90</td>
                       </tr>
                       <tr className="border-b border-gray-200">
-                        <td className="p-3">Complex Assembly (100cm³)</td>
-                        <td className="p-3">PLA</td>
-                        <td className="p-3">$65</td>
+                        <td className="p-3">Complex Assembly (10m)</td>
+                        <td className="p-3">ABS</td>
+                        <td className="p-3 flex items-center"><IndianRupee className="h-3 w-3 mr-1" />200</td>
                       </tr>
                       <tr>
-                        <td className="p-3">Flexible Component (30cm³)</td>
+                        <td className="p-3">Flexible Component (3m)</td>
                         <td className="p-3">TPU</td>
-                        <td className="p-3">$40</td>
+                        <td className="p-3 flex items-center"><IndianRupee className="h-3 w-3 mr-1" />66</td>
                       </tr>
                     </tbody>
                   </table>
@@ -554,8 +560,37 @@ const Printing = () => {
                       <option value="pla">PLA</option>
                       <option value="petg">PETG</option>
                       <option value="tpu">TPU</option>
+                      <option value="abs">ABS</option>
                       <option value="not-sure">Not sure (we'll recommend)</option>
                     </select>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label htmlFor="length" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
+                        Length (cm)
+                      </label>
+                      <Input id="length" type="number" placeholder="0.0" />
+                    </div>
+                    <div>
+                      <label htmlFor="width" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
+                        Width (cm)
+                      </label>
+                      <Input id="width" type="number" placeholder="0.0" />
+                    </div>
+                    <div>
+                      <label htmlFor="height" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
+                        Height (cm)
+                      </label>
+                      <Input id="height" type="number" placeholder="0.0" />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="weight" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
+                      Approximate Weight (g)
+                    </label>
+                    <Input id="weight" type="number" placeholder="0" />
                   </div>
                   
                   <div>
@@ -565,33 +600,11 @@ const Printing = () => {
                     <Textarea id="description" placeholder="Describe your project and requirements..." className="min-h-[100px]" />
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                      Upload Design File
-                    </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
-                      <input
-                        type="file"
-                        id="file-upload"
-                        className="hidden"
-                        accept=".stl,.obj,.step,.3mf"
-                        onChange={handleFileUpload}
-                      />
-                      <label htmlFor="file-upload" className="cursor-pointer">
-                        {fileUploaded ? (
-                          <div className="text-green-600 flex flex-col items-center">
-                            <CheckCircle className="h-8 w-8 mb-2" />
-                            <p className="font-medium">File uploaded!</p>
-                            <p className="text-sm text-gray-500">Upload a different file</p>
-                          </div>
-                        ) : (
-                          <div className="text-gray-500">
-                            <Upload className="h-8 w-8 mx-auto mb-2" />
-                            <p className="font-medium">Drop your file here or click to browse</p>
-                            <p className="text-sm">Accepted formats: STL, OBJ, STEP, 3MF (Max 50MB)</p>
-                          </div>
-                        )}
-                      </label>
+                  <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
+                    <div className="text-gray-500">
+                      <Upload className="h-8 w-8 mx-auto mb-2" />
+                      <p className="font-medium">File Upload Feature Coming Soon</p>
+                      <p className="text-sm">For now, please provide dimensions above</p>
                     </div>
                   </div>
                   
@@ -626,7 +639,7 @@ const Printing = () => {
                 },
                 {
                   q: "How durable are 3D printed parts?",
-                  a: "Durability depends on the material and design. PLA is great for decorative items but less suitable for mechanical stress. PETG offers better durability for functional parts, while TPU provides flexibility."
+                  a: "Durability depends on the material and design. PLA is great for decorative items but less suitable for mechanical stress. PETG and ABS offer better durability for functional parts, while TPU provides flexibility."
                 },
                 {
                   q: "Do you offer color options?",

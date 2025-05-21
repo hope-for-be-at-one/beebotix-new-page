@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CoursePlaylist, { CourseChapter } from "@/components/classroom/CoursePlaylist";
@@ -121,6 +121,11 @@ const advancedCoursesData = [
 ];
 
 const ClassRoom: React.FC = () => {
+  // This useEffect ensures page starts from the top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
