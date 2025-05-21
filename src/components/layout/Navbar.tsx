@@ -81,17 +81,19 @@ const Navbar = () => {
               <NavigationMenu key={link.name}>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-beebotix-navy focus:bg-transparent">
-                      <span className="px-2 py-2 text-beebotix-gray-dark hover:text-beebotix-navy font-medium transition-colors duration-300">
+                    <NavigationMenuTrigger 
+                      className="bg-transparent hover:bg-transparent hover:text-beebotix-navy focus:bg-transparent"
+                    >
+                      <span className="px-2 py-2 text-base text-beebotix-gray-dark hover:text-beebotix-navy font-medium transition-colors duration-300">
                         {link.name}
                       </span>
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent>
+                    <NavigationMenuContent className="bg-white">
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                         {link.items?.map((section, index) => (
                           <div key={index} className="space-y-2">
                             <h4 className="font-medium text-beebotix-navy">{section.title}</h4>
-                            <p className="text-sm text-muted-foreground">{section.description}</p>
+                            <p className="text-sm text-beebotix-gray-dark">{section.description}</p>
                             <div className="space-y-1">
                               {section.items.map((subItem) => (
                                 <Link
@@ -114,7 +116,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className="px-4 py-2 text-beebotix-gray-dark hover:text-beebotix-navy font-medium transition-colors duration-300"
+                className="px-4 py-2 text-base text-beebotix-gray-dark hover:text-beebotix-navy font-medium transition-colors duration-300"
               >
                 {link.name}
               </Link>
@@ -143,7 +145,7 @@ const Navbar = () => {
             {navLinks.map((link) => 
               link.dropdown ? (
                 <div key={link.name} className="space-y-2">
-                  <div className="font-medium text-beebotix-gray-dark flex items-center">
+                  <div className="font-medium text-base text-beebotix-gray-dark flex items-center">
                     {link.name} <ChevronDown size={16} className="ml-1" />
                   </div>
                   <div className="pl-4 space-y-2">
@@ -168,7 +170,7 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className="text-beebotix-gray-dark hover:text-beebotix-navy font-medium transition-colors duration-300"
+                  className="text-base text-beebotix-gray-dark hover:text-beebotix-navy font-medium transition-colors duration-300"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
