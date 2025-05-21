@@ -8,11 +8,11 @@ interface YouTubeEmbedProps {
 
 const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, title }) => {
   return (
-    <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-lg shadow-lg">
+    <div className="relative overflow-hidden w-full pb-[56.25%] h-0 rounded-lg shadow-lg">
       <iframe
         src={`https://www.youtube.com/embed/${videoId}`}
         title={title || "YouTube video player"}
-        className="w-full h-full"
+        className="absolute top-0 left-0 w-full h-full"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

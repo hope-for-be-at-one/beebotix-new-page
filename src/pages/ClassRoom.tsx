@@ -4,7 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CoursePlaylist, { CourseChapter } from "@/components/classroom/CoursePlaylist";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Book, BookOpen, Lock } from "lucide-react";
+import { BookOpen, Lock } from "lucide-react";
 
 // Mock data for courses
 const beginnersCoursesData = [
@@ -131,12 +131,12 @@ const ClassRoom: React.FC = () => {
       <Navbar />
       
       <div className="pt-24 container-custom flex-grow">
-        <div className="relative mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-beebotix-navy">
+        <div className="relative mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-beebotix-navy text-center">
             BeeBotix <span className="text-beebotix-yellow">ClassRoom</span>
           </h1>
-          <p className="mt-4 text-beebotix-gray-dark max-w-2xl mx-auto">
-            Access our comprehensive library of robotics and electronics courses. Click on a course to expand its chapters and start learning!
+          <p className="mt-4 text-beebotix-gray-dark max-w-2xl mx-auto text-center">
+            Access our comprehensive library of robotics and electronics courses
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2 justify-center">
