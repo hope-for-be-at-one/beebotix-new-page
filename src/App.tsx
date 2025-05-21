@@ -7,7 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
-import Marketplace from "./pages/Marketplace";
+import Products from "./pages/Products";
+import Hardware from "./pages/Hardware";
+import Software from "./pages/Software";
 import Printing from "./pages/Printing";
 import Gifting from "./pages/Gifting";
 import Contact from "./pages/Contact";
@@ -59,7 +61,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/hardware" element={<Hardware />} />
+          <Route path="/products/software" element={<Software />} />
           <Route path="/3d-printing" element={<Printing />} />
           <Route path="/gifting" element={<Gifting />} />
           <Route path="/contact" element={<Contact />} />
