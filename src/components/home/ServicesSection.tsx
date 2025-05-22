@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Bot, Box, Wrench, Settings, Briefcase } from "lucide-react";
+import { Bot, Box, Wrench, Settings, Briefcase, GraduationCap } from "lucide-react";
 
 const services = [
   {
@@ -31,16 +31,16 @@ const services = [
     link: "/marketplace"
   },
   {
+    title: "Academic Project Support",
+    description: "Expert guidance for B.Tech and M.Tech students on robotics and electronics projects and papers.",
+    icon: <GraduationCap className="h-8 w-8 text-beebotix-yellow" />,
+    link: "/services#academic"
+  },
+  {
     title: "Consultancy Services",
     description: "Expert consultancy in robotics, R&D, product development, and embedded software.",
     icon: <Briefcase className="h-8 w-8 text-beebotix-yellow" />,
     link: "/services#consultancy"
-  },
-  {
-    title: "Education & Development",
-    description: "Workshops and 1-to-1 online classes for robotics education and development.",
-    icon: <Settings className="h-8 w-8 text-beebotix-yellow" />,
-    link: "/services#education"
   }
 ];
 

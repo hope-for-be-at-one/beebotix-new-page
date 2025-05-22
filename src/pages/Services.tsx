@@ -13,7 +13,8 @@ import {
   Code,
   Briefcase,
   Package,
-  ChevronRight
+  ChevronRight,
+  GraduationCap
 } from "lucide-react";
 import {
   Tabs,
@@ -94,6 +95,29 @@ const Services = () => {
       ],
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       color: "bg-green-50"
+    },
+    {
+      id: "academic",
+      title: "Academic Project Support",
+      icon: <GraduationCap className="h-8 w-8" />,
+      description: "Expert guidance and project development support for B.Tech and M.Tech students working on robotics and electronics projects.",
+      benefits: [
+        "Technical mentoring from industry experts",
+        "Hands-on guidance with hardware implementation",
+        "Project development and documentation support",
+        "Research paper preparation assistance",
+        "Comprehensive report formulation"
+      ],
+      techStack: ["Arduino", "Raspberry Pi", "MATLAB", "Python", "IoT Platforms", "Robotics", "Machine Learning", "Embedded Systems"],
+      process: [
+        { step: "Project Topic Selection", details: "Assistance in selecting viable and innovative project topics aligned with academic requirements." },
+        { step: "Technical Guidance", details: "Regular mentoring sessions to guide implementation and overcome technical challenges." },
+        { step: "Hardware & Software Development", details: "Hands-on support for developing the project components and integrating systems." },
+        { step: "Documentation", details: "Guidance on preparing professional-quality project reports and research papers." },
+        { step: "Presentation Preparation", details: "Support for preparing effective project demonstrations and presentations." }
+      ],
+      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      color: "bg-indigo-50"
     },
     {
       id: "consultancy",
