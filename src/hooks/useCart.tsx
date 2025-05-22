@@ -18,6 +18,7 @@ interface CartContextType {
   addToCart: (item: Omit<CartItem, 'quantity'>) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
+  updateCustomNote: (id: number, customNote: string) => void;
   clearCart: () => void;
 }
 
@@ -93,6 +94,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  // Update custom note for an item
+  const updateCustomNote = (id: number, customNote: string) => {
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id ? { ...item, customNote } : item
+      )
+    );
+  };
+
   // Clear entire cart
   const clearCart = () => {
     setCartItems([]);
@@ -104,6 +114,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       addToCart,
       removeFromCart,
       updateQuantity,
+      updateCustomNote,
       clearCart
     }}>
       {children}

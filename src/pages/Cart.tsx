@@ -7,16 +7,41 @@ import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Trash2, Plus, Minus, ShoppingCart } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Trash2, Plus, Minus, ShoppingCart, Pencil } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 const Cart = () => {
-  const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, clearCart, updateCustomNote } = useCart();
+  
+  // State for note editing
+  const [isEditingNote, setIsEditingNote] = useState(false);
+  const [currentEditItemId, setCurrentEditItemId] = useState<number | null>(null);
+  const [editedNote, setEditedNote] = useState("");
   
   // Calculate cart total
   const cartTotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  // Open note editing dialog
+  const openNoteEditor = (item: typeof cartItems[0]) => {
+    setCurrentEditItemId(item.id);
+    setEditedNote(item.customNote || "");
+    setIsEditingNote(true);
+  };
+
+  // Save edited note
+  const saveEditedNote = () => {
+    if (currentEditItemId !== null) {
+      updateCustomNote(currentEditItemId, editedNote);
+      toast.success("Note updated successfully");
+      setIsEditingNote(false);
+      setCurrentEditItemId(null);
+    }
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -87,6 +112,23 @@ const Cart = () => {
                               <p className="text-sm text-beebotix-gray-dark mb-2">
                                 {item.category}
                               </p>
+                            )}
+
+                            {/* Custom note section */}
+                            {item.customNote && (
+                              <div className="bg-gray-50 p-2 rounded-md mb-3 flex justify-between items-start">
+                                <div className="text-sm text-beebotix-gray-dark pr-2">
+                                  <span className="font-medium">Note:</span> {item.customNote}
+                                </div>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => openNoteEditor(item)}
+                                  className="p-1 h-auto"
+                                >
+                                  <Pencil className="h-3.5 w-3.5 text-beebotix-gray-dark" />
+                                </Button>
+                              </div>
                             )}
                             
                             <div className="flex items-center justify-between mt-3">
@@ -169,6 +211,39 @@ const Cart = () => {
               </div>
             </div>
           )}
+
+          {/* Dialog for editing notes */}
+          <Dialog open={isEditingNote} onOpenChange={setIsEditingNote}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Edit Custom Note</DialogTitle>
+              </DialogHeader>
+              
+              <div className="py-4">
+                <Textarea 
+                  value={editedNote}
+                  onChange={(e) => setEditedNote(e.target.value)}
+                  placeholder="Enter your custom requirements..."
+                  className="min-h-[120px]"
+                />
+              </div>
+              
+              <DialogFooter>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setIsEditingNote(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy"
+                  onClick={saveEditedNote}
+                >
+                  Save Changes
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </main>
       <Footer />

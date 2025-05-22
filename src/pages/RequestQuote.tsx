@@ -178,11 +178,16 @@ const RequestQuote = () => {
                       <div className="max-h-60 overflow-y-auto">
                         {cartItems.map((item) => (
                           <div key={item.id} className="flex justify-between py-2 border-b border-gray-100 last:border-b-0">
-                            <div>
+                            <div className="pr-2">
                               <p className="font-medium">{item.title}</p>
                               <p className="text-sm text-beebotix-gray-dark">Quantity: {item.quantity}</p>
+                              {item.customNote && (
+                                <p className="text-xs text-beebotix-gray-dark mt-1 bg-gray-50 p-1.5 rounded">
+                                  <span className="font-medium">Note:</span> {item.customNote}
+                                </p>
+                              )}
                             </div>
-                            <p className="font-medium currency-inr">{item.price * item.quantity}</p>
+                            <p className="font-medium currency-inr whitespace-nowrap">{item.price * item.quantity}</p>
                           </div>
                         ))}
                       </div>
