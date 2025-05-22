@@ -9,6 +9,7 @@ export interface CartItem {
   quantity: number;
   image?: string;
   category?: string;
+  customNote?: string; // Add field for custom notes
 }
 
 // Cart context interface
@@ -48,12 +49,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   // Add item to cart
   const addToCart = (item: Omit<CartItem, 'quantity'>) => {
     setCartItems(prevItems => {
-      const existingItem = prevItems.find(i => i.id === item.id);
+      // For items with custom notes, we always add as a new item
+      // This allows multiple of the same item but with different customizations
+      if (item.customNote) {
+        return [...prevItems, { ...item, quantity: 1 }];
+      }
+      
+      const existingItem = prevItems.find(i => 
+        i.id === item.id && 
+        (!item.customNote || i.customNote === item.customNote)
+      );
       
       if (existingItem) {
         // If item exists, update quantity
         return prevItems.map(i => 
-          i.id === item.id 
+          i.id === item.id && (!item.customNote || i.customNote === item.customNote)
             ? { ...i, quantity: i.quantity + 1 } 
             : i
         );

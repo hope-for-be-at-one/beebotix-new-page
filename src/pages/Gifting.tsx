@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tabs,
   TabsContent,
@@ -14,12 +15,23 @@ import {
 } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import {
   Gift,
   Star,
   ShoppingCart,
   Filter,
-  Search
+  Search,
+  Package
 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/hooks/useCart";
 import {
   Carousel,
   CarouselContent,
@@ -44,6 +56,43 @@ interface GiftItem {
 const Gifting = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [customizeDialogOpen, setCustomizeDialogOpen] = useState(false);
+  const [selectedGift, setSelectedGift] = useState<GiftItem | null>(null);
+  const [customNote, setCustomNote] = useState("");
+  const { toast } = useToast();
+  const { addToCart } = useCart();
+
+  // Handler for adding to cart
+  const handleAddToCart = (gift: GiftItem, note?: string) => {
+    addToCart({
+      id: gift.id,
+      title: gift.title,
+      price: gift.price,
+      image: gift.images[0],
+      category: gift.category,
+      customNote: note
+    });
+
+    toast({
+      title: "Added to cart",
+      description: gift.title + " has been added to your cart.",
+    });
+  };
+
+  // Handler for customizing gift
+  const handleCustomize = (gift: GiftItem) => {
+    setSelectedGift(gift);
+    setCustomNote("");
+    setCustomizeDialogOpen(true);
+  };
+
+  // Handler for adding customized gift to cart
+  const handleAddCustomizedGift = () => {
+    if (selectedGift) {
+      handleAddToCart(selectedGift, customNote);
+      setCustomizeDialogOpen(false);
+    }
+  };
 
   // Sample data - in a real app, this would come from an API
   const gifts: GiftItem[] = [
@@ -178,6 +227,58 @@ const Gifting = () => {
       <Navbar />
       <main className="flex-grow pt-24">
         <div className="container-custom py-12">
+          {/* Customization Dialog */}
+          <Dialog open={customizeDialogOpen} onOpenChange={setCustomizeDialogOpen}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Customize Your Gift</DialogTitle>
+              </DialogHeader>
+              <div className="py-4">
+                {selectedGift && (
+                  <div className="flex gap-4 mb-4">
+                    <div className="w-24 h-24 flex-shrink-0 rounded overflow-hidden bg-gray-100">
+                      <img 
+                        src={selectedGift.images[0]} 
+                        alt={selectedGift.title} 
+                        className="w-full h-full object-cover" 
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-bold">{selectedGift.title}</h3>
+                      <p className="text-sm text-beebotix-gray-dark">{selectedGift.category}</p>
+                      <p className="font-bold mt-2 currency-inr">{selectedGift.price.toFixed(2)}</p>
+                    </div>
+                  </div>
+                )}
+                
+                <div className="space-y-4">
+                  <p className="text-sm text-beebotix-gray-dark">
+                    Please add any customization details you'd like for this gift:
+                  </p>
+                  <Textarea 
+                    placeholder="Add names, dates, colors, or any specific instructions..." 
+                    value={customNote}
+                    onChange={(e) => setCustomNote(e.target.value)}
+                    className="h-32"
+                  />
+                </div>
+              </div>
+              <DialogFooter className="flex sm:justify-between">
+                <DialogClose asChild>
+                  <Button type="button" variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button 
+                  type="button" 
+                  className="bg-beebotix-yellow text-beebotix-navy hover:bg-beebotix-yellow/90"
+                  onClick={handleAddCustomizedGift}
+                >
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Add to Cart
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
           {/* Hero Section */}
           <section className="relative rounded-2xl overflow-hidden mb-16">
             <div className="absolute inset-0 bg-gradient-to-r from-beebotix-navy/90 to-beebotix-navy/70"></div>
@@ -232,8 +333,14 @@ const Gifting = () => {
                       ))}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-white font-bold">${gift.price.toFixed(2)}</span>
-                      <Button className="button-primary">
+                      <span className="text-white font-bold currency-inr">{gift.price.toFixed(2)}</span>
+                      <Button 
+                        className="button-primary"
+                        onClick={() => gift.customizable 
+                          ? handleCustomize(gift) 
+                          : handleAddToCart(gift)
+                        }
+                      >
                         {gift.customizable ? "Customize" : "Gift Now"}
                       </Button>
                     </div>
@@ -668,9 +775,25 @@ const Gifting = () => {
                 )}
               </div>
               <div className="flex justify-between items-center">
-                <span className="font-bold text-beebotix-orange">${gift.price.toFixed(2)}</span>
-                <Button className="button-primary">
-                  {gift.customizable ? "Customize" : "Gift Now"}
+                <span className="font-bold text-beebotix-orange currency-inr">{gift.price.toFixed(2)}</span>
+                <Button 
+                  className="button-primary"
+                  onClick={() => gift.customizable 
+                    ? handleCustomize(gift) 
+                    : handleAddToCart(gift)
+                  }
+                >
+                  {gift.customizable ? (
+                    <>
+                      <Package className="mr-2 h-4 w-4" />
+                      Customize
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="mr-2 h-4 w-4" />
+                      Add to Cart
+                    </>
+                  )}
                 </Button>
               </div>
             </CardContent>
