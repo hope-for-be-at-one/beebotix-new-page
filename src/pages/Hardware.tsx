@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Search, Filter } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "@/hooks/useCart";
+import { toast } from "sonner";
 
 // Product interface
 interface Product {
@@ -82,12 +83,25 @@ const Hardware = () => {
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
+  const { addToCart } = useCart();
   
   // Filter products based on search term
   const filteredProducts = products.filter(product => 
     product.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
     product.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Handle adding product to cart
+  const handleAddToCart = (product: Product) => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      category: "Hardware"
+    });
+    toast.success(`${product.title} added to cart!`);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -181,8 +195,11 @@ const Hardware = () => {
                     </ul>
                   </div>
                   <div className="flex justify-end">
-                    <Button className="button-primary">
-                      <ShoppingCart className="h-4 w-4 mr-2" /> Order Now
+                    <Button 
+                      className="button-primary"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
                     </Button>
                   </div>
                 </CardContent>

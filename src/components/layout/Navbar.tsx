@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,12 +11,23 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { useCart } from "@/hooks/useCart";
 import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
+  const { cartItems } = useCart();
+  
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -89,7 +100,7 @@ const Navbar = () => {
                       </span>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="bg-white">
-                      <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                      <div className="grid max-w-[95vw] w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                         {link.items?.map((section, index) => (
                           <div key={index} className="space-y-2">
                             <h4 className="font-medium text-beebotix-navy">{section.title}</h4>
@@ -122,6 +133,56 @@ const Navbar = () => {
               </Link>
             )
           )}
+          
+          {/* Cart Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="h-5 w-5 text-beebotix-gray-dark" />
+                {cartItems.length > 0 && (
+                  <Badge className="absolute -top-1 -right-1 bg-beebotix-yellow text-beebotix-navy h-5 w-5 flex items-center justify-center p-0 text-xs rounded-full">
+                    {cartItems.length}
+                  </Badge>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-80 bg-white">
+              <DropdownMenuLabel>Your Cart</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {cartItems.length === 0 ? (
+                <div className="py-4 px-2 text-center text-beebotix-gray-dark">
+                  Your cart is empty
+                </div>
+              ) : (
+                <>
+                  <div className="max-h-80 overflow-auto">
+                    {cartItems.map((item) => (
+                      <DropdownMenuItem key={item.id} className="flex justify-between px-4 py-2 focus:bg-gray-50">
+                        <div className="flex flex-col">
+                          <span className="font-medium">{item.title}</span>
+                          <span className="text-sm text-beebotix-gray-dark currency-inr">{item.price}</span>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                  <DropdownMenuSeparator />
+                  <div className="p-4">
+                    <Link to="/cart">
+                      <Button className="w-full mb-2 bg-beebotix-navy hover:bg-beebotix-navy/80">
+                        View Cart
+                      </Button>
+                    </Link>
+                    <Link to="/request-quote">
+                      <Button className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy">
+                        Request Quote
+                      </Button>
+                    </Link>
+                  </div>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Link to="/contact">
             <Button className="bg-beebotix-yellow hover:bg-yellow-400 text-beebotix-navy ml-2">
               Contact Us
@@ -130,12 +191,64 @@ const Navbar = () => {
         </nav>
 
         {/* Mobile Navigation Toggle */}
-        <button
-          className="md:hidden text-beebotix-navy focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center md:hidden">
+          {/* Mobile Cart Icon */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="relative mr-2">
+                <ShoppingCart className="h-5 w-5 text-beebotix-gray-dark" />
+                {cartItems.length > 0 && (
+                  <Badge className="absolute -top-1 -right-1 bg-beebotix-yellow text-beebotix-navy h-5 w-5 flex items-center justify-center p-0 text-xs rounded-full">
+                    {cartItems.length}
+                  </Badge>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72 bg-white">
+              {/* Same content as desktop dropdown */}
+              <DropdownMenuLabel>Your Cart</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {cartItems.length === 0 ? (
+                <div className="py-4 px-2 text-center text-beebotix-gray-dark">
+                  Your cart is empty
+                </div>
+              ) : (
+                <>
+                  <div className="max-h-64 overflow-auto">
+                    {cartItems.map((item) => (
+                      <DropdownMenuItem key={item.id} className="flex justify-between px-4 py-2 focus:bg-gray-50">
+                        <div className="flex flex-col">
+                          <span className="font-medium">{item.title}</span>
+                          <span className="text-sm text-beebotix-gray-dark currency-inr">{item.price}</span>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                  <DropdownMenuSeparator />
+                  <div className="p-4">
+                    <Link to="/cart" onClick={() => setIsOpen(false)}>
+                      <Button className="w-full mb-2 bg-beebotix-navy hover:bg-beebotix-navy/80">
+                        View Cart
+                      </Button>
+                    </Link>
+                    <Link to="/request-quote" onClick={() => setIsOpen(false)}>
+                      <Button className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy">
+                        Request Quote
+                      </Button>
+                    </Link>
+                  </div>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <button
+            className="text-beebotix-navy focus:outline-none"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation Menu */}
