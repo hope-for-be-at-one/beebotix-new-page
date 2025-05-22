@@ -99,8 +99,8 @@ const Navbar = () => {
                         {link.name}
                       </span>
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className="bg-white">
-                      <div className="grid max-w-[95vw] w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    <NavigationMenuContent className="bg-white left-1/2 transform -translate-x-1/2">
+                      <div className="grid max-w-[90vw] w-[380px] gap-3 p-4 md:grid-cols-2">
                         {link.items?.map((section, index) => (
                           <div key={index} className="space-y-2">
                             <h4 className="font-medium text-beebotix-navy">{section.title}</h4>
