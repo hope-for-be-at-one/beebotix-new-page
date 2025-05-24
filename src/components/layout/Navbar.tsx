@@ -99,8 +99,8 @@ const Navbar = () => {
                         {link.name}
                       </span>
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className="bg-white left-1/2 transform -translate-x-1/2">
-                      <div className="grid max-w-[90vw] w-[380px] gap-3 p-4 md:grid-cols-2">
+                    <NavigationMenuContent className="bg-white">
+                      <div className="grid w-[300px] gap-3 p-4 md:grid-cols-2">
                         {link.items?.map((section, index) => (
                           <div key={index} className="space-y-2">
                             <h4 className="font-medium text-beebotix-navy">{section.title}</h4>
@@ -172,9 +172,9 @@ const Navbar = () => {
                         View Cart
                       </Button>
                     </Link>
-                    <Link to="/request-quote">
+                    <Link to="/place-order">
                       <Button className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy">
-                        Request Quote
+                        Place Order
                       </Button>
                     </Link>
                   </div>
@@ -231,9 +231,9 @@ const Navbar = () => {
                         View Cart
                       </Button>
                     </Link>
-                    <Link to="/request-quote" onClick={() => setIsOpen(false)}>
+                    <Link to="/place-order" onClick={() => setIsOpen(false)}>
                       <Button className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy">
-                        Request Quote
+                        Place Order
                       </Button>
                     </Link>
                   </div>

@@ -16,7 +16,6 @@ import Gifting from "./pages/Gifting";
 import Contact from "./pages/Contact";
 import ClassRoom from "./pages/ClassRoom";
 import Cart from "./pages/Cart";
-import RequestQuote from "./pages/RequestQuote";
 import PlaceOrder from "./pages/PlaceOrder";
 import OrderTracking from "./pages/OrderTracking";
 import NotFound from "./pages/NotFound";
@@ -75,7 +74,6 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/classroom" element={<ClassRoom />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/request-quote" element={<RequestQuote />} />
             <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/order-tracking" element={<OrderTracking />} />
             <Route path="*" element={<NotFound />} />
