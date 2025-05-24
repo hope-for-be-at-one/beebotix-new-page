@@ -30,8 +30,11 @@ const Hardware = () => {
   
   // Filter products based on search term and category
   const filteredProducts = allProducts.filter(product => {
-    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const title = product.title || product.name || "";
+    const description = product.description || "";
+    
+    const matchesSearch = title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = activeCategory === "All" || product.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
@@ -39,12 +42,12 @@ const Hardware = () => {
   const handleAddToCart = (product: any) => {
     addToCart({
       id: product.id,
-      title: product.title,
-      price: product.cost,
+      title: product.title || product.name,
+      price: product.cost || product.price,
       image: product.image,
       category: product.category
     });
-    toast.success(`${product.title} added to cart!`);
+    toast.success(`${product.title || product.name} added to cart!`);
   };
 
   return (
@@ -104,7 +107,7 @@ const Hardware = () => {
                 <div className="relative h-48 bg-gray-100">
                   <img 
                     src={product.image || "/placeholder.svg"} 
-                    alt={product.title}
+                    alt={product.title || product.name}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-2 right-2">
@@ -115,8 +118,8 @@ const Hardware = () => {
                 </div>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-bold text-lg line-clamp-1">{product.title}</h3>
-                    <span className="font-bold text-beebotix-orange">₹{product.cost}</span>
+                    <h3 className="font-bold text-lg line-clamp-1">{product.title || product.name}</h3>
+                    <span className="font-bold text-beebotix-orange">₹{product.cost || product.price}</span>
                   </div>
                   <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                     {product.description}
@@ -134,14 +137,14 @@ const Hardware = () => {
                   </div>
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-1">
-                      {product.tags?.slice(0, 3).map((tag: string, index: number) => (
+                      {(product.tags || product.features)?.slice(0, 3).map((tag: string, index: number) => (
                         <span key={index} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
                           {tag}
                         </span>
                       ))}
-                      {product.tags && product.tags.length > 3 && (
+                      {(product.tags || product.features) && (product.tags || product.features).length > 3 && (
                         <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-                          +{product.tags.length - 3} more
+                          +{(product.tags || product.features).length - 3} more
                         </span>
                       )}
                     </div>
