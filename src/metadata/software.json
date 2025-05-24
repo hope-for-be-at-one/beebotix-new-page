@@ -1,0 +1,49 @@
+
+{
+  "title": "Software Products",
+  "description": "Custom software solutions and development tools",
+  "categories": [
+    {
+      "id": "embedded-software",
+      "name": "Embedded Software",
+      "description": "Firmware and embedded system software",
+      "products": [
+        {
+          "id": "custom-firmware",
+          "name": "Custom Firmware Development",
+          "price": 15000,
+          "description": "Tailored firmware solutions for your hardware projects",
+          "image": "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          "features": ["Custom protocol implementation", "Real-time optimization", "Low power design", "Hardware abstraction"],
+          "specifications": {
+            "languages": "C, C++, Assembly",
+            "platforms": "ARM, AVR, ESP32",
+            "delivery_time": "2-4 weeks",
+            "support": "6 months"
+          }
+        }
+      ]
+    },
+    {
+      "id": "iot-solutions",
+      "name": "IoT Solutions",
+      "description": "Internet of Things software and cloud integration",
+      "products": [
+        {
+          "id": "iot-platform",
+          "name": "IoT Data Platform",
+          "price": 25000,
+          "description": "Complete IoT data collection and visualization platform",
+          "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          "features": ["Real-time data visualization", "Cloud integration", "Mobile app", "API access"],
+          "specifications": {
+            "devices": "Unlimited",
+            "data_retention": "1 year",
+            "api_calls": "10,000/month",
+            "support": "24/7"
+          }
+        }
+      ]
+    }
+  ]
+}

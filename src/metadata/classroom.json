@@ -1,0 +1,85 @@
+
+{
+  "title": "Classroom Resources",
+  "description": "Educational content and courses for learning robotics and electronics",
+  "courses": [
+    {
+      "id": "arduino-basics",
+      "title": "Arduino Programming Fundamentals",
+      "description": "Learn the basics of Arduino programming from scratch",
+      "difficulty": "Beginner",
+      "duration": "6 weeks",
+      "instructor": "BeeBotix Team",
+      "thumbnail": "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "topics": [
+        "Introduction to Arduino",
+        "Basic Programming Concepts",
+        "Digital I/O Operations",
+        "Analog Sensors",
+        "PWM and Motor Control",
+        "Serial Communication"
+      ],
+      "videos": [
+        {
+          "id": "intro-arduino",
+          "title": "Introduction to Arduino",
+          "youtube_id": "dQw4w9WgXcQ",
+          "duration": "15:30"
+        },
+        {
+          "id": "first-sketch",
+          "title": "Your First Arduino Sketch",
+          "youtube_id": "dQw4w9WgXcQ",
+          "duration": "12:45"
+        }
+      ]
+    },
+    {
+      "id": "robotics-fundamentals",
+      "title": "Robotics Fundamentals",
+      "description": "Understanding the core concepts of robotics and automation",
+      "difficulty": "Intermediate",
+      "duration": "8 weeks",
+      "instructor": "BeeBotix Team",
+      "thumbnail": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "topics": [
+        "Robot Kinematics",
+        "Sensor Integration",
+        "Motor Control Systems",
+        "Path Planning",
+        "Computer Vision Basics",
+        "Robot Programming"
+      ],
+      "videos": [
+        {
+          "id": "robot-basics",
+          "title": "What is a Robot?",
+          "youtube_id": "dQw4w9WgXcQ",
+          "duration": "18:20"
+        },
+        {
+          "id": "sensors-robots",
+          "title": "Sensors in Robotics",
+          "youtube_id": "dQw4w9WgXcQ",
+          "duration": "22:15"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "project-ideas",
+      "title": "Project Ideas Database",
+      "description": "Collection of project ideas for different skill levels",
+      "categories": ["Beginner", "Intermediate", "Advanced"],
+      "count": 150
+    },
+    {
+      "id": "component-guide",
+      "title": "Electronic Components Guide",
+      "description": "Comprehensive guide to electronic components and their uses",
+      "categories": ["Resistors", "Capacitors", "ICs", "Sensors"],
+      "count": 300
+    }
+  ]
+}

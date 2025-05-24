@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
@@ -14,7 +13,8 @@ import {
   Briefcase,
   Package,
   ChevronRight,
-  GraduationCap
+  GraduationCap,
+  Truck
 } from "lucide-react";
 import {
   Tabs,
@@ -190,6 +190,16 @@ const Services = () => {
                 Comprehensive robotics and electronics services designed to support businesses,
                 researchers, and innovators in bringing their ideas to life.
               </p>
+              
+              {/* Track Order Button */}
+              <div className="mb-8">
+                <Link to="/order-tracking">
+                  <Button className="bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy font-semibold px-6 py-3">
+                    <Truck className="h-5 w-5 mr-2" />
+                    Track My Order
+                  </Button>
+                </Link>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-12">

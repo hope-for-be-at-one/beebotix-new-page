@@ -1,0 +1,63 @@
+
+{
+  "title": "Gifting Solutions",
+  "description": "Perfect tech gifts for engineers, students, and tech enthusiasts",
+  "categories": [
+    {
+      "id": "starter-kits",
+      "name": "Starter Kits",
+      "description": "Complete kits for beginners to start their electronics journey",
+      "products": [
+        {
+          "id": "arduino-starter-kit",
+          "name": "Arduino Beginner Kit",
+          "price": 2500,
+          "description": "Everything needed to start with Arduino programming and electronics",
+          "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          "features": ["Arduino Uno board", "Breadboard", "LEDs & resistors", "Jumper wires", "Project book"],
+          "specifications": {
+            "components": "50+ components",
+            "projects": "15 guided projects",
+            "difficulty": "Beginner",
+            "age_group": "12+"
+          }
+        },
+        {
+          "id": "robotics-kit",
+          "name": "Basic Robotics Kit",
+          "price": 4500,
+          "description": "Build your first robot with this comprehensive kit",
+          "image": "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          "features": ["Chassis and wheels", "Motors and sensors", "Controller board", "Assembly guide"],
+          "specifications": {
+            "robot_type": "Line following",
+            "programming": "Block-based",
+            "battery": "Rechargeable",
+            "assembly_time": "2-3 hours"
+          }
+        }
+      ]
+    },
+    {
+      "id": "educational-gifts",
+      "name": "Educational Gifts",
+      "description": "Learning-focused gifts for students and educators",
+      "products": [
+        {
+          "id": "electronics-lab-kit",
+          "name": "Electronics Lab Kit",
+          "price": 3500,
+          "description": "Complete electronics laboratory for home or classroom use",
+          "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          "features": ["Multimeter", "Breadboards", "Component assortment", "Circuit building guide"],
+          "specifications": {
+            "components": "200+ components",
+            "experiments": "50+ experiments",
+            "manual": "Full-color guide",
+            "storage": "Organized case"
+          }
+        }
+      ]
+    }
+  ]
+}
