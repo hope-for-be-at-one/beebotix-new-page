@@ -5,99 +5,39 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Download, Search, Filter, FileText, Tag } from "lucide-react";
+import { Download, Search, Filter, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-// Software product interface
-interface SoftwareProduct {
-  id: number;
-  title: string;
-  image: string;
-  description: string;
-  features: string[];
-  price: number | null; // null means free
-  tags: string[];
-  compatibility: string[];
-  downloadLink: string;
-}
+import { toast } from "sonner";
+import softwareData from "@/metadata/software.json";
 
 const Software = () => {
-  // Sample software products
-  const products: SoftwareProduct[] = [
-    {
-      id: 1,
-      title: "BeeBotix Studio IDE",
-      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      description: "Comprehensive integrated development environment for programming BeeBotix devices with visual and text-based programming.",
-      features: [
-        "Visual block-based programming",
-        "Code editor with syntax highlighting",
-        "Integrated debugger",
-        "Simulation environment",
-      ],
-      price: null, // Free
-      tags: ["Free", "Development"],
-      compatibility: ["Windows", "macOS", "Linux"],
-      downloadLink: "#"
-    },
-    {
-      id: 2,
-      title: "BeeBotix IoT Dashboard",
-      image: "https://images.unsplash.com/photo-1453906971074-ce568cccbc63?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      description: "Monitor and control your BeeBotix IoT devices from anywhere with our cloud-based dashboard.",
-      features: [
-        "Real-time data visualization",
-        "Remote device control",
-        "Customizable dashboards",
-        "Data export and analysis"
-      ],
-      price: 999, // Monthly subscription
-      tags: ["Subscription", "IoT"],
-      compatibility: ["Web", "iOS", "Android"],
-      downloadLink: "#"
-    },
-    {
-      id: 3,
-      title: "BeeBotix Robotics Firmware",
-      image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      description: "Advanced firmware for BeeBotix robotics kits with pre-built functions for movement, sensing, and more.",
-      features: [
-        "Pre-built movement functions",
-        "Sensor libraries",
-        "Low-level hardware control",
-        "Power optimization"
-      ],
-      price: null, // Free
-      tags: ["Free", "Firmware"],
-      compatibility: ["BeeBotix Hardware"],
-      downloadLink: "#"
-    },
-    {
-      id: 4,
-      title: "BeeBotix CAD Plugin Suite",
-      image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      description: "Design plugins for popular CAD software to create 3D printable parts compatible with BeeBotix hardware.",
-      features: [
-        "Libraries of BeeBotix-compatible components",
-        "Auto-check for 3D printability",
-        "Parametric design templates",
-        "Direct export to BeeBotix 3D printing service"
-      ],
-      price: 2499,
-      tags: ["Design", "Premium"],
-      compatibility: ["Fusion 360", "SolidWorks", "FreeCAD"],
-      downloadLink: "#"
-    }
-  ];
-
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
   
-  // Filter products based on search term
-  const filteredProducts = products.filter(product => 
-    product.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    product.description.toLowerCase().includes(searchTerm.toLowerCase())
+  // Get all products from all categories
+  const allProducts = softwareData.categories.flatMap(category => 
+    category.products.map(product => ({
+      ...product,
+      category: category.name
+    }))
   );
+  
+  // Get all unique categories
+  const categories = ["All", ...softwareData.categories.map(cat => cat.name)];
+  
+  // Filter products based on search term and category
+  const filteredProducts = allProducts.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = activeCategory === "All" || product.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const handleDownload = (product: any) => {
+    toast.success(`Downloading ${product.name}...`);
+    // In a real app, this would trigger the actual download
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -107,10 +47,10 @@ const Software = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
             <div>
               <h1 className="heading-lg mb-2">
-                <span className="gradient-text">Software Solutions</span>
+                <span className="gradient-text">{softwareData.title}</span>
               </h1>
               <p className="text-beebotix-gray-dark">
-                Applications, firmware, and programming tools for your BeeBotix devices
+                {softwareData.description}
               </p>
             </div>
             <Link to="/products" className="mt-4 md:mt-0">
@@ -128,15 +68,23 @@ const Software = () => {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     type="text"
-                    placeholder="Search software..."
+                    placeholder="Search software products..."
                     className="pl-10"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
-                <Button variant="outline" className="gap-2">
-                  <Filter className="h-4 w-4" /> Filter
-                </Button>
+                <select
+                  className="bg-white border border-gray-300 rounded-md px-4 py-2"
+                  value={activeCategory}
+                  onChange={(e) => setActiveCategory(e.target.value)}
+                >
+                  {categories.map(category => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -148,32 +96,19 @@ const Software = () => {
                 <div className="relative h-48 bg-gray-100">
                   <img 
                     src={product.image} 
-                    alt={product.title}
+                    alt={product.name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-2 right-2 flex flex-wrap gap-1">
-                    {product.tags.map(tag => {
-                      let bgColor = "bg-gray-200 text-gray-800";
-                      if (tag === "Free") bgColor = "bg-green-100 text-green-800";
-                      if (tag === "Premium") bgColor = "bg-purple-100 text-purple-800";
-                      if (tag === "Subscription") bgColor = "bg-blue-100 text-blue-800";
-                      
-                      return (
-                        <span key={tag} className={`${bgColor} text-xs font-medium px-2 py-1 rounded`}>
-                          {tag}
-                        </span>
-                      );
-                    })}
+                  <div className="absolute top-2 right-2">
+                    <Badge className="bg-beebotix-yellow text-beebotix-navy">
+                      {product.category}
+                    </Badge>
                   </div>
                 </div>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-bold text-lg line-clamp-1">{product.title}</h3>
-                    {product.price !== null ? (
-                      <span className="font-bold text-beebotix-orange currency-inr">{product.price}</span>
-                    ) : (
-                      <span className="font-bold text-green-600">Free</span>
-                    )}
+                    <h3 className="font-bold text-lg line-clamp-1">{product.name}</h3>
+                    <span className="font-bold text-beebotix-orange">₹{product.price}</span>
                   </div>
                   <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                     {product.description}
@@ -192,27 +127,39 @@ const Software = () => {
                       )}
                     </ul>
                   </div>
-                  <div className="flex flex-col space-y-3">
-                    <div className="flex flex-wrap gap-1">
-                      {product.compatibility.map((platform) => (
-                        <Badge key={platform} variant="outline" className="text-xs">
-                          {platform}
-                        </Badge>
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium mb-1">Specifications:</h4>
+                    <div className="text-xs space-y-1">
+                      {Object.entries(product.specifications).slice(0, 2).map(([key, value]) => (
+                        <div key={key} className="flex justify-between">
+                          <span className="text-gray-600">{key}:</span>
+                          <span>{value}</span>
+                        </div>
                       ))}
                     </div>
-                    <Button className="w-full" variant={product.price === null ? "default" : "outline"}>
-                      <Download className="h-4 w-4 mr-2" /> 
-                      {product.price === null ? "Download Free" : "Purchase & Download"}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      className="button-primary flex-1"
+                      onClick={() => handleDownload(product)}
+                    >
+                      <Download className="h-4 w-4 mr-2" /> Download
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>
               </Card>
             )) : (
               <div className="col-span-full text-center py-16">
-                <p className="text-xl text-beebotix-gray-dark">No software products match your search criteria.</p>
+                <p className="text-xl text-beebotix-gray-dark">No products match your search criteria.</p>
                 <Button 
                   variant="outline" 
-                  onClick={() => setSearchTerm("")}
+                  onClick={() => {
+                    setSearchTerm("");
+                    setActiveCategory("All");
+                  }}
                   className="mt-4"
                 >
                   Clear Search
@@ -226,7 +173,7 @@ const Software = () => {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div>
                 <h2 className="heading-md mb-2">Need custom software solutions?</h2>
-                <p className="text-white/80">Our development team can create bespoke software tailored to your specific requirements.</p>
+                <p className="text-white/80">Our team can develop custom software tailored to your specific requirements.</p>
               </div>
               <Link to="/contact">
                 <Button className="button-primary mt-4 md:mt-0">

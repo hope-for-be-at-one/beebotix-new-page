@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -7,16 +6,29 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Search, Package, Truck, CheckCircle, Clock, MapPin } from "lucide-react";
+import orderTrackingData from "@/metadata/orderTracking.json";
 
 interface OrderStatus {
-  id: string;
-  status: "Processing" | "Confirmed" | "Shipped" | "Out for Delivery" | "Delivered";
+  trackingId: string;
+  orderDate: string;
+  status: string;
   estimatedDelivery: string;
-  trackingSteps: {
-    step: string;
-    status: "completed" | "current" | "pending";
-    date?: string;
-    location?: string;
+  items: {
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+  shippingAddress: {
+    name: string;
+    address: string;
+    city: string;
+    state: string;
+    pincode: string;
+  };
+  timeline: {
+    status: string;
+    timestamp: string;
+    message: string;
   }[];
 }
 
@@ -24,34 +36,6 @@ const OrderTracking = () => {
   const [trackingId, setTrackingId] = useState("");
   const [orderStatus, setOrderStatus] = useState<OrderStatus | null>(null);
   const [isSearching, setIsSearching] = useState(false);
-  
-  // Mock order data for demonstration
-  const mockOrderData: { [key: string]: OrderStatus } = {
-    "BBX123456": {
-      id: "BBX123456",
-      status: "Shipped",
-      estimatedDelivery: "2024-01-15",
-      trackingSteps: [
-        { step: "Order Placed", status: "completed", date: "2024-01-10", location: "Online" },
-        { step: "Order Confirmed", status: "completed", date: "2024-01-11", location: "Beebotix Office" },
-        { step: "Shipped", status: "current", date: "2024-01-12", location: "Mumbai" },
-        { step: "Out for Delivery", status: "pending" },
-        { step: "Delivered", status: "pending" }
-      ]
-    },
-    "BBX789012": {
-      id: "BBX789012",
-      status: "Processing",
-      estimatedDelivery: "2024-01-18",
-      trackingSteps: [
-        { step: "Order Placed", status: "completed", date: "2024-01-12", location: "Online" },
-        { step: "Order Confirmed", status: "current", date: "2024-01-13", location: "Beebotix Office" },
-        { step: "Shipped", status: "pending" },
-        { step: "Out for Delivery", status: "pending" },
-        { step: "Delivered", status: "pending" }
-      ]
-    }
-  };
   
   const handleTrackOrder = () => {
     if (!trackingId.trim()) {
@@ -63,7 +47,10 @@ const OrderTracking = () => {
     
     // Simulate API call
     setTimeout(() => {
-      const foundOrder = mockOrderData[trackingId.toUpperCase()];
+      const foundOrder = orderTrackingData.sampleOrders.find(
+        order => order.trackingId.toLowerCase() === trackingId.toLowerCase()
+      );
+      
       if (foundOrder) {
         setOrderStatus(foundOrder);
         toast.success("Order found!");
@@ -75,26 +62,34 @@ const OrderTracking = () => {
     }, 1000);
   };
   
-  const getStatusColor = (status: OrderStatus["status"]) => {
-    switch (status) {
-      case "Processing": return "text-orange-600";
-      case "Confirmed": return "text-blue-600";
-      case "Shipped": return "text-purple-600";
-      case "Out for Delivery": return "text-yellow-600";
-      case "Delivered": return "text-green-600";
-      default: return "text-gray-600";
+  const getStatusColor = (status: string) => {
+    const statusInfo = orderTrackingData.statuses.find(s => s.id === status);
+    return statusInfo ? `text-${statusInfo.color}-600` : "text-gray-600";
+  };
+  
+  const getStatusIcon = (status: string) => {
+    const statusInfo = orderTrackingData.statuses.find(s => s.id === status);
+    if (!statusInfo) return <Package className="h-6 w-6 text-gray-600" />;
+    
+    switch (statusInfo.icon) {
+      case "check-circle": return <CheckCircle className={`h-6 w-6 text-${statusInfo.color}-600`} />;
+      case "clock": return <Clock className={`h-6 w-6 text-${statusInfo.color}-600`} />;
+      case "truck": return <Truck className={`h-6 w-6 text-${statusInfo.color}-600`} />;
+      case "package-check": return <Package className={`h-6 w-6 text-${statusInfo.color}-600`} />;
+      default: return <Package className="h-6 w-6 text-gray-600" />;
     }
   };
   
-  const getStatusIcon = (status: OrderStatus["status"]) => {
-    switch (status) {
-      case "Processing": return <Clock className="h-6 w-6 text-orange-600" />;
-      case "Confirmed": return <CheckCircle className="h-6 w-6 text-blue-600" />;
-      case "Shipped": return <Package className="h-6 w-6 text-purple-600" />;
-      case "Out for Delivery": return <Truck className="h-6 w-6 text-yellow-600" />;
-      case "Delivered": return <CheckCircle className="h-6 w-6 text-green-600" />;
-      default: return <Package className="h-6 w-6 text-gray-600" />;
-    }
+  const getStepStatus = (stepStatus: string, timeline: any[]) => {
+    const timelineItem = timeline.find(item => item.status === stepStatus);
+    if (timelineItem) return "completed";
+    
+    const currentStatusIndex = orderTrackingData.statuses.findIndex(s => s.id === orderStatus?.status);
+    const stepIndex = orderTrackingData.statuses.findIndex(s => s.id === stepStatus);
+    
+    if (stepIndex === currentStatusIndex) return "current";
+    if (stepIndex < currentStatusIndex) return "completed";
+    return "pending";
   };
   
   return (
@@ -103,9 +98,9 @@ const OrderTracking = () => {
       <main className="flex-grow pt-24 pb-16">
         <div className="container-custom">
           <div className="mb-8 text-center">
-            <h1 className="heading-lg mb-2">Track Your Order</h1>
+            <h1 className="heading-lg mb-2">{orderTrackingData.title}</h1>
             <p className="text-beebotix-gray-dark">
-              Enter your tracking ID to check the current status of your order
+              {orderTrackingData.description}
             </p>
           </div>
           
@@ -121,7 +116,7 @@ const OrderTracking = () => {
                       id="trackingId"
                       value={trackingId}
                       onChange={(e) => setTrackingId(e.target.value)}
-                      placeholder="Enter your tracking ID (e.g., BBX123456)"
+                      placeholder="Enter your tracking ID (e.g., BB123456789)"
                       className="text-center font-mono"
                     />
                   </div>
@@ -157,9 +152,9 @@ const OrderTracking = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h2 className="text-xl font-bold">Order {orderStatus.id}</h2>
+                      <h2 className="text-xl font-bold">Order {orderStatus.trackingId}</h2>
                       <p className={`text-lg font-medium ${getStatusColor(orderStatus.status)}`}>
-                        Status: {orderStatus.status}
+                        Status: {orderTrackingData.statuses.find(s => s.id === orderStatus.status)?.name || orderStatus.status}
                       </p>
                     </div>
                     <div className="text-right">
@@ -167,6 +162,27 @@ const OrderTracking = () => {
                       <p className="text-sm text-beebotix-gray-dark mt-1">
                         Estimated Delivery: {new Date(orderStatus.estimatedDelivery).toLocaleDateString()}
                       </p>
+                    </div>
+                  </div>
+                  
+                  {/* Order Items */}
+                  <div className="border-t pt-4">
+                    <h3 className="font-medium mb-2">Order Items:</h3>
+                    {orderStatus.items.map((item, index) => (
+                      <div key={index} className="flex justify-between text-sm mb-1">
+                        <span>{item.name} (x{item.quantity})</span>
+                        <span>₹{item.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Shipping Address */}
+                  <div className="border-t pt-4 mt-4">
+                    <h3 className="font-medium mb-2">Shipping Address:</h3>
+                    <div className="text-sm text-beebotix-gray-dark">
+                      <p>{orderStatus.shippingAddress.name}</p>
+                      <p>{orderStatus.shippingAddress.address}</p>
+                      <p>{orderStatus.shippingAddress.city}, {orderStatus.shippingAddress.state} {orderStatus.shippingAddress.pincode}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -177,51 +193,54 @@ const OrderTracking = () => {
                   <h3 className="text-lg font-bold mb-6">Order Progress</h3>
                   
                   <div className="space-y-4">
-                    {orderStatus.trackingSteps.map((step, index) => (
-                      <div key={index} className="flex items-start gap-4">
-                        <div className="flex flex-col items-center">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                            step.status === "completed" ? "bg-green-500 text-white" :
-                            step.status === "current" ? "bg-beebotix-yellow text-beebotix-navy" :
-                            "bg-gray-200 text-gray-500"
-                          }`}>
-                            {step.status === "completed" ? (
-                              <CheckCircle className="h-5 w-5" />
-                            ) : step.status === "current" ? (
-                              <Clock className="h-5 w-5" />
-                            ) : (
-                              <div className="w-3 h-3 bg-current rounded-full" />
+                    {orderTrackingData.statuses.map((statusStep, index) => {
+                      const stepStatus = getStepStatus(statusStep.id, orderStatus.timeline);
+                      const timelineItem = orderStatus.timeline.find(item => item.status === statusStep.id);
+                      
+                      return (
+                        <div key={index} className="flex items-start gap-4">
+                          <div className="flex flex-col items-center">
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                              stepStatus === "completed" ? "bg-green-500 text-white" :
+                              stepStatus === "current" ? "bg-beebotix-yellow text-beebotix-navy" :
+                              "bg-gray-200 text-gray-500"
+                            }`}>
+                              {stepStatus === "completed" ? (
+                                <CheckCircle className="h-5 w-5" />
+                              ) : stepStatus === "current" ? (
+                                <Clock className="h-5 w-5" />
+                              ) : (
+                                <div className="w-3 h-3 bg-current rounded-full" />
+                              )}
+                            </div>
+                            {index < orderTrackingData.statuses.length - 1 && (
+                              <div className={`w-0.5 h-8 mt-2 ${
+                                stepStatus === "completed" ? "bg-green-500" : "bg-gray-200"
+                              }`} />
                             )}
                           </div>
-                          {index < orderStatus.trackingSteps.length - 1 && (
-                            <div className={`w-0.5 h-8 mt-2 ${
-                              step.status === "completed" ? "bg-green-500" : "bg-gray-200"
-                            }`} />
-                          )}
+                          
+                          <div className="flex-grow pb-8">
+                            <h4 className={`font-medium ${
+                              stepStatus === "completed" ? "text-green-700" :
+                              stepStatus === "current" ? "text-beebotix-navy" :
+                              "text-gray-500"
+                            }`}>
+                              {statusStep.name}
+                            </h4>
+                            <p className="text-sm text-beebotix-gray-dark">{statusStep.description}</p>
+                            {timelineItem && (
+                              <>
+                                <p className="text-sm text-beebotix-gray-dark mt-1">
+                                  {new Date(timelineItem.timestamp).toLocaleDateString()} at {new Date(timelineItem.timestamp).toLocaleTimeString()}
+                                </p>
+                                <p className="text-sm text-beebotix-gray-dark">{timelineItem.message}</p>
+                              </>
+                            )}
+                          </div>
                         </div>
-                        
-                        <div className="flex-grow pb-8">
-                          <h4 className={`font-medium ${
-                            step.status === "completed" ? "text-green-700" :
-                            step.status === "current" ? "text-beebotix-navy" :
-                            "text-gray-500"
-                          }`}>
-                            {step.step}
-                          </h4>
-                          {step.date && (
-                            <p className="text-sm text-beebotix-gray-dark">
-                              {new Date(step.date).toLocaleDateString()} at {new Date(step.date).toLocaleTimeString()}
-                            </p>
-                          )}
-                          {step.location && (
-                            <p className="text-sm text-beebotix-gray-dark flex items-center gap-1 mt-1">
-                              <MapPin className="h-3 w-3" />
-                              {step.location}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
@@ -250,18 +269,15 @@ const OrderTracking = () => {
                 Don't have a tracking ID? Try these sample IDs:
               </p>
               <div className="flex justify-center gap-4 mt-2">
-                <button 
-                  onClick={() => setTrackingId("BBX123456")}
-                  className="text-beebotix-navy hover:underline font-mono text-sm"
-                >
-                  BBX123456
-                </button>
-                <button 
-                  onClick={() => setTrackingId("BBX789012")}
-                  className="text-beebotix-navy hover:underline font-mono text-sm"
-                >
-                  BBX789012
-                </button>
+                {orderTrackingData.sampleOrders.map((order, index) => (
+                  <button 
+                    key={index}
+                    onClick={() => setTrackingId(order.trackingId)}
+                    className="text-beebotix-navy hover:underline font-mono text-sm"
+                  >
+                    {order.trackingId}
+                  </button>
+                ))}
               </div>
             </div>
           )}
