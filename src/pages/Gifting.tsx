@@ -1,22 +1,22 @@
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Gift, ShoppingCart, Search, Filter, Package } from "lucide-react";
-import { useCart } from "@/hooks/useCart";
+import { ShoppingCart, Search, Filter, Heart } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 import giftingData from "@/metadata/gifting.json";
 
 const Gifting = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
   const { addToCart } = useCart();
-
+  
   // Get all products from all categories
   const allProducts = giftingData.categories.flatMap(category => 
     category.products.map(product => ({
@@ -30,22 +30,21 @@ const Gifting = () => {
   
   // Filter products based on search term and category
   const filteredProducts = allProducts.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = activeCategory === "All" || product.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
-  // Handle adding product to cart
   const handleAddToCart = (product: any) => {
     addToCart({
-      id: parseInt(product.id),
-      title: product.name,
+      id: product.id,
+      title: product.title,
       price: product.price,
-      image: product.image,
-      category: "Gifting"
+      image: product.images?.[0],
+      category: product.category
     });
-    toast.success(`${product.name} added to cart!`);
+    toast.success(`${product.title} added to cart!`);
   };
 
   return (
@@ -53,34 +52,31 @@ const Gifting = () => {
       <Navbar />
       <main className="flex-grow pt-24">
         <div className="container-custom py-12">
-          {/* Hero Section */}
-          <section className="relative rounded-2xl overflow-hidden mb-16">
-            <div className="absolute inset-0 bg-gradient-to-r from-beebotix-navy/90 to-beebotix-navy/70"></div>
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center opacity-20"></div>
-            <div className="relative z-10 py-16 px-6 md:px-12 text-white">
-              <h1 className="heading-lg mb-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+              <h1 className="heading-lg mb-2">
                 <span className="gradient-text">{giftingData.title}</span>
               </h1>
-              <p className="text-lg md:text-xl mb-8 max-w-2xl">
+              <p className="text-beebotix-gray-dark">
                 {giftingData.description}
               </p>
-              <div className="flex flex-wrap gap-4">
-                <Button className="button-primary">
-                  <Gift className="mr-2 h-4 w-4" /> Explore Gift Ideas
-                </Button>
-              </div>
             </div>
-          </section>
+            <Link to="/products" className="mt-4 md:mt-0">
+              <Button variant="outline" className="flex items-center">
+                All Products
+              </Button>
+            </Link>
+          </div>
           
           {/* Search and Filter Section */}
-          <section className="mb-8">
+          <div className="mb-8">
             <div className="bg-gray-50 rounded-lg p-6">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="relative flex-grow">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     type="text"
-                    placeholder="Search for tech gifts..."
+                    placeholder="Search gift products..."
                     className="pl-10"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -99,98 +95,88 @@ const Gifting = () => {
                 </select>
               </div>
             </div>
-          </section>
+          </div>
           
           {/* Products Grid */}
-          <section className="mb-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.length > 0 ? filteredProducts.map((product) => (
-                <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="h-52 relative">
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-2 right-2">
-                      <Badge className="bg-beebotix-yellow text-beebotix-navy">
-                        {product.category}
-                      </Badge>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {filteredProducts.length > 0 ? filteredProducts.map((product) => (
+              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="relative h-48 bg-gray-100">
+                  <img 
+                    src={product.images?.[0] || "/placeholder.svg"} 
+                    alt={product.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <Badge className="bg-beebotix-yellow text-beebotix-navy">
+                      {product.category}
+                    </Badge>
+                  </div>
+                  <div className="absolute top-2 left-2">
+                    <Button size="sm" variant="outline" className="h-8 w-8 p-0 bg-white/80">
+                      <Heart className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-lg line-clamp-1">{product.title}</h3>
+                    <span className="font-bold text-beebotix-orange">₹{product.price}</span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                    {product.description}
+                  </p>
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-1">
+                      {product.tags?.slice(0, 3).map((tag: string, index: number) => (
+                        <span key={index} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                      {product.tags && product.tags.length > 3 && (
+                        <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                          +{product.tags.length - 3} more
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-lg line-clamp-1 mb-1">{product.name}</h3>
-                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                      {product.description}
-                    </p>
-                    <div className="mb-4">
-                      <h4 className="text-sm font-medium mb-1">Features:</h4>
-                      <ul className="text-xs space-y-1">
-                        {product.features.slice(0, 2).map((feature, index) => (
-                          <li key={index} className="flex items-center">
-                            <span className="h-1 w-1 rounded-full bg-beebotix-orange mr-2"></span>
-                            {feature}
-                          </li>
-                        ))}
-                        {product.features.length > 2 && (
-                          <li className="text-xs text-beebotix-orange">+ {product.features.length - 2} more</li>
-                        )}
-                      </ul>
-                    </div>
-                    <div className="mb-4">
-                      <h4 className="text-sm font-medium mb-1">Specifications:</h4>
-                      <div className="text-xs space-y-1">
-                        {Object.entries(product.specifications).slice(0, 2).map(([key, value]) => (
-                          <div key={key} className="flex justify-between">
-                            <span className="text-gray-600">{key}:</span>
-                            <span>{value}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-beebotix-orange">₹{product.price}</span>
-                      <Button 
-                        className="button-primary"
-                        onClick={() => handleAddToCart(product)}
-                      >
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        Add to Cart
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )) : (
-                <div className="col-span-full text-center py-16">
-                  <p className="text-xl text-beebotix-gray-dark">No gifts match your search criteria.</p>
                   <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      setSearchTerm("");
-                      setActiveCategory("All");
-                    }}
-                    className="mt-4"
+                    className="button-primary w-full"
+                    onClick={() => handleAddToCart(product)}
                   >
-                    Clear Filters
+                    <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
                   </Button>
-                </div>
-              )}
-            </div>
-          </section>
-          
-          {/* Call to Action */}
-          <section className="bg-gradient-to-r from-beebotix-navy to-beebotix-navy/80 rounded-xl p-8 text-white text-center">
-            <h2 className="heading-md mb-4">Find the Perfect Tech Gift Today</h2>
-            <p className="text-lg mb-6 max-w-2xl mx-auto">
-              Unique, innovative, and customizable gifts for the tech enthusiasts in your life.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button className="button-primary">
-                <Gift className="mr-2 h-4 w-4" /> Browse All Gifts
-              </Button>
-              <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20">
-                Contact for Custom Projects
-              </Button>
+                </CardContent>
+              </Card>
+            )) : (
+              <div className="col-span-full text-center py-16">
+                <p className="text-xl text-beebotix-gray-dark">No products match your search criteria.</p>
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setSearchTerm("");
+                    setActiveCategory("All");
+                  }}
+                  className="mt-4"
+                >
+                  Clear Search
+                </Button>
+              </div>
+            )}
+          </div>
+
+          {/* Call-to-Action Section */}
+          <section className="bg-gradient-to-r from-beebotix-navy to-beebotix-navy/80 rounded-xl p-8 text-white">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div>
+                <h2 className="heading-md mb-2">Need help choosing the perfect gift?</h2>
+                <p className="text-white/80">Our team can help you find the ideal tech gift for any occasion.</p>
+              </div>
+              <Link to="/contact">
+                <Button className="button-primary mt-4 md:mt-0">
+                  Contact Us
+                </Button>
+              </Link>
             </div>
           </section>
         </div>

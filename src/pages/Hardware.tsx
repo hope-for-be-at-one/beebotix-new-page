@@ -5,23 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Search, Filter } from "lucide-react";
+import { ShoppingCart, Search, Filter, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "@/hooks/useCart";
 import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 import hardwareData from "@/metadata/hardware.json";
-
-// Product interface
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  features: string[];
-  specifications: Record<string, string>;
-}
 
 const Hardware = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,22 +30,21 @@ const Hardware = () => {
   
   // Filter products based on search term and category
   const filteredProducts = allProducts.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = activeCategory === "All" || product.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
-  // Handle adding product to cart
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: any) => {
     addToCart({
-      id: parseInt(product.id),
-      title: product.name,
-      price: product.price,
+      id: product.id,
+      title: product.title,
+      price: product.cost,
       image: product.image,
-      category: "Hardware"
+      category: product.category
     });
-    toast.success(`${product.name} added to cart!`);
+    toast.success(`${product.title} added to cart!`);
   };
 
   return (
@@ -115,8 +103,8 @@ const Hardware = () => {
               <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="relative h-48 bg-gray-100">
                   <img 
-                    src={product.image} 
-                    alt={product.name}
+                    src={product.image || "/placeholder.svg"} 
+                    alt={product.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-2 right-2">
@@ -127,43 +115,46 @@ const Hardware = () => {
                 </div>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-bold text-lg line-clamp-1">{product.name}</h3>
-                    <span className="font-bold text-beebotix-orange">₹{product.price}</span>
+                    <h3 className="font-bold text-lg line-clamp-1">{product.title}</h3>
+                    <span className="font-bold text-beebotix-orange">₹{product.cost}</span>
                   </div>
                   <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                     {product.description}
                   </p>
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium mb-1">Features:</h4>
-                    <ul className="text-xs space-y-1">
-                      {product.features.slice(0, 2).map((feature, index) => (
-                        <li key={index} className="flex items-center">
-                          <span className="h-1 w-1 rounded-full bg-beebotix-orange mr-2"></span>
-                          {feature}
-                        </li>
-                      ))}
-                      {product.features.length > 2 && (
-                        <li className="text-xs text-beebotix-orange">+ {product.features.length - 2} more</li>
-                      )}
-                    </ul>
-                  </div>
-                  <div className="mb-4">
                     <h4 className="text-sm font-medium mb-1">Specifications:</h4>
                     <div className="text-xs space-y-1">
-                      {Object.entries(product.specifications).slice(0, 2).map(([key, value]) => (
+                      {product.specifications && Object.entries(product.specifications).slice(0, 2).map(([key, value]) => (
                         <div key={key} className="flex justify-between">
                           <span className="text-gray-600">{key}:</span>
-                          <span>{value}</span>
+                          <span>{String(value)}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-1">
+                      {product.tags?.slice(0, 3).map((tag: string, index: number) => (
+                        <span key={index} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                      {product.tags && product.tags.length > 3 && (
+                        <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                          +{product.tags.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
                     <Button 
-                      className="button-primary"
+                      className="button-primary flex-1"
                       onClick={() => handleAddToCart(product)}
                     >
                       <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>
@@ -190,7 +181,7 @@ const Hardware = () => {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div>
                 <h2 className="heading-md mb-2">Need custom hardware solutions?</h2>
-                <p className="text-white/80">Our team can design and build hardware tailored to your specific needs.</p>
+                <p className="text-white/80">Our team can develop custom hardware tailored to your specific requirements.</p>
               </div>
               <Link to="/contact">
                 <Button className="button-primary mt-4 md:mt-0">

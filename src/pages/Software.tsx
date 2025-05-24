@@ -95,7 +95,7 @@ const Software = () => {
               <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="relative h-48 bg-gray-100">
                   <img 
-                    src={product.image} 
+                    src={product.image || "/placeholder.svg"} 
                     alt={product.name}
                     className="w-full h-full object-cover"
                   />
@@ -116,13 +116,13 @@ const Software = () => {
                   <div className="mb-4">
                     <h4 className="text-sm font-medium mb-1">Key Features:</h4>
                     <ul className="text-xs space-y-1">
-                      {product.features.slice(0, 2).map((feature, index) => (
+                      {product.features?.slice(0, 2).map((feature: string, index: number) => (
                         <li key={index} className="flex items-center">
                           <span className="h-1 w-1 rounded-full bg-beebotix-orange mr-2"></span>
                           {feature}
                         </li>
                       ))}
-                      {product.features.length > 2 && (
+                      {product.features && product.features.length > 2 && (
                         <li className="text-xs text-beebotix-orange">+ {product.features.length - 2} more</li>
                       )}
                     </ul>
@@ -130,10 +130,10 @@ const Software = () => {
                   <div className="mb-4">
                     <h4 className="text-sm font-medium mb-1">Specifications:</h4>
                     <div className="text-xs space-y-1">
-                      {Object.entries(product.specifications).slice(0, 2).map(([key, value]) => (
+                      {product.specifications && Object.entries(product.specifications).slice(0, 2).map(([key, value]) => (
                         <div key={key} className="flex justify-between">
                           <span className="text-gray-600">{key}:</span>
-                          <span>{value}</span>
+                          <span>{String(value)}</span>
                         </div>
                       ))}
                     </div>
