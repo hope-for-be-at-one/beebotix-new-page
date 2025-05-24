@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { useCart } from "@/hooks/useCart";
@@ -14,6 +14,7 @@ import { toast } from "sonner";
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, clearCart, updateCustomNote } = useCart();
+  const navigate = useNavigate();
   
   // State for note editing
   const [isEditingNote, setIsEditingNote] = useState(false);
@@ -42,6 +43,11 @@ const Cart = () => {
       setCurrentEditItemId(null);
     }
   };
+
+  // Handle place order
+  const handlePlaceOrder = () => {
+    navigate("/place-order");
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -51,7 +57,7 @@ const Cart = () => {
           <div className="mb-8">
             <h1 className="heading-lg mb-2">Your Cart</h1>
             <p className="text-beebotix-gray-dark">
-              Review your items before requesting a quote
+              Review your items before placing your order
             </p>
           </div>
 
@@ -190,15 +196,16 @@ const Cart = () => {
                           <span className="text-beebotix-navy currency-inr">{cartTotal}</span>
                         </div>
                         <p className="text-sm text-beebotix-gray-dark mt-1">
-                          Taxes and shipping will be calculated on quote request
+                          Taxes and shipping will be calculated during checkout
                         </p>
                       </div>
                       
-                      <Link to="/request-quote">
-                        <Button className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy mt-4">
-                          Request Quote
-                        </Button>
-                      </Link>
+                      <Button 
+                        className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy mt-4"
+                        onClick={handlePlaceOrder}
+                      >
+                        Place Order
+                      </Button>
                       
                       <Link to="/products">
                         <Button variant="outline" className="w-full mt-2">
