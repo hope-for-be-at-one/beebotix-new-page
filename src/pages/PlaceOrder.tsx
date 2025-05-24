@@ -38,6 +38,48 @@ const PlaceOrder = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
+  const generateOrderId = () => {
+    const prefix = "BB";
+    const timestamp = Date.now().toString();
+    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    return `${prefix}${timestamp.slice(-6)}${random}`;
+  };
+
+  const addOrderToTracking = (orderId: string) => {
+    const newOrder = {
+      trackingId: orderId,
+      orderDate: new Date().toISOString().split('T')[0],
+      status: "confirmed",
+      estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      items: cartItems.map(item => ({
+        name: item.title,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      shippingAddress: {
+        name: formData.name,
+        address: formData.address,
+        city: "City", // You might want to parse this from address
+        state: "State",
+        pincode: "000000"
+      },
+      timeline: [
+        {
+          status: "confirmed",
+          timestamp: new Date().toISOString(),
+          message: "Order confirmed and payment pending"
+        }
+      ]
+    };
+
+    // Store in localStorage for now (in real app, this would be sent to backend)
+    const existingOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
+    existingOrders.push(newOrder);
+    localStorage.setItem('beebotix_orders', JSON.stringify(existingOrders));
+    
+    console.log('Order added to tracking:', newOrder);
+  };
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -49,11 +91,12 @@ const PlaceOrder = () => {
     setIsSubmitting(true);
     
     // Generate order ID
-    const newOrderId = `BBX${Date.now().toString().slice(-6)}`;
+    const newOrderId = generateOrderId();
     
     // Simulate API request
     setTimeout(() => {
       setOrderId(newOrderId);
+      addOrderToTracking(newOrderId);
       setOrderPlaced(true);
       setIsSubmitting(false);
       clearCart();

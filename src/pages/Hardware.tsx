@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Search, Filter, ExternalLink } from "lucide-react";
+import { ShoppingCart, Search, Filter, ExternalLink, Paperclip, Download } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -48,6 +48,11 @@ const Hardware = () => {
       category: product.category
     });
     toast.success(`${product.title || product.name} added to cart!`);
+  };
+
+  const handleDownloadAttachment = (attachment: any) => {
+    // In a real app, this would download the file
+    toast.success(`Downloading ${attachment.name}...`);
   };
 
   return (
@@ -124,6 +129,29 @@ const Hardware = () => {
                   <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                     {product.description}
                   </p>
+                  
+                  {/* Attachments Section */}
+                  {product.attachments && product.attachments.length > 0 && (
+                    <div className="mb-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Paperclip className="h-4 w-4 text-beebotix-navy" />
+                        <span className="text-sm font-medium">Attachments</span>
+                      </div>
+                      <div className="space-y-1">
+                        {product.attachments.map((attachment: any, index: number) => (
+                          <button
+                            key={index}
+                            onClick={() => handleDownloadAttachment(attachment)}
+                            className="flex items-center justify-between w-full text-xs bg-gray-50 hover:bg-gray-100 p-2 rounded"
+                          >
+                            <span className="truncate">{attachment.name}</span>
+                            <Download className="h-3 w-3 text-beebotix-navy" />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="mb-4">
                     <h4 className="text-sm font-medium mb-1">Specifications:</h4>
                     <div className="text-xs space-y-1">

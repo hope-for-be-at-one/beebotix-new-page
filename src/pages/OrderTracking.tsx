@@ -45,9 +45,15 @@ const OrderTracking = () => {
     
     setIsSearching(true);
     
-    // Simulate API call
+    // Simulate API call - first check localStorage for real orders
     setTimeout(() => {
-      const foundOrder = orderTrackingData.sampleOrders.find(
+      // Get orders from localStorage first
+      const localOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
+      
+      // Combine with sample orders for fallback
+      const allOrders = [...localOrders, ...orderTrackingData.sampleOrders];
+      
+      const foundOrder = allOrders.find(
         order => order.trackingId.toLowerCase() === trackingId.toLowerCase()
       );
       
@@ -262,25 +268,6 @@ const OrderTracking = () => {
               </CardContent>
             </Card>
           </div>
-          
-          {!orderStatus && (
-            <div className="mt-8 text-center text-beebotix-gray-dark">
-              <p className="text-sm">
-                Don't have a tracking ID? Try these sample IDs:
-              </p>
-              <div className="flex justify-center gap-4 mt-2">
-                {orderTrackingData.sampleOrders.map((order, index) => (
-                  <button 
-                    key={index}
-                    onClick={() => setTrackingId(order.trackingId)}
-                    className="text-beebotix-navy hover:underline font-mono text-sm"
-                  >
-                    {order.trackingId}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </main>
       <Footer />

@@ -1,61 +1,104 @@
 
 {
   "title": "Hardware Products",
-  "description": "Explore our range of development boards, sensors, and electronic components",
+  "description": "Comprehensive range of electronic components and development boards",
   "categories": [
     {
-      "id": "development-boards",
-      "name": "Development Boards",
-      "description": "Arduino, Raspberry Pi, and custom development boards",
+      "id": "microcontrollers",
+      "name": "Microcontrollers",
+      "description": "Development boards and microcontroller units",
       "products": [
         {
-          "id": "arduino-uno",
+          "id": "arduino-uno-r3",
           "name": "Arduino Uno R3",
-          "price": 850,
-          "description": "The classic Arduino development board with ATmega328P microcontroller",
-          "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          "features": ["ATmega328P microcontroller", "14 digital I/O pins", "6 analog inputs", "USB connection"],
+          "cost": 850,
+          "description": "The most popular Arduino board for beginners and professionals",
+          "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
           "specifications": {
             "microcontroller": "ATmega328P",
-            "voltage": "5V",
-            "clock_speed": "16MHz",
+            "operating_voltage": "5V",
+            "digital_pins": "14",
+            "analog_pins": "6",
             "flash_memory": "32KB"
-          }
+          },
+          "features": ["USB connectivity", "Built-in LED", "Reset button", "Power jack"],
+          "attachments": [
+            {
+              "name": "Arduino_Uno_Datasheet.pdf",
+              "type": "pdf",
+              "size": "2.1MB"
+            },
+            {
+              "name": "Getting_Started_Guide.pdf",
+              "type": "pdf", 
+              "size": "1.5MB"
+            },
+            {
+              "name": "Sample_Code.zip",
+              "type": "zip",
+              "size": "856KB"
+            }
+          ]
         },
         {
-          "id": "raspberry-pi-4",
-          "name": "Raspberry Pi 4 Model B",
-          "price": 4500,
-          "description": "Powerful single-board computer with quad-core ARM Cortex-A72 processor",
-          "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          "features": ["Quad-core ARM Cortex-A72", "4GB RAM", "Dual HDMI output", "Gigabit Ethernet"],
+          "id": "esp32-devkit",
+          "name": "ESP32 DevKit V1",
+          "cost": 1200,
+          "description": "Powerful WiFi and Bluetooth enabled microcontroller",
+          "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
           "specifications": {
-            "processor": "Quad-core ARM Cortex-A72",
-            "ram": "4GB",
-            "connectivity": "WiFi, Bluetooth, Ethernet",
-            "ports": "2x HDMI, 4x USB"
-          }
+            "microcontroller": "ESP32",
+            "operating_voltage": "3.3V",
+            "wifi": "802.11 b/g/n",
+            "bluetooth": "v4.2 BR/EDR and BLE",
+            "flash_memory": "4MB"
+          },
+          "features": ["WiFi connectivity", "Bluetooth", "Low power modes", "GPIO pins"],
+          "attachments": [
+            {
+              "name": "ESP32_Technical_Reference.pdf",
+              "type": "pdf",
+              "size": "3.2MB"
+            },
+            {
+              "name": "WiFi_Examples.zip",
+              "type": "zip",
+              "size": "1.2MB"
+            }
+          ]
         }
       ]
     },
     {
       "id": "sensors",
-      "name": "Sensors & Modules",
-      "description": "Various sensors for IoT and robotics projects",
+      "name": "Sensors",
+      "description": "Various sensors for different applications",
       "products": [
         {
-          "id": "ultrasonic-sensor",
+          "id": "hc-sr04",
           "name": "HC-SR04 Ultrasonic Sensor",
-          "price": 120,
-          "description": "Ultrasonic distance sensor with 2cm to 400cm range",
+          "cost": 120,
+          "description": "Accurate distance measurement sensor",
           "image": "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-          "features": ["2cm-400cm range", "15° angle", "5V operation", "Easy to use"],
           "specifications": {
-            "range": "2cm - 400cm",
-            "voltage": "5V",
-            "current": "15mA",
-            "angle": "15°"
-          }
+            "operating_voltage": "5V",
+            "measuring_range": "2cm - 400cm",
+            "accuracy": "3mm",
+            "trigger_signal": "10uS TTL pulse"
+          },
+          "features": ["Non-contact measurement", "High accuracy", "Stable performance"],
+          "attachments": [
+            {
+              "name": "HC-SR04_Datasheet.pdf",
+              "type": "pdf",
+              "size": "890KB"
+            },
+            {
+              "name": "Distance_Measurement_Code.ino",
+              "type": "code",
+              "size": "2KB"
+            }
+          ]
         }
       ]
     }
