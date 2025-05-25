@@ -18,6 +18,7 @@ import Cart from "@/pages/Cart";
 import PlaceOrder from "@/pages/PlaceOrder";
 import OrderTracking from "@/pages/OrderTracking";
 import Classroom from "@/pages/Classroom";
+import OurStories from "@/pages/OurStories";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ function App() {
               <Route path="/place-order" element={<PlaceOrder />} />
               <Route path="/order-tracking" element={<OrderTracking />} />
               <Route path="/classroom" element={<Classroom />} />
+              <Route path="/our-stories" element={<OurStories />} />
             </Routes>
           </div>
           <Toaster />

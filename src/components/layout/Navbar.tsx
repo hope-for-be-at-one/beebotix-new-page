@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -69,7 +68,8 @@ const Navbar = () => {
         }
       ]
     },
-    { name: "ClassRoom", path: "/classroom" }
+    { name: "ClassRoom", path: "/classroom" },
+    { name: "Our Stories", path: "/our-stories" }
   ];
 
   return (
