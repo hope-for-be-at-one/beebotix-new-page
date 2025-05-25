@@ -44,7 +44,7 @@ export const getGiftingProducts = () => {
 };
 
 export const getCourses = () => {
-  return classroomData.courses;
+  return classroomData.categories;
 };
 
 export const getOrderStatuses = () => {
