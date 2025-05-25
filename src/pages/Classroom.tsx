@@ -36,7 +36,10 @@ const Classroom = () => {
                 {classroomData.categories.map((category) => (
                   <CoursePlaylist
                     key={category.id}
-                    category={category}
+                    title={category.title}
+                    description={category.description}
+                    tags={category.tags}
+                    chapters={category.chapters}
                   />
                 ))}
               </div>
