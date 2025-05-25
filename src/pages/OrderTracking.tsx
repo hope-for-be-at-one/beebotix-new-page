@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Search, Package, Truck, CheckCircle, Clock, MapPin } from "lucide-react";
+import { Search, Package, Truck, CheckCircle, Clock, MapPin, XCircle } from "lucide-react";
 import orderTrackingData from "@/metadata/orderTracking.json";
 
 interface OrderStatus {
   trackingId: string;
   orderDate: string;
   status: string;
-  estimatedDelivery: string;
+  estimatedDelivery: string | null;
   items: {
     name: string;
     quantity: number;
@@ -45,12 +45,8 @@ const OrderTracking = () => {
     
     setIsSearching(true);
     
-    // Simulate API call - first check localStorage for real orders
     setTimeout(() => {
-      // Get orders from localStorage first
       const localOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
-      
-      // Combine with sample orders for fallback
       const allOrders = [...localOrders, ...orderTrackingData.sampleOrders];
       
       const foundOrder = allOrders.find(
@@ -82,6 +78,7 @@ const OrderTracking = () => {
       case "clock": return <Clock className={`h-6 w-6 text-${statusInfo.color}-600`} />;
       case "truck": return <Truck className={`h-6 w-6 text-${statusInfo.color}-600`} />;
       case "package-check": return <Package className={`h-6 w-6 text-${statusInfo.color}-600`} />;
+      case "x-circle": return <XCircle className={`h-6 w-6 text-${statusInfo.color}-600`} />;
       default: return <Package className="h-6 w-6 text-gray-600" />;
     }
   };
@@ -165,13 +162,19 @@ const OrderTracking = () => {
                     </div>
                     <div className="text-right">
                       {getStatusIcon(orderStatus.status)}
-                      <p className="text-sm text-beebotix-gray-dark mt-1">
-                        Estimated Delivery: {new Date(orderStatus.estimatedDelivery).toLocaleDateString()}
-                      </p>
+                      {orderStatus.estimatedDelivery && (
+                        <p className="text-sm text-beebotix-gray-dark mt-1">
+                          Estimated Delivery: {new Date(orderStatus.estimatedDelivery).toLocaleDateString()}
+                        </p>
+                      )}
+                      {orderStatus.status === 'cancelled' && (
+                        <p className="text-sm text-red-600 mt-1 font-medium">
+                          Order Cancelled
+                        </p>
+                      )}
                     </div>
                   </div>
                   
-                  {/* Order Items */}
                   <div className="border-t pt-4">
                     <h3 className="font-medium mb-2">Order Items:</h3>
                     {orderStatus.items.map((item, index) => (
@@ -182,7 +185,6 @@ const OrderTracking = () => {
                     ))}
                   </div>
                   
-                  {/* Shipping Address */}
                   <div className="border-t pt-4 mt-4">
                     <h3 className="font-medium mb-2">Shipping Address:</h3>
                     <div className="text-sm text-beebotix-gray-dark">
@@ -199,7 +201,7 @@ const OrderTracking = () => {
                   <h3 className="text-lg font-bold mb-6">Order Progress</h3>
                   
                   <div className="space-y-4">
-                    {orderTrackingData.statuses.map((statusStep, index) => {
+                    {orderTrackingData.statuses.filter(s => s.id !== 'cancelled' || orderStatus.status === 'cancelled').map((statusStep, index) => {
                       const stepStatus = getStepStatus(statusStep.id, orderStatus.timeline);
                       const timelineItem = orderStatus.timeline.find(item => item.status === statusStep.id);
                       
@@ -207,28 +209,36 @@ const OrderTracking = () => {
                         <div key={index} className="flex items-start gap-4">
                           <div className="flex flex-col items-center">
                             <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                              stepStatus === "completed" ? "bg-green-500 text-white" :
+                              stepStatus === "completed" ? 
+                                (statusStep.id === 'cancelled' ? "bg-red-500 text-white" : "bg-green-500 text-white") :
                               stepStatus === "current" ? "bg-beebotix-yellow text-beebotix-navy" :
                               "bg-gray-200 text-gray-500"
                             }`}>
                               {stepStatus === "completed" ? (
-                                <CheckCircle className="h-5 w-5" />
+                                statusStep.id === 'cancelled' ? (
+                                  <XCircle className="h-5 w-5" />
+                                ) : (
+                                  <CheckCircle className="h-5 w-5" />
+                                )
                               ) : stepStatus === "current" ? (
                                 <Clock className="h-5 w-5" />
                               ) : (
                                 <div className="w-3 h-3 bg-current rounded-full" />
                               )}
                             </div>
-                            {index < orderTrackingData.statuses.length - 1 && (
+                            {index < orderTrackingData.statuses.filter(s => s.id !== 'cancelled' || orderStatus.status === 'cancelled').length - 1 && (
                               <div className={`w-0.5 h-8 mt-2 ${
-                                stepStatus === "completed" ? "bg-green-500" : "bg-gray-200"
+                                stepStatus === "completed" ? 
+                                  (statusStep.id === 'cancelled' ? "bg-red-500" : "bg-green-500") : 
+                                  "bg-gray-200"
                               }`} />
                             )}
                           </div>
                           
                           <div className="flex-grow pb-8">
                             <h4 className={`font-medium ${
-                              stepStatus === "completed" ? "text-green-700" :
+                              stepStatus === "completed" ? 
+                                (statusStep.id === 'cancelled' ? "text-red-700" : "text-green-700") :
                               stepStatus === "current" ? "text-beebotix-navy" :
                               "text-gray-500"
                             }`}>

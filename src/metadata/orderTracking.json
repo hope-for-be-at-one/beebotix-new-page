@@ -30,6 +30,13 @@
       "description": "Your order has been successfully delivered",
       "icon": "package-check",
       "color": "green"
+    },
+    {
+      "id": "cancelled",
+      "name": "Cancelled",
+      "description": "Your order has been cancelled",
+      "icon": "x-circle",
+      "color": "red"
     }
   ],
   "sampleOrders": [
@@ -72,6 +79,38 @@
           "status": "shipped",
           "timestamp": "2024-01-16T09:15:00Z",
           "message": "Package shipped via Blue Dart (Tracking: BD789456123)"
+        }
+      ]
+    },
+    {
+      "trackingId": "BB987654321",
+      "orderDate": "2024-01-10",
+      "status": "cancelled",
+      "estimatedDelivery": null,
+      "items": [
+        {
+          "name": "Raspberry Pi 4",
+          "quantity": 1,
+          "price": 5500
+        }
+      ],
+      "shippingAddress": {
+        "name": "Jane Smith",
+        "address": "456 Innovation Road",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001"
+      },
+      "timeline": [
+        {
+          "status": "confirmed",
+          "timestamp": "2024-01-10T09:00:00Z",
+          "message": "Order confirmed and under review"
+        },
+        {
+          "status": "cancelled",
+          "timestamp": "2024-01-10T16:30:00Z",
+          "message": "Order cancelled due to stock unavailability"
         }
       ]
     }

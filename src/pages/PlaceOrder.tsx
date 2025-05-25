@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
@@ -9,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { CheckCircle, Clock, Phone, Mail } from "lucide-react";
+import { CheckCircle, Clock, Phone, Mail, AlertCircle } from "lucide-react";
 
 const PlaceOrder = () => {
   const { cartItems, clearCart } = useCart();
@@ -59,7 +58,7 @@ const PlaceOrder = () => {
       shippingAddress: {
         name: formData.name,
         address: formData.address,
-        city: "City", // You might want to parse this from address
+        city: "City",
         state: "State",
         pincode: "000000"
       },
@@ -67,12 +66,11 @@ const PlaceOrder = () => {
         {
           status: "confirmed",
           timestamp: new Date().toISOString(),
-          message: "Order confirmed and payment pending"
+          message: "Order request received and under review"
         }
       ]
     };
 
-    // Store in localStorage for now (in real app, this would be sent to backend)
     const existingOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
     existingOrders.push(newOrder);
     localStorage.setItem('beebotix_orders', JSON.stringify(existingOrders));
@@ -90,10 +88,8 @@ const PlaceOrder = () => {
     
     setIsSubmitting(true);
     
-    // Generate order ID
     const newOrderId = generateOrderId();
     
-    // Simulate API request
     setTimeout(() => {
       setOrderId(newOrderId);
       addOrderToTracking(newOrderId);
@@ -101,7 +97,7 @@ const PlaceOrder = () => {
       setIsSubmitting(false);
       clearCart();
       
-      toast.success("Order placed successfully!", {
+      toast.success("Order request submitted successfully!", {
         description: `Your order ID is ${newOrderId}`
       });
     }, 2000);
@@ -116,10 +112,24 @@ const PlaceOrder = () => {
             <div className="max-w-2xl mx-auto text-center">
               <div className="mb-8 animate-fade-in">
                 <CheckCircle className="h-20 w-20 mx-auto text-green-500 mb-6 animate-scale-in" />
-                <h1 className="heading-lg mb-4 text-green-600">Order Confirmed!</h1>
+                <h1 className="heading-lg mb-4 text-green-600">Order Request Received!</h1>
                 <p className="text-xl text-beebotix-gray-dark mb-6">
-                  We have received your order successfully
+                  Thank you for your order request. We have received your inquiry successfully.
                 </p>
+                
+                <Card className="bg-blue-50 border-blue-200 mb-6">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-3 mb-4">
+                      <AlertCircle className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
+                      <div className="text-left">
+                        <h3 className="font-bold text-blue-800 mb-2">Important Notice</h3>
+                        <p className="text-blue-700 text-sm">
+                          We currently do not have an online payment gateway. All payments and final pricing will be discussed and processed manually through email or phone communication.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
                 
                 <Card className="bg-green-50 border-green-200">
                   <CardContent className="p-6">
@@ -130,12 +140,12 @@ const PlaceOrder = () => {
                         <span className="font-mono text-beebotix-navy">{orderId}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="font-medium">Total Amount:</span>
+                        <span className="font-medium">Estimated Amount:</span>
                         <span className="font-bold currency-inr text-beebotix-navy">{cartTotal}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="font-medium">Status:</span>
-                        <span className="text-orange-600 font-medium">Processing</span>
+                        <span className="text-orange-600 font-medium">Under Review</span>
                       </div>
                     </div>
                   </CardContent>
@@ -148,7 +158,7 @@ const PlaceOrder = () => {
                     <Clock className="h-12 w-12 mx-auto text-beebotix-yellow mb-4" />
                     <h3 className="font-bold mb-2">Quick Response</h3>
                     <p className="text-beebotix-gray-dark">
-                      We will get back to you within 24 hours
+                      We will review your order and get back to you within 24 hours
                     </p>
                   </CardContent>
                 </Card>
@@ -159,9 +169,9 @@ const PlaceOrder = () => {
                       <Mail className="h-6 w-6 text-beebotix-yellow" />
                       <Phone className="h-6 w-6 text-beebotix-yellow" />
                     </div>
-                    <h3 className="font-bold mb-2">Contact Methods</h3>
+                    <h3 className="font-bold mb-2">Personal Contact</h3>
                     <p className="text-beebotix-gray-dark">
-                      Via email or phone for order confirmation
+                      Direct communication for pricing and payment details
                     </p>
                   </CardContent>
                 </Card>
@@ -173,15 +183,15 @@ const PlaceOrder = () => {
                   <ol className="space-y-3">
                     <li className="flex items-start gap-3">
                       <span className="bg-beebotix-yellow text-beebotix-navy w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">1</span>
-                      <span>Our team will review your order and contact you for confirmation</span>
+                      <span>Our team will review your order request and verify product availability</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="bg-beebotix-yellow text-beebotix-navy w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">2</span>
-                      <span>We'll provide payment details and finalize the transaction</span>
+                      <span>We'll contact you via email or phone to discuss final pricing and payment options</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="bg-beebotix-yellow text-beebotix-navy w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">3</span>
-                      <span>Your order will be processed and shipped to your address</span>
+                      <span>Once payment is confirmed, your order will be processed and shipped</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="bg-beebotix-yellow text-beebotix-navy w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">4</span>
@@ -219,9 +229,9 @@ const PlaceOrder = () => {
       <main className="flex-grow pt-24 pb-16">
         <div className="container-custom">
           <div className="mb-8">
-            <h1 className="heading-lg mb-2">Place Your Order</h1>
+            <h1 className="heading-lg mb-2">Place Your Order Request</h1>
             <p className="text-beebotix-gray-dark">
-              Fill in your details to complete your order
+              Fill in your details to submit your order request. We'll contact you for payment and confirmation.
             </p>
           </div>
 
@@ -243,7 +253,7 @@ const PlaceOrder = () => {
               <div className="md:col-span-2">
                 <Card>
                   <CardContent className="p-6">
-                    <h2 className="text-xl font-bold mb-6">Shipping Information</h2>
+                    <h2 className="text-xl font-bold mb-6">Contact & Shipping Information</h2>
                     
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div>
@@ -306,16 +316,22 @@ const PlaceOrder = () => {
                       
                       <div>
                         <label htmlFor="message" className="block text-sm font-medium mb-1">
-                          Additional Notes
+                          Additional Notes & Requirements
                         </label>
                         <Textarea
                           id="message"
                           name="message"
                           value={formData.message}
                           onChange={handleChange}
-                          placeholder="Any special instructions or requirements"
+                          placeholder="Any special instructions, questions about pricing, or specific requirements"
                           rows={3}
                         />
+                      </div>
+                      
+                      <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+                        <p className="text-sm text-yellow-800">
+                          <strong>Note:</strong> This is an order request. Final pricing and payment will be discussed personally via email or phone. We do not process payments online.
+                        </p>
                       </div>
                       
                       <Button 
@@ -329,9 +345,9 @@ const PlaceOrder = () => {
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Processing Order...
+                            Submitting Request...
                           </span>
-                        ) : "Confirm Order"}
+                        ) : "Submit Order Request"}
                       </Button>
                     </form>
                   </CardContent>
@@ -363,11 +379,11 @@ const PlaceOrder = () => {
                       
                       <div className="border-t pt-4">
                         <div className="flex justify-between font-bold">
-                          <span>Total Amount</span>
+                          <span>Estimated Total</span>
                           <span className="text-beebotix-navy currency-inr">{cartTotal}</span>
                         </div>
                         <p className="text-sm text-beebotix-gray-dark mt-1">
-                          Final pricing and payment details will be confirmed via email/phone
+                          Final pricing will be confirmed personally via contact
                         </p>
                       </div>
                     </div>
