@@ -26,17 +26,20 @@
             {
               "name": "Arduino_Uno_Datasheet.pdf",
               "type": "pdf",
-              "size": "2.1MB"
+              "size": "2.1MB",
+              "url": "https://www.arduino.cc/en/uploads/Main/Arduino_Uno_Rev3-schematic.pdf"
             },
             {
               "name": "Getting_Started_Guide.pdf",
               "type": "pdf", 
-              "size": "1.5MB"
+              "size": "1.5MB",
+              "url": "https://docs.arduino.cc/static/6ec5e4c2a6c0e9e46389d4f6dc924073/A000066-datasheet.pdf"
             },
             {
               "name": "Sample_Code.zip",
               "type": "zip",
-              "size": "856KB"
+              "size": "856KB",
+              "url": "https://github.com/arduino/arduino-examples/archive/main.zip"
             }
           ]
         },
@@ -58,12 +61,14 @@
             {
               "name": "ESP32_Technical_Reference.pdf",
               "type": "pdf",
-              "size": "3.2MB"
+              "size": "3.2MB",
+              "url": "https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf"
             },
             {
               "name": "WiFi_Examples.zip",
               "type": "zip",
-              "size": "1.2MB"
+              "size": "1.2MB",
+              "url": "https://github.com/espressif/arduino-esp32/archive/master.zip"
             }
           ]
         }
@@ -91,12 +96,14 @@
             {
               "name": "HC-SR04_Datasheet.pdf",
               "type": "pdf",
-              "size": "890KB"
+              "size": "890KB",
+              "url": "https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf"
             },
             {
               "name": "Distance_Measurement_Code.ino",
               "type": "code",
-              "size": "2KB"
+              "size": "2KB",
+              "url": "https://raw.githubusercontent.com/arduino-libraries/NewPing/master/examples/NewPingExample/NewPingExample.ino"
             }
           ]
         }

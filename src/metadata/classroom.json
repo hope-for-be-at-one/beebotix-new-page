@@ -12,20 +12,23 @@
         {
           "id": "r101-ch1",
           "title": "What is a Robot?",
-          "videoId": "dQw4w9WgXcQ",
-          "isPremium": false
+          "videoId": "kHBcVlqpvZ8",
+          "isPremium": false,
+          "youtubeUrl": "https://www.youtube.com/watch?v=kHBcVlqpvZ8"
         },
         {
           "id": "r101-ch2",
           "title": "Types of Robots",
-          "videoId": "dQw4w9WgXcQ",
-          "isPremium": false
+          "videoId": "fn3KWM1kuAw",
+          "isPremium": false,
+          "youtubeUrl": "https://www.youtube.com/watch?v=fn3KWM1kuAw"
         },
         {
           "id": "r101-ch3",
           "title": "Robot Components",
-          "videoId": "dQw4w9WgXcQ",
-          "isPremium": true
+          "videoId": "VXJZVZFRFJc",
+          "isPremium": true,
+          "youtubeUrl": "https://www.youtube.com/watch?v=VXJZVZFRFJc"
         }
       ]
     },
@@ -38,20 +41,23 @@
         {
           "id": "ardu-ch1",
           "title": "Introduction to Arduino",
-          "videoId": "dQw4w9WgXcQ",
-          "isPremium": false
+          "videoId": "fJWR7dBuc18",
+          "isPremium": false,
+          "youtubeUrl": "https://www.youtube.com/watch?v=fJWR7dBuc18"
         },
         {
           "id": "ardu-ch2",
           "title": "Your First Arduino Sketch",
-          "videoId": "dQw4w9WgXcQ",
-          "isPremium": false
+          "videoId": "BtLwoNJ6klE",
+          "isPremium": false,
+          "youtubeUrl": "https://www.youtube.com/watch?v=BtLwoNJ6klE"
         },
         {
           "id": "ardu-ch3",
           "title": "Digital I/O Operations",
-          "videoId": "dQw4w9WgXcQ",
-          "isPremium": true
+          "videoId": "CqrQmQqpHXc",
+          "isPremium": true,
+          "youtubeUrl": "https://www.youtube.com/watch?v=CqrQmQqpHXc"
         }
       ]
     }

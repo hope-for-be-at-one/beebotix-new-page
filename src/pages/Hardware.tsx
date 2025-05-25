@@ -51,8 +51,12 @@ const Hardware = () => {
   };
 
   const handleDownloadAttachment = (attachment: any) => {
-    // In a real app, this would download the file
-    toast.success(`Downloading ${attachment.name}...`);
+    if (attachment.url) {
+      window.open(attachment.url, '_blank');
+      toast.success(`Opening ${attachment.name}...`);
+    } else {
+      toast.success(`Downloading ${attachment.name}...`);
+    }
   };
 
   return (
@@ -142,10 +146,13 @@ const Hardware = () => {
                           <button
                             key={index}
                             onClick={() => handleDownloadAttachment(attachment)}
-                            className="flex items-center justify-between w-full text-xs bg-gray-50 hover:bg-gray-100 p-2 rounded"
+                            className="flex items-center justify-between w-full text-xs bg-gray-50 hover:bg-gray-100 p-2 rounded transition-colors"
                           >
-                            <span className="truncate">{attachment.name}</span>
-                            <Download className="h-3 w-3 text-beebotix-navy" />
+                            <div className="flex items-center gap-1 truncate">
+                              <span className="truncate">{attachment.name}</span>
+                              <span className="text-gray-500">({attachment.size})</span>
+                            </div>
+                            <Download className="h-3 w-3 text-beebotix-navy flex-shrink-0" />
                           </button>
                         ))}
                       </div>
