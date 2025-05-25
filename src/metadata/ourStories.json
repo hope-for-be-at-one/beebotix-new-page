@@ -1,0 +1,125 @@
+
+{
+  "blogPosts": [
+    {
+      "id": 1,
+      "title": "Building the Future: Our Smart Home Automation Project",
+      "excerpt": "How we helped a client create a fully automated smart home using Arduino and IoT sensors, reducing energy consumption by 40%.",
+      "date": "2024-01-15",
+      "category": "IoT Project",
+      "readTime": "5 min read",
+      "image": "/placeholder.svg",
+      "readMoreLink": "https://medium.com/@beebotix/smart-home-automation-iot-project"
+    },
+    {
+      "id": 2,
+      "title": "From Classroom to Competition: Student Robotics Success",
+      "excerpt": "Our robotics training program led a team of students to win the National Robotics Championship 2023.",
+      "date": "2023-12-10",
+      "category": "Education",
+      "readTime": "3 min read",
+      "image": "/placeholder.svg",
+      "readMoreLink": "https://techcrunch.com/beebotix-robotics-championship-victory"
+    },
+    {
+      "id": 3,
+      "title": "3D Printing Revolution: Custom Prosthetics Project",
+      "excerpt": "Collaborating with medical professionals to create affordable custom prosthetics using 3D printing technology.",
+      "date": "2023-11-22",
+      "category": "Healthcare",
+      "readTime": "7 min read",
+      "image": "/placeholder.svg",
+      "readMoreLink": "https://healthtech.beebotix.com/3d-printing-prosthetics"
+    },
+    {
+      "id": 4,
+      "title": "Agricultural Innovation: Smart Farming Solutions",
+      "excerpt": "Implementing sensor-based irrigation systems that increased crop yield by 30% for local farmers.",
+      "date": "2023-10-05",
+      "category": "Agriculture",
+      "readTime": "6 min read",
+      "image": "/placeholder.svg",
+      "readMoreLink": "https://agritech.beebotix.com/smart-farming-solutions"
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Dr. Rajesh Kumar",
+      "position": "Professor, IIT Bangalore",
+      "company": "Indian Institute of Technology",
+      "testimonial": "BeeBotix has been instrumental in enhancing our robotics curriculum. Their expertise and innovative approach have significantly improved our students' practical learning experience.",
+      "rating": 5,
+      "image": "/placeholder.svg"
+    },
+    {
+      "name": "Priya Sharma",
+      "position": "CTO",
+      "company": "TechStart Innovations",
+      "testimonial": "The IoT solutions provided by BeeBotix transformed our manufacturing process. Their team's dedication and technical expertise are unmatched.",
+      "rating": 5,
+      "image": "/placeholder.svg"
+    },
+    {
+      "name": "Amit Patel",
+      "position": "Founder",
+      "company": "GreenTech Solutions",
+      "testimonial": "Working with BeeBotix on our smart farming project was amazing. They delivered beyond our expectations and helped us achieve remarkable results.",
+      "rating": 5,
+      "image": "/placeholder.svg"
+    },
+    {
+      "name": "Sarah Johnson",
+      "position": "Engineering Student",
+      "company": "Karnataka University",
+      "testimonial": "The robotics workshop by BeeBotix opened up a whole new world for me. Their teaching methodology is practical and engaging.",
+      "rating": 5,
+      "image": "/placeholder.svg"
+    },
+    {
+      "name": "Vikram Singh",
+      "position": "CEO",
+      "company": "Innovation Labs",
+      "testimonial": "BeeBotix's 3D printing solutions revolutionized our prototyping process. The quality and precision are exceptional.",
+      "rating": 5,
+      "image": "/placeholder.svg"
+    },
+    {
+      "name": "Maya Desai",
+      "position": "Research Director",
+      "company": "Future Tech Institute",
+      "testimonial": "Collaborating with BeeBotix has been a game-changer for our research projects. Their innovative approach is truly inspiring.",
+      "rating": 5,
+      "image": "/placeholder.svg"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Best Innovation in Robotics Education",
+      "organization": "Karnataka State Education Board",
+      "year": "2023",
+      "description": "Recognized for outstanding contribution to robotics education and student development programs.",
+      "image": "/placeholder.svg"
+    },
+    {
+      "title": "Startup Excellence Award",
+      "organization": "Bangalore Chamber of Commerce",
+      "year": "2023",
+      "description": "Awarded for innovative solutions in technology education and community impact.",
+      "image": "/placeholder.svg"
+    },
+    {
+      "title": "Social Impact Recognition",
+      "organization": "Tech for Good Foundation",
+      "year": "2022",
+      "description": "Honored for using technology to create positive social impact in education and healthcare.",
+      "image": "/placeholder.svg"
+    },
+    {
+      "title": "Innovation in 3D Printing",
+      "organization": "Indian Manufacturing Association",
+      "year": "2022",
+      "description": "Recognized for pioneering work in accessible 3D printing solutions for healthcare applications.",
+      "image": "/placeholder.svg"
+    }
+  ]
+}

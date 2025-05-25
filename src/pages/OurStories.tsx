@@ -1,112 +1,77 @@
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Award, Star, Users, Trophy } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Calendar, Award, Star, Users, Trophy, ExternalLink } from "lucide-react";
+
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  readTime: string;
+  image: string;
+  readMoreLink: string;
+}
+
+interface Testimonial {
+  name: string;
+  position: string;
+  company: string;
+  testimonial: string;
+  rating: number;
+  image: string;
+}
+
+interface AwardData {
+  title: string;
+  organization: string;
+  year: string;
+  description: string;
+  image: string;
+}
+
+interface OurStoriesData {
+  blogPosts: BlogPost[];
+  testimonials: Testimonial[];
+  awards: AwardData[];
+}
 
 const OurStories = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Building the Future: Our Smart Home Automation Project",
-      excerpt: "How we helped a client create a fully automated smart home using Arduino and IoT sensors, reducing energy consumption by 40%.",
-      date: "2024-01-15",
-      category: "IoT Project",
-      readTime: "5 min read",
-      image: "/placeholder.svg"
-    },
-    {
-      id: 2,
-      title: "From Classroom to Competition: Student Robotics Success",
-      excerpt: "Our robotics training program led a team of students to win the National Robotics Championship 2023.",
-      date: "2023-12-10",
-      category: "Education",
-      readTime: "3 min read",
-      image: "/placeholder.svg"
-    },
-    {
-      id: 3,
-      title: "3D Printing Revolution: Custom Prosthetics Project",
-      excerpt: "Collaborating with medical professionals to create affordable custom prosthetics using 3D printing technology.",
-      date: "2023-11-22",
-      category: "Healthcare",
-      readTime: "7 min read",
-      image: "/placeholder.svg"
-    },
-    {
-      id: 4,
-      title: "Agricultural Innovation: Smart Farming Solutions",
-      excerpt: "Implementing sensor-based irrigation systems that increased crop yield by 30% for local farmers.",
-      date: "2023-10-05",
-      category: "Agriculture",
-      readTime: "6 min read",
-      image: "/placeholder.svg"
-    }
-  ];
+  const [storiesData, setStoriesData] = useState<OurStoriesData | null>(null);
 
-  const testimonials = [
-    {
-      name: "Dr. Rajesh Kumar",
-      position: "Professor, IIT Bangalore",
-      company: "Indian Institute of Technology",
-      testimonial: "BeeBotix has been instrumental in enhancing our robotics curriculum. Their expertise and innovative approach have significantly improved our students' practical learning experience.",
-      rating: 5,
-      image: "/placeholder.svg"
-    },
-    {
-      name: "Priya Sharma",
-      position: "CTO",
-      company: "TechStart Innovations",
-      testimonial: "The IoT solutions provided by BeeBotix transformed our manufacturing process. Their team's dedication and technical expertise are unmatched.",
-      rating: 5,
-      image: "/placeholder.svg"
-    },
-    {
-      name: "Amit Patel",
-      position: "Founder",
-      company: "GreenTech Solutions",
-      testimonial: "Working with BeeBotix on our smart farming project was amazing. They delivered beyond our expectations and helped us achieve remarkable results.",
-      rating: 5,
-      image: "/placeholder.svg"
-    },
-    {
-      name: "Sarah Johnson",
-      position: "Engineering Student",
-      company: "Karnataka University",
-      testimonial: "The robotics workshop by BeeBotix opened up a whole new world for me. Their teaching methodology is practical and engaging.",
-      rating: 5,
-      image: "/placeholder.svg"
-    }
-  ];
+  useEffect(() => {
+    const loadStoriesData = async () => {
+      try {
+        const response = await fetch('/src/metadata/ourStories.json');
+        const data = await response.json();
+        setStoriesData(data);
+      } catch (error) {
+        console.error('Error loading stories data:', error);
+      }
+    };
 
-  const awards = [
-    {
-      title: "Best Innovation in Robotics Education",
-      organization: "Karnataka State Education Board",
-      year: "2023",
-      description: "Recognized for outstanding contribution to robotics education and student development programs."
-    },
-    {
-      title: "Startup Excellence Award",
-      organization: "Bangalore Chamber of Commerce",
-      year: "2023",
-      description: "Awarded for innovative solutions in technology education and community impact."
-    },
-    {
-      title: "Social Impact Recognition",
-      organization: "Tech for Good Foundation",
-      year: "2022",
-      description: "Honored for using technology to create positive social impact in education and healthcare."
-    },
-    {
-      title: "Innovation in 3D Printing",
-      organization: "Indian Manufacturing Association",
-      year: "2022",
-      description: "Recognized for pioneering work in accessible 3D printing solutions for healthcare applications."
-    }
-  ];
+    loadStoriesData();
+  }, []);
+
+  if (!storiesData) {
+    return <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-beebotix-navy"></div>
+    </div>;
+  }
+
+  const { blogPosts, testimonials, awards } = storiesData;
 
   return (
     <div className="min-h-screen bg-white">
@@ -139,12 +104,12 @@ const OurStories = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {blogPosts.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                 <div className="aspect-video bg-gray-200 relative overflow-hidden">
                   <img 
                     src={post.image} 
                     alt={post.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                   <div className="absolute top-4 left-4">
                     <Badge className="bg-beebotix-yellow text-beebotix-navy">
@@ -172,8 +137,13 @@ const OurStories = () => {
                   <p className="text-beebotix-gray-dark mb-4 line-clamp-3">
                     {post.excerpt}
                   </p>
-                  <Button variant="outline" className="border-beebotix-navy text-beebotix-navy hover:bg-beebotix-navy hover:text-white">
+                  <Button 
+                    variant="outline" 
+                    className="border-beebotix-navy text-beebotix-navy hover:bg-beebotix-navy hover:text-white group"
+                    onClick={() => window.open(post.readMoreLink, '_blank')}
+                  >
                     Read More
+                    <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
@@ -182,7 +152,7 @@ const OurStories = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section with Horizontal Slideshow */}
       <section className="py-20 bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-16">
@@ -194,41 +164,57 @@ const OurStories = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-6 bg-white border-0 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-0">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-beebotix-gray-dark mb-6 italic text-lg leading-relaxed">
-                    "{testimonial.testimonial}"
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-beebotix-navy rounded-full flex items-center justify-center">
-                      <Users className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-beebotix-navy">
-                        {testimonial.name}
-                      </h4>
-                      <p className="text-sm text-beebotix-gray-dark">
-                        {testimonial.position}, {testimonial.company}
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-6xl mx-auto"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <Card className="h-full p-6 bg-white border-0 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                    <CardContent className="p-0 flex flex-col h-full">
+                      <div className="flex items-center gap-1 mb-4">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                      <p className="text-beebotix-gray-dark mb-6 italic text-base leading-relaxed flex-grow">
+                        "{testimonial.testimonial}"
                       </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                      <div className="flex items-center gap-4 mt-auto">
+                        <div className="w-12 h-12 bg-beebotix-navy rounded-full flex items-center justify-center flex-shrink-0">
+                          <Users className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-beebotix-navy text-sm">
+                            {testimonial.name}
+                          </h4>
+                          <p className="text-xs text-beebotix-gray-dark">
+                            {testimonial.position}, {testimonial.company}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
         </div>
       </section>
 
-      {/* Awards & Achievements Section */}
-      <section className="py-20">
-        <div className="container-custom">
+      {/* Awards & Achievements Section with Parallax Effect */}
+      <section className="py-20 relative overflow-hidden">
+        {/* Parallax Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-beebotix-navy/5 to-beebotix-yellow/10"></div>
+        <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-5 bg-cover bg-center bg-fixed"></div>
+        
+        <div className="container-custom relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4">
               Awards & Achievements
@@ -240,28 +226,43 @@ const OurStories = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {awards.map((award, index) => (
-              <Card key={index} className="p-6 border-l-4 border-l-beebotix-yellow hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-0">
+              <Card 
+                key={index} 
+                className="group relative overflow-hidden bg-white/90 backdrop-blur-sm border-l-4 border-l-beebotix-yellow hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
+              >
+                {/* Award Image Background */}
+                <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
+                  <img 
+                    src={award.image} 
+                    alt={award.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                <CardContent className="p-6 relative z-10">
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-beebotix-yellow rounded-full flex items-center justify-center">
-                        <Trophy className="h-6 w-6 text-beebotix-navy" />
+                      <div className="w-16 h-16 bg-gradient-to-br from-beebotix-yellow to-beebotix-orange rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <Trophy className="h-8 w-8 text-beebotix-navy" />
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-beebotix-navy mb-2">
+                      <h3 className="text-xl font-semibold text-beebotix-navy mb-2 group-hover:text-beebotix-orange transition-colors duration-300">
                         {award.title}
                       </h3>
                       <div className="flex items-center gap-2 mb-3">
                         <Award className="h-4 w-4 text-beebotix-gray-dark" />
-                        <span className="text-beebotix-gray-dark font-medium">
+                        <span className="text-beebotix-gray-dark font-medium text-sm">
                           {award.organization}
                         </span>
-                        <Badge variant="outline" className="ml-2">
+                        <Badge 
+                          variant="outline" 
+                          className="ml-2 border-beebotix-yellow text-beebotix-navy group-hover:bg-beebotix-yellow transition-colors duration-300"
+                        >
                           {award.year}
                         </Badge>
                       </div>
-                      <p className="text-beebotix-gray-dark leading-relaxed">
+                      <p className="text-beebotix-gray-dark leading-relaxed text-sm">
                         {award.description}
                       </p>
                     </div>
