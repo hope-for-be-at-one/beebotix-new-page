@@ -35,8 +35,12 @@ const Software = () => {
   });
 
   const handleDownload = (product: any) => {
-    toast.success(`Downloading ${product.name}...`);
-    // In a real app, this would trigger the actual download
+    if (product.downloadLink) {
+      window.open(product.downloadLink, '_blank');
+      toast.success(`Opening GitHub repository for ${product.name}...`);
+    } else {
+      toast.success(`Downloading ${product.name}...`);
+    }
   };
 
   return (

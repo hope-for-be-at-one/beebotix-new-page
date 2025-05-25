@@ -34,6 +34,9 @@ const CoursePlaylist: React.FC<CoursePlaylistProps> = ({
   const handleChapterSelect = (chapter: CourseChapter) => {
     if (!chapter.isPremium) {
       setActiveChapter(chapter);
+    } else {
+      // Redirect to email for premium course request
+      window.location.href = `mailto:support@beebotix.com?subject=Premium Course Request: ${chapter.title}&body=I would like to request access to the premium course: ${chapter.title}`;
     }
   };
 
@@ -83,89 +86,73 @@ const CoursePlaylist: React.FC<CoursePlaylistProps> = ({
         {/* Course Chapters List */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-4 text-beebotix-navy">Course Chapters</h3>
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {chapters.map((chapter) => (
               <div 
                 key={chapter.id} 
                 className={`bg-white rounded-lg border ${
                   activeChapter?.id === chapter.id ? 'border-beebotix-yellow shadow-md' : 'border-gray-200'
-                } overflow-hidden transition-all duration-300`}
+                } overflow-hidden transition-all duration-300 h-full flex flex-col`}
               >
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  {/* Left Column: Video Thumbnail - Fixed dimensions */}
-                  <div className="md:col-span-1 relative">
-                    <div className="relative w-full h-24 md:h-28 overflow-hidden rounded-l-lg bg-gray-100">
-                      <img 
-                        src={getYouTubeThumbnail(chapter.videoId)} 
-                        alt={`Thumbnail for ${chapter.title}`} 
-                        className="w-full h-full object-cover"
-                      />
-                      {chapter.isPremium && (
-                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                          <Lock className="h-6 w-6 text-beebotix-yellow" />
-                        </div>
-                      )}
-                      {!chapter.isPremium && (
-                        <button 
-                          className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity"
-                          onClick={() => handleChapterSelect(chapter)}
-                          aria-label={`Play ${chapter.title}`}
-                        >
-                          <div className="w-8 h-8 rounded-full bg-beebotix-yellow flex items-center justify-center">
-                            <Video className="h-4 w-4 text-beebotix-navy" />
-                          </div>
-                        </button>
+                {/* Video Thumbnail - Fixed aspect ratio */}
+                <div className="relative w-full aspect-video bg-gray-100">
+                  <img 
+                    src={getYouTubeThumbnail(chapter.videoId)} 
+                    alt={`Thumbnail for ${chapter.title}`} 
+                    className="w-full h-full object-cover"
+                  />
+                  {chapter.isPremium && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <Lock className="h-8 w-8 text-beebotix-yellow" />
+                    </div>
+                  )}
+                  {!chapter.isPremium && (
+                    <button 
+                      className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity"
+                      onClick={() => handleChapterSelect(chapter)}
+                      aria-label={`Play ${chapter.title}`}
+                    >
+                      <div className="w-12 h-12 rounded-full bg-beebotix-yellow flex items-center justify-center">
+                        <Video className="h-6 w-6 text-beebotix-navy" />
+                      </div>
+                    </button>
+                  )}
+                </div>
+                
+                {/* Chapter Info */}
+                <div className="p-4 flex-1 flex flex-col">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-lg font-semibold text-beebotix-navy line-clamp-2">{chapter.title}</h3>
+                    <div className="ml-2">
+                      {chapter.isPremium ? (
+                        <Badge variant="outline" className="bg-beebotix-navy text-white text-xs">
+                          Premium
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="bg-green-600 text-white text-xs">
+                          Free
+                        </Badge>
                       )}
                     </div>
                   </div>
                   
-                  {/* Right Column: Chapter Info */}
-                  <div className="md:col-span-3 p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-semibold text-beebotix-navy">{chapter.title}</h3>
-                      <div className="flex gap-2">
-                        {chapter.isPremium ? (
-                          <Badge variant="outline" className="bg-beebotix-navy text-white">
-                            Premium
-                          </Badge>
-                        ) : (
-                          <Badge variant="outline" className="bg-green-600 text-white">
-                            Free
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <p className="mt-2 text-sm text-beebotix-gray-dark">
-                      {getChapterHandout(chapter.id).substring(0, 120)}...
-                    </p>
-                    
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <Badge className="bg-beebotix-gray-dark/80">Key Concepts</Badge>
-                      <Badge className="bg-beebotix-gray-dark/80">Exercises</Badge>
-                    </div>
-                    
-                    <div className="mt-3 flex gap-2">
-                      {!chapter.isPremium && (
-                        <Button
-                          onClick={() => handleChapterSelect(chapter)}
-                          variant="outline"
-                          size="sm"
-                          className="bg-beebotix-yellow text-beebotix-navy hover:bg-beebotix-yellow/80"
-                        >
-                          Watch Now
-                        </Button>
-                      )}
-                      <Button
-                        onClick={() => handleYouTubeRedirect(chapter)}
-                        variant="outline"
-                        size="sm"
-                        className="border-beebotix-navy text-beebotix-navy hover:bg-beebotix-navy hover:text-white"
-                      >
-                        <ExternalLink className="h-3 w-3 mr-1" />
-                        YouTube
-                      </Button>
-                    </div>
+                  <p className="text-sm text-beebotix-gray-dark mb-3 line-clamp-2">
+                    {getChapterHandout(chapter.id).substring(0, 80)}...
+                  </p>
+                  
+                  <div className="mt-auto">
+                    <Button
+                      onClick={() => chapter.isPremium ? handleChapterSelect(chapter) : handleYouTubeRedirect(chapter)}
+                      className={`w-full ${
+                        chapter.isPremium 
+                          ? 'bg-gray-400 hover:bg-gray-500 text-white' 
+                          : 'bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy'
+                      }`}
+                      size="sm"
+                    >
+                      <Video className="h-4 w-4 mr-2" />
+                      {chapter.isPremium ? 'Request Access' : 'Watch Now'}
+                    </Button>
                   </div>
                 </div>
               </div>

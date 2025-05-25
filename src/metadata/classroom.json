@@ -77,5 +77,31 @@
       "categories": ["Resistors", "Capacitors", "ICs", "Sensors"],
       "count": 300
     }
+  ],
+  "liveClasses": [
+    {
+      "id": 1,
+      "title": "Arduino Programming Basics",
+      "instructor": "Prof. Rajesh Kumar",
+      "date": "2024-01-25",
+      "time": "10:00 AM",
+      "duration": "90 minutes",
+      "participants": 24,
+      "maxParticipants": 30,
+      "status": "upcoming",
+      "meetingLink": "https://meet.google.com/abc-defg-hij"
+    },
+    {
+      "id": 2,
+      "title": "IoT Project Development",
+      "instructor": "Dr. Priya Sharma",
+      "date": "2024-01-26", 
+      "time": "2:00 PM",
+      "duration": "120 minutes",
+      "participants": 18,
+      "maxParticipants": 25,
+      "status": "upcoming",
+      "meetingLink": "https://zoom.us/j/123456789"
+    }
   ]
 }

@@ -20,7 +20,8 @@
             "platforms": "ARM, AVR, ESP32",
             "delivery_time": "2-4 weeks",
             "support": "6 months"
-          }
+          },
+          "downloadLink": "https://github.com/beebotix/custom-firmware-template"
         }
       ]
     },
@@ -41,7 +42,8 @@
             "data_retention": "1 year",
             "api_calls": "10,000/month",
             "support": "24/7"
-          }
+          },
+          "downloadLink": "https://github.com/beebotix/iot-platform-starter"
         }
       ]
     }

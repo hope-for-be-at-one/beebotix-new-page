@@ -3,9 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, Calendar, Users, Video } from "lucide-react";
+import classroomData from "@/metadata/classroom.json";
 
 const LiveClasses = () => {
-  const upcomingClasses = [
+  const upcomingClasses = classroomData.liveClasses || [
     {
       id: 1,
       title: "Arduino Programming Basics",
@@ -15,7 +16,8 @@ const LiveClasses = () => {
       duration: "90 minutes",
       participants: 24,
       maxParticipants: 30,
-      status: "upcoming"
+      status: "upcoming",
+      meetingLink: "https://meet.google.com/abc-defg-hij"
     },
     {
       id: 2,
@@ -26,7 +28,8 @@ const LiveClasses = () => {
       duration: "120 minutes",
       participants: 18,
       maxParticipants: 25,
-      status: "upcoming"
+      status: "upcoming",
+      meetingLink: "https://zoom.us/j/123456789"
     }
   ];
 
@@ -46,6 +49,10 @@ const LiveClasses = () => {
     }
     
     return `${hours}h ${minutes}m remaining`;
+  };
+
+  const handleJoinClass = (meetingLink: string) => {
+    window.open(meetingLink, '_blank');
   };
 
   return (
@@ -97,7 +104,10 @@ const LiveClasses = () => {
                 </div>
               </div>
               
-              <Button className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy">
+              <Button 
+                onClick={() => handleJoinClass(classItem.meetingLink)}
+                className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy"
+              >
                 <Video className="h-4 w-4 mr-2" />
                 Join Class
               </Button>
