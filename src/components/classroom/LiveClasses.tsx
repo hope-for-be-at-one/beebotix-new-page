@@ -56,48 +56,59 @@ const LiveClasses = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Live Classes</h2>
-        <Badge className="bg-red-500 text-white animate-pulse">
+    <div className="space-y-6 overflow-x-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-beebotix-navy">Live Classes</h2>
+        <Badge className="bg-red-500 text-white animate-pulse w-fit">
+          <Video className="h-3 w-3 mr-1" />
           LIVE
         </Badge>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {upcomingClasses.map((classItem) => (
-          <Card key={classItem.id} className="border-2 border-beebotix-yellow/20 hover:border-beebotix-yellow/40 transition-colors">
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="font-bold text-lg mb-1">{classItem.title}</h3>
-                  <p className="text-beebotix-gray-dark">{classItem.instructor}</p>
+          <Card key={classItem.id} className="border-2 border-beebotix-yellow/20 hover:border-beebotix-yellow/40 transition-all duration-300 hover:shadow-lg overflow-hidden">
+            <CardContent className="p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-3">
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg md:text-xl mb-1 text-beebotix-navy line-clamp-2">
+                    {classItem.title}
+                  </h3>
+                  <p className="text-beebotix-gray-dark text-sm md:text-base">
+                    {classItem.instructor}
+                  </p>
                 </div>
-                <Badge className="bg-beebotix-yellow text-beebotix-navy">
+                <Badge className="bg-beebotix-yellow text-beebotix-navy w-fit">
                   Next Class
                 </Badge>
               </div>
               
               <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-beebotix-navy" />
-                  <span className="text-sm">{new Date(classItem.date).toLocaleDateString()}</span>
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <Calendar className="h-4 w-4 text-beebotix-navy flex-shrink-0" />
+                  <span className="text-beebotix-gray-dark">
+                    {new Date(classItem.date).toLocaleDateString()}
+                  </span>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-beebotix-navy" />
-                  <span className="text-sm">{classItem.time} ({classItem.duration})</span>
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <Clock className="h-4 w-4 text-beebotix-navy flex-shrink-0" />
+                  <span className="text-beebotix-gray-dark">
+                    {classItem.time} ({classItem.duration})
+                  </span>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-beebotix-navy" />
-                  <span className="text-sm">{classItem.participants}/{classItem.maxParticipants} participants</span>
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <Users className="h-4 w-4 text-beebotix-navy flex-shrink-0" />
+                  <span className="text-beebotix-gray-dark">
+                    {classItem.participants}/{classItem.maxParticipants} participants
+                  </span>
                 </div>
               </div>
               
               <div className="bg-beebotix-gray-light/20 p-3 rounded-lg mb-4">
                 <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-orange-600" />
+                  <Clock className="h-4 w-4 text-orange-600 flex-shrink-0" />
                   <span className="text-sm font-medium text-orange-600">
                     {getTimeUntilClass(classItem.date, classItem.time)}
                   </span>
@@ -106,7 +117,7 @@ const LiveClasses = () => {
               
               <Button 
                 onClick={() => handleJoinClass(classItem.meetingLink)}
-                className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy"
+                className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy font-medium transition-all duration-300 transform hover:scale-[1.02]"
               >
                 <Video className="h-4 w-4 mr-2" />
                 Join Class
