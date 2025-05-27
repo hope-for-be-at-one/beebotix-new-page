@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SEOHead from "@/components/seo/SEOHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -82,7 +83,7 @@ const OurStories = () => {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-beebotix-navy mx-auto mb-4"></div>
-          <p className="text-beebotix-gray-dark">Loading our stories...</p>
+          <p className="text-beebotix-gray-dark animate-pulse">Loading our stories...</p>
         </div>
       </div>
     );
@@ -91,9 +92,9 @@ const OurStories = () => {
   if (error || !storiesData) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
+        <div className="text-center animate-fade-in">
           <p className="text-red-500 mb-4">Error: {error || 'Failed to load stories data'}</p>
-          <Button onClick={() => window.location.reload()}>Try Again</Button>
+          <Button onClick={() => window.location.reload()} className="animate-bounce">Try Again</Button>
         </div>
       </div>
     );
@@ -103,26 +104,51 @@ const OurStories = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Our Stories - BeeBotix Success Stories & Achievements"
+        description="Explore BeeBotix's inspiring success stories, client testimonials, and prestigious awards. Discover how we're transforming technology education and creating positive impact."
+        keywords="BeeBotix success stories, robotics achievements, technology education testimonials, innovation awards, STEM education impact, client testimonials"
+        image="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=1200&h=630&fit=crop"
+        url="https://beebotix.com/our-stories"
+      />
+      
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-beebotix-navy to-beebotix-navy/80">
-        <div className="container-custom text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Our Stories
-          </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
-            Discover the impact we're making through innovative projects, inspiring testimonials, 
-            and recognition for our commitment to technology education and social good.
-          </p>
+      {/* Enhanced Hero Section with Background Image */}
+      <section className="pt-32 pb-16 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=1920&h=1080&fit=crop"
+            alt="Our Stories Background - BeeBotix Team"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-beebotix-navy/90 to-beebotix-navy/70"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="container-custom text-center relative z-10">
+          <div className="animate-fade-in">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-scale-in">
+              Our Stories
+            </h1>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed animate-slide-in-right">
+              Discover the impact we're making through innovative projects, inspiring testimonials, 
+              and recognition for our commitment to technology education and social good.
+            </p>
+          </div>
+          
+          {/* Floating Elements */}
+          <div className="absolute top-20 left-10 w-20 h-20 bg-beebotix-yellow/20 rounded-full animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-16 h-16 bg-beebotix-orange/20 rounded-full animate-bounce"></div>
         </div>
       </section>
 
-      {/* Success Stories Blog Section */}
-      <section className="py-20">
+      {/* Success Stories Blog Section with Enhanced Animations */}
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50/50">
         <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4 hover-scale">
               Success Stories
             </h2>
             <p className="text-lg text-beebotix-gray-dark max-w-2xl mx-auto">
@@ -131,26 +157,31 @@ const OurStories = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {blogPosts.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            {blogPosts.map((post, index) => (
+              <Card 
+                key={post.id} 
+                className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="aspect-video bg-gray-200 relative overflow-hidden">
                   <img 
                     src={post.image} 
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src = '/placeholder.svg';
+                      target.src = 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=600&fit=crop';
                     }}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-beebotix-yellow text-beebotix-navy">
+                    <Badge className="bg-beebotix-yellow text-beebotix-navy hover:bg-beebotix-orange transition-colors duration-300">
                       {post.category}
                     </Badge>
                   </div>
                 </div>
                 <CardHeader>
-                  <CardTitle className="text-xl text-beebotix-navy line-clamp-2">
+                  <CardTitle className="text-xl text-beebotix-navy line-clamp-2 group-hover:text-beebotix-orange transition-colors duration-300">
                     {post.title}
                   </CardTitle>
                   <div className="flex items-center gap-4 text-sm text-beebotix-gray-dark">
@@ -171,11 +202,11 @@ const OurStories = () => {
                   </p>
                   <Button 
                     variant="outline" 
-                    className="border-beebotix-navy text-beebotix-navy hover:bg-beebotix-navy hover:text-white group"
+                    className="border-beebotix-navy text-beebotix-navy hover:bg-beebotix-navy hover:text-white group/btn transform hover:scale-105 transition-all duration-300"
                     onClick={() => window.open(post.readMoreLink, '_blank')}
                   >
                     Read More
-                    <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                   </Button>
                 </CardContent>
               </Card>
@@ -184,11 +215,16 @@ const OurStories = () => {
         </div>
       </section>
 
-      {/* Testimonials Section with Horizontal Slideshow */}
-      <section className="py-20 bg-gray-50">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4">
+      {/* Enhanced Testimonials Section with Horizontal Slideshow */}
+      <section className="py-20 bg-gradient-to-r from-gray-50 to-white relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23000000" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] bg-repeat"></div>
+        </div>
+        
+        <div className="container-custom relative z-10">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4 hover-scale">
               What People Say About Us
             </h2>
             <p className="text-lg text-beebotix-gray-dark max-w-2xl mx-auto">
@@ -201,39 +237,41 @@ const OurStories = () => {
               align: "start",
               loop: true,
             }}
-            className="w-full max-w-6xl mx-auto"
+            className="w-full max-w-6xl mx-auto animate-slide-in-right"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                  <Card className="h-full p-6 bg-white border-0 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <Card className="h-full p-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 group">
                     <CardContent className="p-0 flex flex-col h-full">
                       <div className="flex items-center gap-1 mb-4">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                          <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
                         ))}
                       </div>
-                      <p className="text-beebotix-gray-dark mb-6 italic text-base leading-relaxed flex-grow">
+                      <p className="text-beebotix-gray-dark mb-6 italic text-base leading-relaxed flex-grow group-hover:text-beebotix-navy transition-colors duration-300">
                         "{testimonial.testimonial}"
                       </p>
                       <div className="flex items-center gap-4 mt-auto">
-                        <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
-                          <img 
-                            src={testimonial.image} 
-                            alt={testimonial.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.style.display = 'none';
-                              const parent = target.parentElement;
-                              if (parent) {
-                                parent.innerHTML = `<div class="w-full h-full bg-beebotix-navy rounded-full flex items-center justify-center"><svg class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg></div>`;
-                              }
-                            }}
-                          />
+                        <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-beebotix-yellow to-beebotix-orange p-0.5">
+                          <div className="w-full h-full rounded-full overflow-hidden bg-white">
+                            <img 
+                              src={testimonial.image} 
+                              alt={testimonial.name}
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = `<div class="w-full h-full bg-beebotix-navy rounded-full flex items-center justify-center"><svg class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg></div>`;
+                                }
+                              }}
+                            />
+                          </div>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-beebotix-navy text-sm">
+                          <h4 className="font-semibold text-beebotix-navy text-sm group-hover:text-beebotix-orange transition-colors duration-300">
                             {testimonial.name}
                           </h4>
                           <p className="text-xs text-beebotix-gray-dark">
@@ -246,21 +284,26 @@ const OurStories = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-4" />
-            <CarouselNext className="right-4" />
+            <CarouselPrevious className="left-4 hover:scale-110 transition-transform duration-300" />
+            <CarouselNext className="right-4 hover:scale-110 transition-transform duration-300" />
           </Carousel>
         </div>
       </section>
 
-      {/* Awards & Achievements Section with Parallax Effect */}
+      {/* Enhanced Awards & Achievements Section with Better Image Alignment */}
       <section className="py-20 relative overflow-hidden">
-        {/* Parallax Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-beebotix-navy/5 to-beebotix-yellow/10"></div>
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&h=1080&fit=crop&crop=center')] opacity-5 bg-cover bg-center bg-fixed"></div>
+        {/* Enhanced Parallax Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-beebotix-navy/5 via-beebotix-yellow/5 to-beebotix-orange/10"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&h=1080&fit=crop')] opacity-10 bg-cover bg-center bg-fixed"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent"></div>
+        
+        {/* Floating Elements */}
+        <div className="absolute top-10 right-10 w-32 h-32 bg-beebotix-yellow/10 rounded-full animate-pulse"></div>
+        <div className="absolute bottom-20 left-10 w-24 h-24 bg-beebotix-orange/10 rounded-full animate-bounce"></div>
         
         <div className="container-custom relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4 hover-scale">
               Awards & Achievements
             </h2>
             <p className="text-lg text-beebotix-gray-dark max-w-2xl mx-auto">
@@ -272,50 +315,57 @@ const OurStories = () => {
             {awards.map((award, index) => (
               <Card 
                 key={index} 
-                className="group relative overflow-hidden bg-white/90 backdrop-blur-sm border-l-4 border-l-beebotix-yellow hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
+                className="group relative overflow-hidden bg-white/95 backdrop-blur-sm border-l-4 border-l-beebotix-yellow hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-3 hover:rotate-1 animate-fade-in"
+                style={{ animationDelay: `${index * 0.2}s` }}
               >
-                {/* Award Image Background */}
-                <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity duration-300 overflow-hidden">
+                {/* Enhanced Award Image */}
+                <div className="absolute top-0 right-0 w-32 h-32 opacity-15 group-hover:opacity-30 transition-all duration-500 overflow-hidden">
                   <img 
                     src={award.image} 
                     alt={award.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src = '/placeholder.svg';
+                      target.src = 'https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=400&h=400&fit=crop';
                     }}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-bl from-beebotix-yellow/20 to-transparent"></div>
                 </div>
                 
-                <CardContent className="p-6 relative z-10">
-                  <div className="flex items-start gap-4">
+                <CardContent className="p-8 relative z-10">
+                  <div className="flex items-start gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-to-br from-beebotix-yellow to-beebotix-orange rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <Trophy className="h-8 w-8 text-beebotix-navy" />
+                      <div className="w-20 h-20 bg-gradient-to-br from-beebotix-yellow via-beebotix-orange to-beebotix-yellow rounded-full flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 shadow-lg">
+                        <Trophy className="h-10 w-10 text-beebotix-navy group-hover:animate-bounce" />
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-beebotix-navy mb-2 group-hover:text-beebotix-orange transition-colors duration-300">
+                      <h3 className="text-2xl font-bold text-beebotix-navy mb-3 group-hover:text-beebotix-orange transition-colors duration-300 leading-tight">
                         {award.title}
                       </h3>
-                      <div className="flex items-center gap-2 mb-3">
-                        <Award className="h-4 w-4 text-beebotix-gray-dark" />
-                        <span className="text-beebotix-gray-dark font-medium text-sm">
-                          {award.organization}
-                        </span>
+                      <div className="flex items-center gap-3 mb-4 flex-wrap">
+                        <div className="flex items-center gap-2">
+                          <Award className="h-5 w-5 text-beebotix-gray-dark group-hover:text-beebotix-yellow transition-colors duration-300" />
+                          <span className="text-beebotix-gray-dark font-semibold text-sm">
+                            {award.organization}
+                          </span>
+                        </div>
                         <Badge 
                           variant="outline" 
-                          className="ml-2 border-beebotix-yellow text-beebotix-navy group-hover:bg-beebotix-yellow transition-colors duration-300"
+                          className="border-beebotix-yellow text-beebotix-navy group-hover:bg-beebotix-yellow group-hover:scale-110 transition-all duration-300 font-semibold"
                         >
                           {award.year}
                         </Badge>
                       </div>
-                      <p className="text-beebotix-gray-dark leading-relaxed text-sm">
+                      <p className="text-beebotix-gray-dark leading-relaxed text-base group-hover:text-beebotix-navy transition-colors duration-300">
                         {award.description}
                       </p>
                     </div>
                   </div>
                 </CardContent>
+                
+                {/* Hover Effect Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-beebotix-yellow/0 to-beebotix-orange/0 group-hover:from-beebotix-yellow/5 group-hover:to-beebotix-orange/5 transition-all duration-500"></div>
               </Card>
             ))}
           </div>
