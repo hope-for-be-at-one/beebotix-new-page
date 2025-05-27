@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import QuotePopup from "@/components/printing/QuotePopup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,15 +27,104 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { toast } from "@/hooks/use-toast";
 
 const Printing = () => {
   const [activeTab, setActiveTab] = useState("materials");
+  const [showQuotePopup, setShowQuotePopup] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    material: "",
+    length: "",
+    width: "", 
+    height: "",
+    weight: "",
+    description: ""
+  });
   
   // This useEffect ensures page starts from the top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
+  // Quote calculation function
+  const calculateQuote = () => {
+    const materialRates = {
+      pla: 15,
+      petg: 18,
+      tpu: 22,
+      abs: 20
+    };
+
+    const length = parseFloat(formData.length) || 0;
+    const width = parseFloat(formData.width) || 0;
+    const height = parseFloat(formData.height) || 0;
+    const weight = parseFloat(formData.weight) || 0;
+
+    if (!formData.material || length <= 0 || width <= 0 || height <= 0) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields to generate a quote.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const volume = (length * width * height) / 1000; // Convert to cubic cm
+    const materialRate = materialRates[formData.material as keyof typeof materialRates] || 15;
+    
+    // Basic formula: base cost + material cost + complexity factor
+    const baseCost = 50; // Base processing cost
+    const materialCost = Math.max(weight * (materialRate / 10), volume * materialRate * 0.5);
+    const complexityFactor = volume > 100 ? 1.5 : volume > 50 ? 1.3 : 1.1;
+    
+    const estimatedCost = Math.round((baseCost + materialCost) * complexityFactor);
+    const estimatedTime = volume > 100 ? "3-5 days" : volume > 50 ? "2-3 days" : "1-2 days";
+    
+    // Generate quote code
+    const quoteCode = `BP${Date.now().toString().slice(-6)}${Math.random().toString(36).substr(2, 3).toUpperCase()}`;
+
+    return {
+      material: formData.material.toUpperCase(),
+      length,
+      width,
+      height,
+      weight: weight || Math.round(volume * 1.2), // Estimate weight if not provided
+      estimatedCost,
+      estimatedTime,
+      quoteCode
+    };
+  };
+
+  const [quoteData, setQuoteData] = useState<any>(null);
+
+  const handleGenerateQuote = (e: React.FormEvent) => {
+    e.preventDefault();
+    const quote = calculateQuote();
+    if (quote) {
+      setQuoteData(quote);
+      setShowQuotePopup(true);
+    }
+  };
+
+  const handleSendEmail = () => {
+    // Simulate sending email
+    toast({
+      title: "Quote Sent!",
+      description: `Quote ${quoteData.quoteCode} has been sent to ${formData.email}`,
+    });
+    setShowQuotePopup(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   // Materials data - Updated with ABS
   const materials = [
     {
@@ -531,73 +620,132 @@ const Printing = () => {
               </div>
               
               <div>
-                <h3 className="font-bold text-xl mb-4">Get a Quote</h3>
-                <form className="space-y-4">
+                <h3 className="font-bold text-xl mb-4">Get an Instant Quote</h3>
+                <form onSubmit={handleGenerateQuote} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                        Name
+                        Name *
                       </label>
-                      <Input id="name" placeholder="Your name" />
+                      <Input 
+                        id="name" 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Your name" 
+                        required
+                      />
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                        Email
+                        Email *
                       </label>
-                      <Input id="email" type="email" placeholder="your@email.com" />
+                      <Input 
+                        id="email" 
+                        name="email"
+                        type="email" 
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="your@email.com" 
+                        required
+                      />
                     </div>
                   </div>
                   
                   <div>
                     <label htmlFor="material" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                      Preferred Material
+                      Preferred Material *
                     </label>
                     <select
                       id="material"
+                      name="material"
+                      value={formData.material}
+                      onChange={handleInputChange}
                       className="w-full rounded-md border border-gray-300 bg-white py-2 px-3"
+                      required
                     >
                       <option value="">Select material</option>
                       <option value="pla">PLA</option>
                       <option value="petg">PETG</option>
                       <option value="tpu">TPU</option>
                       <option value="abs">ABS</option>
-                      <option value="not-sure">Not sure (we'll recommend)</option>
                     </select>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label htmlFor="length" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                        Length (cm)
+                        Length (cm) *
                       </label>
-                      <Input id="length" type="number" placeholder="0.0" />
+                      <Input 
+                        id="length" 
+                        name="length"
+                        type="number" 
+                        step="0.1"
+                        value={formData.length}
+                        onChange={handleInputChange}
+                        placeholder="0.0" 
+                        required
+                      />
                     </div>
                     <div>
                       <label htmlFor="width" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                        Width (cm)
+                        Width (cm) *
                       </label>
-                      <Input id="width" type="number" placeholder="0.0" />
+                      <Input 
+                        id="width" 
+                        name="width"
+                        type="number" 
+                        step="0.1"
+                        value={formData.width}
+                        onChange={handleInputChange}
+                        placeholder="0.0" 
+                        required
+                      />
                     </div>
                     <div>
                       <label htmlFor="height" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                        Height (cm)
+                        Height (cm) *
                       </label>
-                      <Input id="height" type="number" placeholder="0.0" />
+                      <Input 
+                        id="height" 
+                        name="height"
+                        type="number" 
+                        step="0.1"
+                        value={formData.height}
+                        onChange={handleInputChange}
+                        placeholder="0.0" 
+                        required
+                      />
                     </div>
                   </div>
                   
                   <div>
                     <label htmlFor="weight" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
-                      Approximate Weight (g)
+                      Approximate Weight (g) - Optional
                     </label>
-                    <Input id="weight" type="number" placeholder="0" />
+                    <Input 
+                      id="weight" 
+                      name="weight"
+                      type="number" 
+                      value={formData.weight}
+                      onChange={handleInputChange}
+                      placeholder="Will be estimated if not provided" 
+                    />
                   </div>
                   
                   <div>
                     <label htmlFor="description" className="block text-sm font-medium text-beebotix-gray-dark mb-1">
                       Project Description
                     </label>
-                    <Textarea id="description" placeholder="Describe your project and requirements..." className="min-h-[100px]" />
+                    <Textarea 
+                      id="description" 
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      placeholder="Describe your project and requirements..." 
+                      className="min-h-[100px]" 
+                    />
                   </div>
                   
                   <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
@@ -609,7 +757,7 @@ const Printing = () => {
                   </div>
                   
                   <Button type="submit" className="button-primary w-full">
-                    Submit Quote Request
+                    Generate Instant Quote
                   </Button>
                 </form>
               </div>
@@ -672,6 +820,16 @@ const Printing = () => {
         </div>
       </main>
       <Footer />
+      
+      {/* Quote Popup */}
+      {quoteData && (
+        <QuotePopup
+          isOpen={showQuotePopup}
+          onClose={() => setShowQuotePopup(false)}
+          quoteData={quoteData}
+          onSendEmail={handleSendEmail}
+        />
+      )}
     </div>
   );
 };
