@@ -13,8 +13,18 @@ const Classroom = () => {
     <div className="min-h-screen flex flex-col overflow-x-hidden">
       <Navbar />
       <main className="flex-grow pt-24 overflow-x-hidden">
-        {/* Enhanced Hero Section */}
+        {/* Enhanced Hero Section with Image */}
         <div className="relative bg-gradient-to-br from-beebotix-navy via-beebotix-navy/95 to-beebotix-navy/90 text-white py-12 md:py-16 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 opacity-20">
+            <img 
+              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+              alt="Classroom Technology" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-beebotix-navy/60"></div>
+          </div>
+          
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-repeat" style={{
@@ -72,14 +82,14 @@ const Classroom = () => {
           </div>
         </div>
 
-        {/* Professional Tabs Section */}
+        {/* Professional Tabs Section - Fixed */}
         <div className="container mx-auto px-4 max-w-7xl py-6 md:py-8 overflow-x-hidden">
           <Tabs defaultValue="courses" className="w-full">
             <div className="flex justify-center mb-6 md:mb-8">
-              <TabsList className="grid grid-cols-2 bg-gray-100/80 backdrop-blur-sm p-1 rounded-xl shadow-lg border border-gray-200/50 max-w-sm w-full">
+              <TabsList className="grid grid-cols-2 bg-white/90 backdrop-blur-sm p-1.5 rounded-xl shadow-lg border border-gray-200 max-w-md w-full h-auto">
                 <TabsTrigger 
                   value="courses" 
-                  className="flex items-center justify-center gap-2 text-sm md:text-base font-semibold data-[state=active]:bg-white data-[state=active]:text-beebotix-navy data-[state=active]:shadow-md transition-all duration-300 rounded-lg py-2.5 px-4"
+                  className="flex items-center justify-center gap-2 text-sm md:text-base font-semibold py-3 px-4 rounded-lg transition-all duration-300 data-[state=active]:bg-beebotix-yellow data-[state=active]:text-beebotix-navy data-[state=active]:shadow-md text-gray-600 hover:text-gray-900"
                 >
                   <BookOpen className="h-4 w-4 flex-shrink-0" />
                   <span className="hidden sm:inline">Course Library</span>
@@ -87,7 +97,7 @@ const Classroom = () => {
                 </TabsTrigger>
                 <TabsTrigger 
                   value="live-classes" 
-                  className="flex items-center justify-center gap-2 text-sm md:text-base font-semibold data-[state=active]:bg-white data-[state=active]:text-beebotix-navy data-[state=active]:shadow-md transition-all duration-300 rounded-lg py-2.5 px-4"
+                  className="flex items-center justify-center gap-2 text-sm md:text-base font-semibold py-3 px-4 rounded-lg transition-all duration-300 data-[state=active]:bg-beebotix-yellow data-[state=active]:text-beebotix-navy data-[state=active]:shadow-md text-gray-600 hover:text-gray-900"
                 >
                   <Video className="h-4 w-4 flex-shrink-0" />
                   <span className="hidden sm:inline">Live Classes</span>

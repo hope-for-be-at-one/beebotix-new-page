@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import LocationMap from "@/components/contact/LocationMap";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -53,7 +54,7 @@ const Contact = () => {
       <Navbar />
       <main className="flex-grow pt-24 pb-12">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <h1 className="heading-lg mb-2 text-center">
               Get in <span className="gradient-text">Touch</span>
             </h1>
@@ -62,9 +63,9 @@ const Contact = () => {
               Have questions about our services or want to discuss your project? Reach out to us using the form below or contact us directly.
             </p>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12">
               {/* Contact Information */}
-              <div className="lg:col-span-1 bg-beebotix-navy rounded-xl p-6 text-white">
+              <div className="bg-beebotix-navy rounded-xl p-6 text-white">
                 <h2 className="text-xl font-bold mb-6">Contact Information</h2>
                 
                 <div className="space-y-6">
@@ -113,7 +114,7 @@ const Contact = () => {
               </div>
               
               {/* Contact Form */}
-              <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-md">
+              <div className="bg-white rounded-xl p-6 shadow-md">
                 <h2 className="text-xl font-bold mb-6">Send us a message</h2>
                 
                 <form onSubmit={handleSubmit} className="space-y-5">
@@ -189,6 +190,11 @@ const Contact = () => {
                   </Button>
                 </form>
               </div>
+            </div>
+
+            {/* Map Section */}
+            <div className="mt-12">
+              <LocationMap />
             </div>
           </div>
         </div>
