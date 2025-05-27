@@ -50,25 +50,53 @@ interface OurStoriesData {
 
 const OurStories = () => {
   const [storiesData, setStoriesData] = useState<OurStoriesData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadStoriesData = async () => {
       try {
-        const response = await fetch('/src/metadata/ourStories.json');
+        console.log('Loading stories data...');
+        const response = await fetch('/ourStories.json');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log('Stories data loaded successfully:', data);
         setStoriesData(data);
       } catch (error) {
         console.error('Error loading stories data:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load stories data');
+      } finally {
+        setLoading(false);
       }
     };
 
     loadStoriesData();
   }, []);
 
-  if (!storiesData) {
-    return <div className="min-h-screen bg-white flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-beebotix-navy"></div>
-    </div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-beebotix-navy mx-auto mb-4"></div>
+          <p className="text-beebotix-gray-dark">Loading our stories...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !storiesData) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">Error: {error || 'Failed to load stories data'}</p>
+          <Button onClick={() => window.location.reload()}>Try Again</Button>
+        </div>
+      </div>
+    );
   }
 
   const { blogPosts, testimonials, awards } = storiesData;
@@ -110,6 +138,10 @@ const OurStories = () => {
                     src={post.image} 
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/placeholder.svg';
+                    }}
                   />
                   <div className="absolute top-4 left-4">
                     <Badge className="bg-beebotix-yellow text-beebotix-navy">
@@ -185,8 +217,20 @@ const OurStories = () => {
                         "{testimonial.testimonial}"
                       </p>
                       <div className="flex items-center gap-4 mt-auto">
-                        <div className="w-12 h-12 bg-beebotix-navy rounded-full flex items-center justify-center flex-shrink-0">
-                          <Users className="h-6 w-6 text-white" />
+                        <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
+                          <img 
+                            src={testimonial.image} 
+                            alt={testimonial.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = `<div class="w-full h-full bg-beebotix-navy rounded-full flex items-center justify-center"><svg class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg></div>`;
+                              }
+                            }}
+                          />
                         </div>
                         <div>
                           <h4 className="font-semibold text-beebotix-navy text-sm">
@@ -212,7 +256,7 @@ const OurStories = () => {
       <section className="py-20 relative overflow-hidden">
         {/* Parallax Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-beebotix-navy/5 to-beebotix-yellow/10"></div>
-        <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-5 bg-cover bg-center bg-fixed"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&h=1080&fit=crop&crop=center')] opacity-5 bg-cover bg-center bg-fixed"></div>
         
         <div className="container-custom relative z-10">
           <div className="text-center mb-16">
@@ -231,11 +275,15 @@ const OurStories = () => {
                 className="group relative overflow-hidden bg-white/90 backdrop-blur-sm border-l-4 border-l-beebotix-yellow hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
               >
                 {/* Award Image Background */}
-                <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
+                <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity duration-300 overflow-hidden">
                   <img 
                     src={award.image} 
                     alt={award.title}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/placeholder.svg';
+                    }}
                   />
                 </div>
                 
