@@ -198,7 +198,7 @@ const Services = () => {
     }));
   };
 
-  const handleServiceFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmittingService(true);
 
@@ -502,7 +502,7 @@ Please contact this client to discuss their project requirements.
                     We'll get back to you within 24 hours.
                   </p>
                   
-                  <form onSubmit={handleServiceFormSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="name" className="block text-white/90 text-sm font-medium mb-1">

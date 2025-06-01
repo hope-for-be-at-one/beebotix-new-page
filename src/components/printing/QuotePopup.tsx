@@ -18,9 +18,10 @@ interface QuotePopupProps {
     quoteCode: string;
   };
   onSendEmail: () => void;
+  projectDescription?: string;
 }
 
-const QuotePopup: React.FC<QuotePopupProps> = ({ isOpen, onClose, quoteData, onSendEmail }) => {
+const QuotePopup: React.FC<QuotePopupProps> = ({ isOpen, onClose, quoteData, onSendEmail, projectDescription = "" }) => {
   // Initialize EmailJS
   emailjs.init("K9PmDAw2eoItuAJgX");
 
@@ -30,8 +31,7 @@ const QuotePopup: React.FC<QuotePopupProps> = ({ isOpen, onClose, quoteData, onS
       material: quoteData.material,
       dimensions: `${quoteData.length} × ${quoteData.width} × ${quoteData.height} cm`,
       estimated_weight: `${quoteData.weight}g`,
-      estimated_time: quoteData.estimatedTime,
-      estimated_cost: `₹${quoteData.estimatedCost}`,
+      project_description: projectDescription || "Not provided",
       subject: `3D Printing Quote Request - ${quoteData.quoteCode}`,
       message: `
 3D Printing Quote Request Details:
@@ -40,12 +40,7 @@ Quote Code: ${quoteData.quoteCode}
 Material: ${quoteData.material}
 Dimensions: ${quoteData.length} × ${quoteData.width} × ${quoteData.height} cm
 Estimated Weight: ${quoteData.weight}g
-Estimated Time: ${quoteData.estimatedTime}
-Estimated Cost: ₹${quoteData.estimatedCost} (+ taxes & shipping)
-
-Note: This is a basic formula-based calculation. Actual pricing may vary based on complexity, design requirements, and current material costs.
-
-Please contact the client with a detailed quote and next steps.
+Project Description: ${projectDescription || "Not provided"}
       `,
       to_name: "BeeBotix Team",
       from_name: "3D Printing Quote System"
@@ -58,7 +53,7 @@ Please contact the client with a detailed quote and next steps.
       await emailjs.send(serviceID, templateID, templateParams);
       
       toast({
-        title: "Quote Sent Successfully! 📧",
+        title: "Quote Sent Successfully! 🎉",
         description: "Your 3D printing quote has been sent to our team. We'll review it and get back to you with a detailed proposal soon!",
       });
       

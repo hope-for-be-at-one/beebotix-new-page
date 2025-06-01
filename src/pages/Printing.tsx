@@ -109,10 +109,9 @@ const Printing = () => {
   };
 
   const handleSendEmail = () => {
-    // Simulate sending email
     toast({
-      title: "Quote Sent!",
-      description: `Quote ${quoteData.quoteCode} has been sent to ${formData.email}`,
+      title: "Quote Sent Successfully! 🎉",
+      description: `Quote ${quoteData.quoteCode} has been sent to our team. We'll review it and get back to you with a detailed proposal soon!`,
     });
     setShowQuotePopup(false);
   };
@@ -828,6 +827,7 @@ const Printing = () => {
           onClose={() => setShowQuotePopup(false)}
           quoteData={quoteData}
           onSendEmail={handleSendEmail}
+          projectDescription={formData.description}
         />
       )}
     </div>
