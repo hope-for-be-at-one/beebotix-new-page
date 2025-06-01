@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, Clock, Phone, Mail, AlertCircle } from "lucide-react";
+import emailjs from "emailjs-com";
 
 const PlaceOrder = () => {
   const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const [formData, setFormData] = useState({
     name: "",
@@ -25,6 +27,9 @@ const PlaceOrder = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState("");
+  
+  // Initialize EmailJS
+  emailjs.init("K9PmDAw2eoItuAJgX");
   
   // Calculate cart total
   const cartTotal = cartItems.reduce(
@@ -77,12 +82,65 @@ const PlaceOrder = () => {
     
     console.log('Order added to tracking:', newOrder);
   };
+
+  const sendOrderEmail = async (orderId: string) => {
+    const itemsList = cartItems.map(item => 
+      `${item.title} - Quantity: ${item.quantity} - Price: ₹${item.price * item.quantity}${item.customNote ? ` (Note: ${item.customNote})` : ''}`
+    ).join('\n');
+
+    const templateParams = {
+      order_id: orderId,
+      customer_name: formData.name,
+      customer_email: formData.email,
+      customer_phone: formData.phone,
+      shipping_address: formData.address,
+      additional_notes: formData.message || "None",
+      items_list: itemsList,
+      total_amount: `₹${cartTotal}`,
+      subject: `New Order Request - ${orderId}`,
+      message: `
+Order Request Details:
+
+Order ID: ${orderId}
+Customer: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Shipping Address: ${formData.address}
+
+Items Ordered:
+${itemsList}
+
+Total Amount: ₹${cartTotal}
+
+Additional Notes: ${formData.message || "None"}
+
+Please contact the customer to confirm payment and processing details.
+      `,
+      to_name: "BeeBotix Team",
+      from_name: "Order Management System"
+    };
+
+    const serviceID = "service_rwc5cf5";
+    const templateID = "template_tkr2wgr";
+
+    try {
+      await emailjs.send(serviceID, templateID, templateParams);
+      console.log('Order email sent successfully');
+    } catch (error) {
+      console.error('Failed to send order email:', error);
+      // Don't throw error, as order processing should continue
+    }
+  };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.phone || !formData.address) {
-      toast.error("Please fill in all required fields");
+      toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+      });
       return;
     }
     
@@ -90,17 +148,31 @@ const PlaceOrder = () => {
     
     const newOrderId = generateOrderId();
     
-    setTimeout(() => {
-      setOrderId(newOrderId);
-      addOrderToTracking(newOrderId);
-      setOrderPlaced(true);
-      setIsSubmitting(false);
-      clearCart();
+    try {
+      // Send email notification
+      await sendOrderEmail(newOrderId);
       
-      toast.success("Order request submitted successfully!", {
-        description: `Your order ID is ${newOrderId}`
+      // Add to tracking and show success
+      setTimeout(() => {
+        setOrderId(newOrderId);
+        addOrderToTracking(newOrderId);
+        setOrderPlaced(true);
+        setIsSubmitting(false);
+        clearCart();
+        
+        toast({
+          title: "Order Request Submitted Successfully! 🎉",
+          description: `Your order ID is ${newOrderId}. We'll contact you soon for payment and confirmation.`,
+        });
+      }, 1000);
+    } catch (error) {
+      setIsSubmitting(false);
+      toast({
+        variant: "destructive",
+        title: "Oops! Something went wrong",
+        description: "Please try again in a few minutes or reach out to us on social media. We're here to help!",
       });
-    }, 2000);
+    }
   };
   
   if (orderPlaced) {

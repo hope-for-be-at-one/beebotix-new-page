@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
@@ -8,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 import { ShoppingCart, Check } from "lucide-react";
+import emailjs from "emailjs-com";
 
 const RequestQuote = () => {
   const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const [formData, setFormData] = useState({
     name: "",
@@ -23,6 +24,9 @@ const RequestQuote = () => {
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Initialize EmailJS
+  emailjs.init("K9PmDAw2eoItuAJgX");
   
   // Calculate cart total
   const cartTotal = cartItems.reduce(
@@ -35,25 +39,78 @@ const RequestQuote = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.phone) {
-      toast.error("Please fill in all required fields");
+      toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+      });
       return;
     }
     
     setIsSubmitting(true);
-    
-    // Simulate API request
-    setTimeout(() => {
-      toast.success("Your quote request has been submitted!", {
-        description: "We'll get back to you shortly with pricing details."
+
+    const itemsList = cartItems.map(item => 
+      `${item.title} - Quantity: ${item.quantity} - Price: ₹${item.price * item.quantity}${item.customNote ? ` (Note: ${item.customNote})` : ''}`
+    ).join('\n');
+
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      additional_notes: formData.message || "None",
+      items_list: itemsList,
+      total_amount: `₹${cartTotal}`,
+      subject: `Quote Request from ${formData.name}`,
+      message: `
+Quote Request Details:
+
+Customer: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+Items for Quote:
+${itemsList}
+
+Estimated Total: ₹${cartTotal}
+
+Additional Notes: ${formData.message || "None"}
+
+Please prepare a detailed quote for the customer.
+      `,
+      to_name: "BeeBotix Team",
+      from_name: formData.name
+    };
+
+    const serviceID = "service_rwc5cf5";
+    const templateID = "template_tkr2wgr";
+
+    try {
+      await emailjs.send(serviceID, templateID, templateParams);
+      
+      toast({
+        title: "Quote Request Sent Successfully! 🎉",
+        description: "We'll review your request and get back to you with pricing details shortly.",
       });
+      
+      // Reset form and clear cart after short delay for better UX
+      setTimeout(() => {
+        clearCart();
+        navigate("/", { replace: true });
+      }, 1500);
+    } catch (error) {
+      console.error("Email.js error:", error);
+      toast({
+        variant: "destructive",
+        title: "Oops! Something went wrong",
+        description: "Please try again in a few minutes or reach out to us on social media. We're here to help!",
+      });
+    } finally {
       setIsSubmitting(false);
-      clearCart();
-      navigate("/", { replace: true });
-    }, 1500);
+    }
   };
   
   return (
