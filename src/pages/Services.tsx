@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,16 +10,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Cpu, 
-  Smartphone, 
-  Globe, 
   Bot, 
-  Lightbulb, 
-  Rocket, 
+  Code, 
+  Settings, 
+  GraduationCap, 
+  Briefcase,
   CheckCircle,
-  ArrowRight,
-  Users,
-  Clock,
-  Shield
+  Package,
+  Waves
 } from "lucide-react";
 import emailjs from "emailjs-com";
 
@@ -27,122 +27,84 @@ const Services = () => {
   const serviceData = [
     {
       id: 1,
-      title: "Web Development",
-      description: "Crafting responsive and user-friendly websites tailored to your business needs. From simple landing pages to complex e-commerce platforms, we've got you covered.",
-      icon: Globe,
+      title: "Custom PCB Design",
+      description: "Professional PCB design services for embedded systems, IoT devices, and robotics applications. From schematic design to manufacturing-ready files.",
+      icon: Cpu,
       features: [
-        "Custom website design",
-        "E-commerce solutions",
-        "SEO optimization",
-        "Mobile responsiveness",
-        "Content management systems (CMS)"
+        "Schematic design and simulation",
+        "Multi-layer PCB layout",
+        "Component selection and sourcing",
+        "Manufacturing file generation",
+        "Testing and validation"
       ]
     },
     {
       id: 2,
-      title: "Mobile App Development",
-      description: "Creating innovative and high-performance mobile applications for iOS and Android platforms. We focus on delivering seamless user experiences and robust functionality.",
-      icon: Smartphone,
+      title: "Custom Robot Prototyping",
+      description: "End-to-end robot development from concept to working prototype. Specializing in autonomous systems, manipulators, and mobile robots.",
+      icon: Bot,
       features: [
-        "Native iOS and Android apps",
-        "Cross-platform development",
-        "UI/UX design",
-        "App store deployment",
-        "Maintenance and support"
+        "Mechanical design and CAD modeling",
+        "Sensor integration and calibration",
+        "Motor control and actuation",
+        "Autonomous navigation systems",
+        "Custom chassis and enclosures"
       ]
     },
     {
       id: 3,
-      title: "Software Development",
-      description: "Building custom software solutions to streamline your business processes and enhance productivity. We specialize in creating scalable and secure applications.",
-      icon: Cpu,
+      title: "Embedded Software Development",
+      description: "Firmware and embedded software solutions for microcontrollers, SBCs, and custom hardware platforms.",
+      icon: Code,
       features: [
-        "Custom software development",
-        "Enterprise solutions",
-        "Cloud-based applications",
-        "API integration",
-        "Software consulting"
+        "Microcontroller programming (Arduino, ESP32, STM32)",
+        "Real-time operating systems (RTOS)",
+        "Communication protocols (UART, SPI, I2C, CAN)",
+        "Sensor data processing and filtering",
+        "Custom bootloaders and drivers"
       ]
     },
     {
       id: 4,
-      title: "AI & Automation",
-      description: "Implementing artificial intelligence and automation solutions to optimize your operations and drive growth. We leverage the latest technologies to deliver intelligent solutions.",
-      icon: Bot,
+      title: "White Labeling & OEM Solutions",
+      description: "Complete product development and manufacturing services for companies looking to bring robotics products to market under their brand.",
+      icon: Settings,
       features: [
-        "AI-powered solutions",
-        "Process automation",
-        "Machine learning",
-        "Chatbot development",
-        "Data analytics"
+        "Product design and development",
+        "Custom branding and packaging",
+        "Manufacturing and quality control",
+        "Technical documentation",
+        "After-sales support setup"
       ]
     },
     {
       id: 5,
-      title: "Product Design",
-      description: "Designing innovative and user-centered products that meet your business goals and customer needs. We focus on creating visually appealing and functional designs.",
-      icon: Lightbulb,
+      title: "R&D and Project Consultancy",
+      description: "Expert consultancy services for research and development projects in robotics, automation, and embedded systems.",
+      icon: Briefcase,
       features: [
-        "UI/UX design",
-        "Prototyping",
-        "User research",
-        "Branding",
-        "Design consulting"
+        "Feasibility studies and technical analysis",
+        "Technology selection and architecture",
+        "Project planning and management",
+        "Prototype development and testing",
+        "Market research and competitive analysis"
       ]
     },
     {
       id: 6,
-      title: "Digital Transformation",
-      description: "Guiding your business through digital transformation to stay competitive and relevant in today's market. We provide strategic consulting and implementation services.",
-      icon: Rocket,
+      title: "Student Project Support",
+      description: "Comprehensive guidance for B.Tech and M.Tech students on robotics and electronics projects, including report and paper writing assistance.",
+      icon: GraduationCap,
       features: [
-        "Digital strategy",
-        "Technology consulting",
-        "Change management",
-        "Innovation workshops",
-        "Training and support"
-      ]
-    },
-    {
-      id: 7,
-      title: "IT Consulting",
-      description: "Providing expert IT consulting services to help you make informed decisions and optimize your technology investments. We offer strategic guidance and practical solutions.",
-      icon: Users,
-      features: [
-        "IT strategy",
-        "Cybersecurity",
-        "Cloud solutions",
-        "Data management",
-        "Risk assessment"
-      ]
-    },
-    {
-      id: 8,
-      title: "Cybersecurity Solutions",
-      description: "Protecting your business from cyber threats with our comprehensive cybersecurity solutions. We offer proactive measures and incident response services.",
-      icon: Shield,
-      features: [
-        "Threat detection",
-        "Data encryption",
-        "Security audits",
-        "Incident response",
-        "Compliance"
-      ]
-    },
-    {
-      id: 9,
-      title: "24/7 Support",
-      description: "Providing round-the-clock support to ensure your systems are always up and running. We offer proactive monitoring and rapid response to any issues.",
-      icon: Clock,
-      features: [
-        "Remote support",
-        "On-site support",
-        "Help desk services",
-        "System monitoring",
-        "Emergency response"
+        "Project topic selection and planning",
+        "Technical implementation guidance",
+        "Report writing and documentation",
+        "Research paper preparation",
+        "Presentation and demo support"
       ]
     }
   ];
+
   const [serviceFormData, setServiceFormData] = useState({
     name: "",
     email: "",
@@ -249,27 +211,48 @@ ${serviceFormData.requirements}
         <div className="container-custom">
           <div className="text-center mb-16">
             <h1 className="heading-lg mb-6">Our Services</h1>
-            <p className="text-beebotix-gray-dark text-lg max-w-3xl mx-auto">
-              Explore our wide range of services designed to help your business thrive in the digital age. 
-              From web and mobile app development to AI and cybersecurity solutions, we have the expertise 
-              to bring your vision to life.
+            <p className="text-beebotix-gray-dark text-lg max-w-3xl mx-auto mb-8">
+              Specializing in robotics, embedded systems, and custom hardware solutions. 
+              From PCB design to complete robot prototyping, we bring your innovative ideas to life.
             </p>
+            
+            {/* Order Tracking Button */}
+            <div className="mb-8">
+              <Link to="/order-tracking">
+                <Button className="bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy font-semibold px-8 py-3">
+                  <Package className="h-5 w-5 mr-2" />
+                  Track Your Order
+                </Button>
+              </Link>
+            </div>
+
+            {/* Long-term Vision */}
+            <div className="bg-gradient-to-r from-blue-50 to-beebotix-yellow/10 rounded-lg p-6 max-w-2xl mx-auto">
+              <div className="flex items-center justify-center mb-4">
+                <Waves className="h-8 w-8 text-blue-600 mr-3" />
+                <h3 className="text-xl font-bold text-beebotix-navy">Our Vision</h3>
+              </div>
+              <p className="text-beebotix-gray-dark">
+                Our long-term goal is to explore the underwater world through advanced robotics and 
+                autonomous systems, pushing the boundaries of marine technology and ocean exploration.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {serviceData.map(service => (
-              <Card key={service.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <Card key={service.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 border-l-beebotix-yellow">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4 mb-4">
                     <service.icon className="h-8 w-8 text-beebotix-yellow" />
-                    <h2 className="text-xl font-bold">{service.title}</h2>
+                    <h2 className="text-xl font-bold text-beebotix-navy">{service.title}</h2>
                   </div>
                   <p className="text-beebotix-gray-dark mb-4">{service.description}</p>
                   <ul className="list-none space-y-2">
                     {service.features.map((feature, index) => (
                       <li key={index} className="flex items-center gap-2 text-beebotix-gray-dark">
-                        <CheckCircle className="h-4 w-4 text-green-500" />
-                        <span>{feature}</span>
+                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <span className="text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -280,7 +263,7 @@ ${serviceFormData.requirements}
 
           <div className="mt-16">
             <h2 className="heading-md mb-8 text-center">Request a Service</h2>
-            <Card className="shadow-lg">
+            <Card className="shadow-lg max-w-4xl mx-auto">
               <CardContent className="p-8">
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>

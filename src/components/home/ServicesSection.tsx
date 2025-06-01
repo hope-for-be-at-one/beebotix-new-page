@@ -3,44 +3,44 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Bot, Box, Wrench, Settings, Briefcase, GraduationCap } from "lucide-react";
+import { Cpu, Bot, Code, Settings, Briefcase, GraduationCap, Box, Package } from "lucide-react";
 
 const services = [
   {
-    title: "Development Boards",
-    description: "Custom and standard development boards for industry, hobbyists, and innovators.",
+    title: "Custom PCB Design",
+    description: "Professional PCB design services for embedded systems, IoT devices, and robotics applications.",
+    icon: <Cpu className="h-8 w-8 text-beebotix-yellow" />,
+    link: "/services#pcb-design"
+  },
+  {
+    title: "Custom Robot Prototyping",
+    description: "End-to-end robot development from concept to working prototype, specializing in autonomous systems.",
     icon: <Bot className="h-8 w-8 text-beebotix-yellow" />,
-    link: "/services#development-boards"
+    link: "/services#robot-prototyping"
   },
   {
-    title: "Custom Robots & Embedded Systems",
-    description: "Fully tailored robotic solutions and embedded systems designed to your specifications.",
-    icon: <Bot className="h-8 w-8 text-beebotix-yellow" />,
-    link: "/services#custom-robots"
+    title: "Embedded Software Development",
+    description: "Firmware and embedded software solutions for microcontrollers, SBCs, and custom hardware platforms.",
+    icon: <Code className="h-8 w-8 text-beebotix-yellow" />,
+    link: "/services#embedded-software"
   },
   {
-    title: "3D Printing Services",
-    description: "High-quality 3D printing in PLA, PETG, TPU materials with 20x20x25cm bed size.",
-    icon: <Box className="h-8 w-8 text-beebotix-yellow" />,
-    link: "/3d-printing"
+    title: "White Labeling & OEM",
+    description: "Complete product development and manufacturing services for companies bringing robotics products to market.",
+    icon: <Settings className="h-8 w-8 text-beebotix-yellow" />,
+    link: "/services#white-labeling"
   },
   {
-    title: "BeeBotix Product Line",
-    description: "Our proprietary products and development boards for robotics enthusiasts.",
-    icon: <Box className="h-8 w-8 text-beebotix-yellow" />,
-    link: "/marketplace"
-  },
-  {
-    title: "Academic Project Support",
-    description: "Expert guidance for B.Tech and M.Tech students on robotics and electronics projects and papers.",
-    icon: <GraduationCap className="h-8 w-8 text-beebotix-yellow" />,
-    link: "/services#academic"
-  },
-  {
-    title: "Consultancy Services",
-    description: "Expert consultancy in robotics, R&D, product development, and embedded software.",
+    title: "R&D and Project Consultancy",
+    description: "Expert consultancy services for research and development projects in robotics and automation.",
     icon: <Briefcase className="h-8 w-8 text-beebotix-yellow" />,
     link: "/services#consultancy"
+  },
+  {
+    title: "Student Project Support",
+    description: "Comprehensive guidance for B.Tech and M.Tech students on robotics projects, reports, and papers.",
+    icon: <GraduationCap className="h-8 w-8 text-beebotix-yellow" />,
+    link: "/services#student-support"
   }
 ];
 
@@ -81,7 +81,7 @@ const ServicesSection = () => {
           </h2>
           <div className="w-20 h-1 bg-beebotix-yellow mx-auto mb-6"></div>
           <p className="text-beebotix-gray-dark text-lg">
-            Comprehensive robotics solutions tailored to your needs, from development boards to custom systems.
+            Comprehensive robotics and embedded systems solutions tailored to your needs, from PCB design to complete robot prototyping.
           </p>
         </div>
 
@@ -117,10 +117,16 @@ const ServicesSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-12 text-center space-y-4">
           <Link to="/services">
-            <Button className="button-primary">
+            <Button className="button-primary mr-4">
               View All Services
+            </Button>
+          </Link>
+          <Link to="/order-tracking">
+            <Button className="bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy">
+              <Package className="h-4 w-4 mr-2" />
+              Track Your Order
             </Button>
           </Link>
         </div>
