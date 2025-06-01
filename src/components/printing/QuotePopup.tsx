@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { X, Mail, Calculator, AlertTriangle } from 'lucide-react';
+import { toast } from "@/hooks/use-toast";
+import emailjs from "emailjs-com";
 
 interface QuotePopupProps {
   isOpen: boolean;
@@ -19,6 +21,59 @@ interface QuotePopupProps {
 }
 
 const QuotePopup: React.FC<QuotePopupProps> = ({ isOpen, onClose, quoteData, onSendEmail }) => {
+  // Initialize EmailJS
+  emailjs.init("K9PmDAw2eoItuAJgX");
+
+  const handleSendEmail = async () => {
+    const templateParams = {
+      quote_code: quoteData.quoteCode,
+      material: quoteData.material,
+      dimensions: `${quoteData.length} × ${quoteData.width} × ${quoteData.height} cm`,
+      estimated_weight: `${quoteData.weight}g`,
+      estimated_time: quoteData.estimatedTime,
+      estimated_cost: `₹${quoteData.estimatedCost}`,
+      subject: `3D Printing Quote Request - ${quoteData.quoteCode}`,
+      message: `
+3D Printing Quote Request Details:
+
+Quote Code: ${quoteData.quoteCode}
+Material: ${quoteData.material}
+Dimensions: ${quoteData.length} × ${quoteData.width} × ${quoteData.height} cm
+Estimated Weight: ${quoteData.weight}g
+Estimated Time: ${quoteData.estimatedTime}
+Estimated Cost: ₹${quoteData.estimatedCost} (+ taxes & shipping)
+
+Note: This is a basic formula-based calculation. Actual pricing may vary based on complexity, design requirements, and current material costs.
+
+Please contact the client with a detailed quote and next steps.
+      `,
+      to_name: "BeeBotix Team",
+      from_name: "3D Printing Quote System"
+    };
+
+    const serviceID = "service_rwc5cf5";
+    const templateID = "template_tkr2wgr";
+
+    try {
+      await emailjs.send(serviceID, templateID, templateParams);
+      
+      toast({
+        title: "Quote Sent Successfully! 📧",
+        description: "Your 3D printing quote has been sent to our team. We'll review it and get back to you with a detailed proposal soon!",
+      });
+      
+      onSendEmail();
+      onClose();
+    } catch (error) {
+      console.error("Email.js error:", error);
+      toast({
+        title: "Oops! Something went wrong",
+        description: "Please try again in a few minutes or reach out to us on social media. We're here to help!",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -111,7 +166,7 @@ const QuotePopup: React.FC<QuotePopupProps> = ({ isOpen, onClose, quoteData, onS
           {/* Actions */}
           <div className="flex gap-3">
             <button
-              onClick={onSendEmail}
+              onClick={handleSendEmail}
               className="flex-1 bg-beebotix-navy hover:bg-beebotix-navy/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Mail className="h-4 w-4" />

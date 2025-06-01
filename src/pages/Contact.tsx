@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Globe } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import emailjs from "emailjs-com";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +20,9 @@ const Contact = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Initialize EmailJS
+  emailjs.init("K9PmDAw2eoItuAJgX");
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -29,24 +33,45 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      to_name: "BeeBotix Team",
+    };
+
+    const serviceID = "service_rwc5cf5";
+    const templateID = "template_tkr2wgr";
+
+    try {
+      await emailjs.send(serviceID, templateID, templateParams);
+      
       toast({
-        title: "Message Sent",
-        description: "Thanks for contacting us! We'll get back to you soon.",
+        title: "Message Sent Successfully! 🎉",
+        description: "Thank you for contacting us! We've received your message and will get back to you soon.",
       });
+      
       setFormData({
         name: "",
         email: "",
         subject: "",
         message: "",
       });
-    }, 1500);
+    } catch (error) {
+      console.error("Email.js error:", error);
+      toast({
+        title: "Oops! Something went wrong",
+        description: "Please try again in a few minutes or reach out to us on social media. We're here to help!",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

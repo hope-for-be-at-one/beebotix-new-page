@@ -22,9 +22,22 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
+import emailjs from "emailjs-com";
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState("pcb");
+  const [serviceFormData, setServiceFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    service: "",
+    message: ""
+  });
+  const [isSubmittingService, setIsSubmittingService] = useState(false);
+
+  // Initialize EmailJS
+  emailjs.init("K9PmDAw2eoItuAJgX");
   
   const services = [
     {
@@ -173,6 +186,75 @@ const Services = () => {
   // Handle tab change
   const handleTabChange = (id: string) => {
     setActiveTab(id);
+  };
+
+  const handleServiceFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setServiceFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleServiceFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmittingService(true);
+
+    const selectedService = services.find(s => s.id === serviceFormData.service)?.title || serviceFormData.service;
+
+    const templateParams = {
+      from_name: serviceFormData.name,
+      from_email: serviceFormData.email,
+      company: serviceFormData.company,
+      service_type: selectedService,
+      project_description: serviceFormData.message,
+      subject: `Service Request: ${selectedService}`,
+      message: `
+New Service Request Details:
+
+Name: ${serviceFormData.name}
+Email: ${serviceFormData.email}
+Company: ${serviceFormData.company}
+Service Interested In: ${selectedService}
+
+Project Description:
+${serviceFormData.message}
+
+Please contact this client to discuss their project requirements.
+      `,
+      to_name: "BeeBotix Team",
+    };
+
+    const serviceID = "service_rwc5cf5";
+    const templateID = "template_tkr2wgr";
+
+    try {
+      await emailjs.send(serviceID, templateID, templateParams);
+      
+      toast({
+        title: "Request Submitted Successfully! 🎉",
+        description: "Thank you for your interest! We've received your service request and will get back to you within 24 hours to discuss your project.",
+      });
+      
+      setServiceFormData({
+        name: "",
+        email: "",
+        company: "",
+        service: "",
+        message: ""
+      });
+    } catch (error) {
+      console.error("Email.js error:", error);
+      toast({
+        title: "Oops! Something went wrong",
+        description: "Please try again in a few minutes or reach out to us on social media. We're here to help!",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingService(false);
+    }
   };
 
   return (
@@ -420,19 +502,36 @@ const Services = () => {
                     We'll get back to you within 24 hours.
                   </p>
                   
-                  <form className="space-y-4">
+                  <form onSubmit={handleServiceFormSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="name" className="block text-white/90 text-sm font-medium mb-1">
                           Name
                         </label>
-                        <Input id="name" placeholder="Your name" className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
+                        <Input 
+                          id="name" 
+                          name="name"
+                          value={serviceFormData.name}
+                          onChange={handleServiceFormChange}
+                          placeholder="Your name" 
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/50" 
+                          required
+                        />
                       </div>
                       <div>
                         <label htmlFor="email" className="block text-white/90 text-sm font-medium mb-1">
                           Email
                         </label>
-                        <Input id="email" type="email" placeholder="your@email.com" className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
+                        <Input 
+                          id="email" 
+                          name="email"
+                          type="email"
+                          value={serviceFormData.email}
+                          onChange={handleServiceFormChange}
+                          placeholder="your@email.com" 
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/50" 
+                          required
+                        />
                       </div>
                     </div>
                     
@@ -440,7 +539,14 @@ const Services = () => {
                       <label htmlFor="company" className="block text-white/90 text-sm font-medium mb-1">
                         Company
                       </label>
-                      <Input id="company" placeholder="Your company" className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
+                      <Input 
+                        id="company" 
+                        name="company"
+                        value={serviceFormData.company}
+                        onChange={handleServiceFormChange}
+                        placeholder="Your company" 
+                        className="bg-white/10 border-white/20 text-white placeholder:text-white/50" 
+                      />
                     </div>
                     
                     <div>
@@ -449,15 +555,19 @@ const Services = () => {
                       </label>
                       <select
                         id="service"
+                        name="service"
+                        value={serviceFormData.service}
+                        onChange={handleServiceFormChange}
                         className="w-full rounded-md border border-white/20 bg-white/10 text-white py-2 px-3"
+                        required
                       >
                         <option value="" disabled>Select a service</option>
                         {services.map(service => (
-                          <option key={service.id} value={service.id}>
+                          <option key={service.id} value={service.id} className="text-black">
                             {service.title}
                           </option>
                         ))}
-                        <option value="multiple">Multiple Services</option>
+                        <option value="multiple" className="text-black">Multiple Services</option>
                       </select>
                     </div>
                     
@@ -467,13 +577,17 @@ const Services = () => {
                       </label>
                       <Textarea 
                         id="message" 
+                        name="message"
+                        value={serviceFormData.message}
+                        onChange={handleServiceFormChange}
                         placeholder="Tell us about your project and requirements..." 
                         className="min-h-[120px] bg-white/10 border-white/20 text-white placeholder:text-white/50" 
+                        required
                       />
                     </div>
                     
-                    <Button type="submit" className="button-primary w-full">
-                      Submit Request
+                    <Button type="submit" disabled={isSubmittingService} className="button-primary w-full">
+                      {isSubmittingService ? "Submitting..." : "Submit Request"}
                     </Button>
                   </form>
                 </div>
