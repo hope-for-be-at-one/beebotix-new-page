@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CartProvider } from "@/hooks/useCart";
 import { Toaster } from "@/components/ui/sonner";
+import { useState } from "react";
 import ScrollToTop from "@/components/utils/ScrollToTop";
 import Home from "@/pages/Index";
 import About from "@/pages/Index";
@@ -21,9 +22,17 @@ import OurStories from "@/pages/OurStories";
 import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
-const queryClient = new QueryClient();
-
 function App() {
+  // Create QueryClient instance only once using useState
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        retry: 1,
+      },
+    },
+  }));
+
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
