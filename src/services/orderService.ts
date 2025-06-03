@@ -12,11 +12,12 @@ export interface Order {
   timeline: TimelineItem[];
 }
 
-// Generate random tracking ID
+// Generate random tracking ID with timestamp to ensure uniqueness
 export const generateTrackingId = (): string => {
   const prefix = "BB";
-  const randomNum = Math.floor(Math.random() * 1000000000).toString().padStart(9, '0');
-  return prefix + randomNum;
+  const timestamp = Date.now().toString().slice(-8); // Last 8 digits of timestamp
+  const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+  return prefix + timestamp + randomNum;
 };
 
 // Calculate estimated delivery (3-5 days from now)
@@ -49,6 +50,8 @@ export const createOrder = async (items: OrderItem[], shippingAddress: any): Pro
     ]
   };
 
+  console.log('Attempting to create order with data:', orderData);
+
   const { data, error } = await supabase
     .from('orders')
     .insert([orderData])
@@ -57,8 +60,10 @@ export const createOrder = async (items: OrderItem[], shippingAddress: any): Pro
 
   if (error) {
     console.error('Error creating order:', error);
-    throw error;
+    throw new Error(`Failed to create order: ${error.message}`);
   }
+
+  console.log('Order created successfully:', data);
 
   // Convert database format to frontend format
   const newOrder: Order = {
