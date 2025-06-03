@@ -19,6 +19,8 @@ import PlaceOrder from "@/pages/PlaceOrder";
 import OrderTracking from "@/pages/OrderTracking";
 import Classroom from "@/pages/Classroom";
 import OurStories from "@/pages/OurStories";
+import TermsOfService from "@/pages/TermsOfService";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +47,8 @@ function App() {
               <Route path="/order-tracking" element={<OrderTracking />} />
               <Route path="/classroom" element={<Classroom />} />
               <Route path="/our-stories" element={<OurStories />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             </Routes>
           </div>
           <Toaster />

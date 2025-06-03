@@ -5,7 +5,6 @@ import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { 
   Search, 
@@ -14,7 +13,7 @@ import {
   FileText, 
   ChevronRight, 
   Grid2x2, 
-  Image as ImageIcon
+  Star
 } from "lucide-react";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Link } from "react-router-dom";
@@ -33,7 +32,7 @@ interface Product {
 }
 
 const Marketplace = () => {
-  // Sample data - in a real app, this would come from an API
+  // Sample data with INR pricing
   const products: Product[] = [
     {
       id: 1,
@@ -50,7 +49,7 @@ const Marketplace = () => {
         "USB-C Power and Data",
         "Compatible with Arduino IDE"
       ],
-      price: 79.99,
+      price: 6599,
       category: "Dev Boards",
       tags: ["Bestseller", "Customizable"],
       featured: true
@@ -70,7 +69,7 @@ const Marketplace = () => {
         "3.3V Logic",
         "Ultra-low power sleep mode"
       ],
-      price: 39.99,
+      price: 3299,
       category: "Embedded Modules",
       tags: ["New"],
       featured: true
@@ -90,7 +89,7 @@ const Marketplace = () => {
         "Line Following Sensors",
         "USB Cable and Battery Pack"
       ],
-      price: 119.99,
+      price: 9899,
       category: "Robotics Kits",
       tags: ["Educational", "Bestseller"],
       featured: true
@@ -110,7 +109,7 @@ const Marketplace = () => {
         "WiFi 6 & Bluetooth 5.1",
         "Compatible with Alexa & Google Assistant"
       ],
-      price: 149.99,
+      price: 12399,
       category: "BeeBotix Originals",
       tags: ["Coming Soon"],
       featured: false
@@ -130,7 +129,7 @@ const Marketplace = () => {
         "Relay Module",
         "LED Matrix Display"
       ],
-      price: 89.99,
+      price: 7399,
       category: "Dev Boards",
       tags: ["Customizable"],
       featured: false
@@ -150,7 +149,7 @@ const Marketplace = () => {
         "Frame and Propellers",
         "Programming Guide"
       ],
-      price: 199.99,
+      price: 16499,
       category: "Robotics Kits",
       tags: ["Advanced", "New"],
       featured: true
@@ -205,9 +204,9 @@ const Marketplace = () => {
             <section className="mb-16">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="heading-md">Featured Products</h2>
-                <Link to="#all-products" className="flex items-center text-beebotix-orange hover:text-beebotix-yellow transition-colors">
+                <a href="#all-products" className="flex items-center text-beebotix-orange hover:text-beebotix-yellow transition-colors">
                   View All <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
+                </a>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -220,25 +219,17 @@ const Marketplace = () => {
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute top-2 right-2 flex flex-wrap gap-1">
-                        {product.tags.map(tag => {
-                          let bgColor = "bg-gray-200 text-gray-800";
-                          if (tag === "Bestseller") bgColor = "bg-green-100 text-green-800";
-                          if (tag === "New") bgColor = "bg-blue-100 text-blue-800";
-                          if (tag === "Coming Soon") bgColor = "bg-purple-100 text-purple-800";
-                          if (tag === "Customizable") bgColor = "bg-yellow-100 text-yellow-800";
-                          
-                          return (
-                            <span key={tag} className={`${bgColor} text-xs font-medium px-2 py-1 rounded`}>
-                              {tag}
-                            </span>
-                          );
-                        })}
+                        {product.tags.map(tag => (
+                          <Badge key={tag} variant="secondary" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
                       </div>
                     </div>
                     <CardContent className="p-4">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="font-bold text-lg line-clamp-1">{product.title}</h3>
-                        <span className="font-bold text-beebotix-orange">${product.price.toFixed(2)}</span>
+                        <span className="font-bold text-beebotix-orange">₹{product.price.toLocaleString()}</span>
                       </div>
                       <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                         {product.description}
@@ -246,7 +237,7 @@ const Marketplace = () => {
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-beebotix-gray-dark">{product.category}</span>
                         <Button className="button-primary">
-                          <ShoppingCart className="h-4 w-4 mr-2" /> Order Now
+                          <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
                         </Button>
                       </div>
                     </CardContent>
@@ -318,41 +309,23 @@ const Marketplace = () => {
               {sortedProducts.length > 0 ? sortedProducts.map((product) => (
                 <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="relative h-48 bg-gray-100">
-                    <div className="absolute inset-0 flex items-center">
-                      <img 
-                        src={product.images[0]} 
-                        alt={product.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                    <img 
+                      src={product.images[0]} 
+                      alt={product.title}
+                      className="w-full h-full object-cover"
+                    />
                     <div className="absolute top-2 right-2 flex flex-wrap gap-1">
-                      {product.tags.map(tag => {
-                        let bgColor = "bg-gray-200 text-gray-800";
-                        if (tag === "Bestseller") bgColor = "bg-green-100 text-green-800";
-                        if (tag === "New") bgColor = "bg-blue-100 text-blue-800";
-                        if (tag === "Coming Soon") bgColor = "bg-purple-100 text-purple-800";
-                        if (tag === "Customizable") bgColor = "bg-yellow-100 text-yellow-800";
-                        if (tag === "Educational") bgColor = "bg-red-100 text-red-800";
-                        if (tag === "Advanced") bgColor = "bg-indigo-100 text-indigo-800";
-                        
-                        return (
-                          <span key={tag} className={`${bgColor} text-xs font-medium px-2 py-1 rounded`}>
-                            {tag}
-                          </span>
-                        );
-                      })}
+                      {product.tags.map(tag => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
                     </div>
-                    <Button 
-                      className="absolute bottom-2 right-2 bg-white/80 hover:bg-white text-black border border-gray-200 rounded-full p-1 h-auto w-auto"
-                      variant="ghost"
-                    >
-                      <ImageIcon className="h-4 w-4" />
-                    </Button>
                   </div>
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-bold text-lg line-clamp-1">{product.title}</h3>
-                      <span className="font-bold text-beebotix-orange">${product.price.toFixed(2)}</span>
+                      <span className="font-bold text-beebotix-orange">₹{product.price.toLocaleString()}</span>
                     </div>
                     <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                       {product.description}
@@ -361,7 +334,7 @@ const Marketplace = () => {
                       <HoverCard>
                         <HoverCardTrigger asChild>
                           <Button variant="outline" size="sm" className="text-xs gap-1">
-                            <FileText className="h-3 w-3" /> View Specifications
+                            <FileText className="h-3 w-3" /> View Specs
                           </Button>
                         </HoverCardTrigger>
                         <HoverCardContent>
@@ -370,16 +343,11 @@ const Marketplace = () => {
                             <ul className="text-sm space-y-1">
                               {product.specs.map((spec, index) => (
                                 <li key={index} className="flex items-center">
-                                  <span className="h-1 w-1 rounded-full bg-beebotix-orange mr-2"></span>
+                                  <Star className="h-3 w-3 text-beebotix-orange mr-2" />
                                   {spec}
                                 </li>
                               ))}
                             </ul>
-                            <div className="mt-3">
-                              <Button variant="outline" size="sm" className="text-xs w-full">
-                                Download PDF
-                              </Button>
-                            </div>
                           </div>
                         </HoverCardContent>
                       </HoverCard>
@@ -387,7 +355,7 @@ const Marketplace = () => {
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-beebotix-gray-dark">{product.category}</span>
                       <Button className="button-primary">
-                        <ShoppingCart className="h-4 w-4 mr-2" /> Order Now
+                        <ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart
                       </Button>
                     </div>
                   </CardContent>

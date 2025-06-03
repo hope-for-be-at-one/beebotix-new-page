@@ -1,0 +1,43 @@
+
+{
+  "title": "Trusted by Industry Leaders",
+  "description": "Our technology and services are trusted by leading companies worldwide",
+  "partners": [
+    {
+      "id": 1,
+      "name": "Tech Innovations Ltd",
+      "logo": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      "website": "https://techinnovations.com"
+    },
+    {
+      "id": 2,
+      "name": "Robotics Corp",
+      "logo": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      "website": "https://roboticscorp.com"
+    },
+    {
+      "id": 3,
+      "name": "IoT Solutions Inc",
+      "logo": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      "website": "https://iotsolutions.com"
+    },
+    {
+      "id": 4,
+      "name": "AutoTech Systems",
+      "logo": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      "website": "https://autotech.com"
+    },
+    {
+      "id": 5,
+      "name": "Smart Manufacturing",
+      "logo": "https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      "website": "https://smartmanufacturing.com"
+    },
+    {
+      "id": 6,
+      "name": "Future Labs",
+      "logo": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      "website": "https://futurelabs.com"
+    }
+  ]
+}

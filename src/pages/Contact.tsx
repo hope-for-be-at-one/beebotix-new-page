@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -6,7 +7,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { MapPin, Phone, Mail, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, CheckCircle2, Download } from "lucide-react";
+import LocationMap from "@/components/contact/LocationMap";
+import SponsorSection from "@/components/contact/SponsorSection";
 import emailjs from "emailjs-com";
 
 const Contact = () => {
@@ -80,6 +83,17 @@ const Contact = () => {
     }
   };
 
+  const downloadBrochure = () => {
+    // Create a sample PDF URL - in a real app, this would be a link to your actual brochure
+    const brochureUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+    window.open(brochureUrl, '_blank');
+    
+    toast({
+      title: "Brochure Download Started",
+      description: "Your BeeBotix brochure download has begun!",
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -87,10 +101,19 @@ const Contact = () => {
         <div className="container-custom">
           <div className="text-center mb-16">
             <h1 className="heading-lg mb-6">Get in Touch</h1>
-            <p className="text-beebotix-gray-dark text-lg max-w-2xl mx-auto">
+            <p className="text-beebotix-gray-dark text-lg max-w-2xl mx-auto mb-8">
               Have questions about our services? Want to discuss a project? 
               We'd love to hear from you and help bring your ideas to life.
             </p>
+            
+            {/* Download Brochure Button */}
+            <Button 
+              onClick={downloadBrochure}
+              className="bg-beebotix-orange hover:bg-beebotix-orange/80 text-white mb-8"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Download Our Brochure
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -251,6 +274,16 @@ const Contact = () => {
                 </CardContent>
               </Card>
             </div>
+          </div>
+
+          {/* Location Map */}
+          <div className="mt-16">
+            <LocationMap />
+          </div>
+
+          {/* Sponsor Section */}
+          <div className="mt-16">
+            <SponsorSection />
           </div>
         </div>
       </main>
