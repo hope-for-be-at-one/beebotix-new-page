@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Search, Package, Truck, CheckCircle, Clock, MapPin, XCircle } from "lucide-react";
+import { getOrderByTrackingId } from "@/services/orderService";
+import type { Order } from "@/services/orderService";
 import orderTrackingData from "@/metadata/orderTracking.json";
 
 interface OrderStatus {
@@ -34,10 +36,10 @@ interface OrderStatus {
 
 const OrderTracking = () => {
   const [trackingId, setTrackingId] = useState("");
-  const [orderStatus, setOrderStatus] = useState<OrderStatus | null>(null);
+  const [orderStatus, setOrderStatus] = useState<Order | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   
-  const handleTrackOrder = () => {
+  const handleTrackOrder = async () => {
     if (!trackingId.trim()) {
       toast.error("Please enter a tracking ID");
       return;
@@ -45,13 +47,8 @@ const OrderTracking = () => {
     
     setIsSearching(true);
     
-    setTimeout(() => {
-      const localOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
-      const allOrders = [...localOrders, ...orderTrackingData.sampleOrders];
-      
-      const foundOrder = allOrders.find(
-        order => order.trackingId.toLowerCase() === trackingId.toLowerCase()
-      );
+    try {
+      const foundOrder = await getOrderByTrackingId(trackingId.trim());
       
       if (foundOrder) {
         setOrderStatus(foundOrder);
@@ -60,8 +57,13 @@ const OrderTracking = () => {
         toast.error("Order not found. Please check your tracking ID.");
         setOrderStatus(null);
       }
+    } catch (error) {
+      console.error('Error tracking order:', error);
+      toast.error("Error tracking order. Please try again.");
+      setOrderStatus(null);
+    } finally {
       setIsSearching(false);
-    }, 1000);
+    }
   };
   
   const getStatusColor = (status: string) => {

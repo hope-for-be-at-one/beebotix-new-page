@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, Clock, Phone, Mail, AlertCircle } from "lucide-react";
+import { createOrder } from "@/services/orderService";
 import emailjs from "emailjs-com";
 
 const PlaceOrder = () => {
@@ -49,38 +50,36 @@ const PlaceOrder = () => {
     return `${prefix}${timestamp.slice(-6)}${random}`;
   };
 
-  const addOrderToTracking = (orderId: string) => {
-    const newOrder = {
-      trackingId: orderId,
-      orderDate: new Date().toISOString().split('T')[0],
-      status: "confirmed",
-      estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      items: cartItems.map(item => ({
-        name: item.title,
-        quantity: item.quantity,
-        price: item.price
-      })),
-      shippingAddress: {
-        name: formData.name,
-        address: formData.address,
-        city: "City",
-        state: "State",
-        pincode: "000000"
-      },
-      timeline: [
-        {
-          status: "confirmed",
-          timestamp: new Date().toISOString(),
-          message: "Order request received and under review"
-        }
-      ]
-    };
+  const addOrderToTracking = async (items: any[], shippingData: any) => {
+    try {
+      const order = await createOrder(items, shippingData);
+      console.log('Order created in Supabase:', order);
+      return order.trackingId;
+    } catch (error) {
+      console.error('Failed to create order in Supabase:', error);
+      // Fallback to localStorage as before
+      const newOrder = {
+        trackingId: generateOrderId(),
+        orderDate: new Date().toISOString().split('T')[0],
+        status: "confirmed",
+        estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        items: items,
+        shippingAddress: shippingData,
+        timeline: [
+          {
+            status: "confirmed",
+            timestamp: new Date().toISOString(),
+            message: "Order request received and under review"
+          }
+        ]
+      };
 
-    const existingOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
-    existingOrders.push(newOrder);
-    localStorage.setItem('beebotix_orders', JSON.stringify(existingOrders));
-    
-    console.log('Order added to tracking:', newOrder);
+      const existingOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
+      existingOrders.push(newOrder);
+      localStorage.setItem('beebotix_orders', JSON.stringify(existingOrders));
+      
+      return newOrder.trackingId;
+    }
   };
 
   const sendOrderEmail = async (orderId: string) => {
@@ -146,16 +145,30 @@ Please contact the customer to confirm payment and processing details.
     
     setIsSubmitting(true);
     
-    const newOrderId = generateOrderId();
-    
     try {
+      const orderItems = cartItems.map(item => ({
+        name: item.title,
+        quantity: item.quantity,
+        price: item.price
+      }));
+
+      const shippingData = {
+        name: formData.name,
+        address: formData.address,
+        city: "City",
+        state: "State",
+        pincode: "000000"
+      };
+
+      // Create order in Supabase
+      const newOrderId = await addOrderToTracking(orderItems, shippingData);
+      
       // Send email notification
       await sendOrderEmail(newOrderId);
       
-      // Add to tracking and show success
+      // Show success
       setTimeout(() => {
         setOrderId(newOrderId);
-        addOrderToTracking(newOrderId);
         setOrderPlaced(true);
         setIsSubmitting(false);
         clearCart();

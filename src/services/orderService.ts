@@ -1,11 +1,6 @@
 
+import { supabase, type DatabaseOrder, type OrderItem, type ShippingAddress, type TimelineItem } from "@/lib/supabase";
 import orderTrackingData from "@/metadata/orderTracking.json";
-
-export interface OrderItem {
-  name: string;
-  quantity: number;
-  price: number;
-}
 
 export interface Order {
   trackingId: string;
@@ -13,18 +8,8 @@ export interface Order {
   status: string;
   estimatedDelivery: string;
   items: OrderItem[];
-  shippingAddress: {
-    name: string;
-    address: string;
-    city: string;
-    state: string;
-    pincode: string;
-  };
-  timeline: {
-    status: string;
-    timestamp: string;
-    message: string;
-  }[];
+  shippingAddress: ShippingAddress;
+  timeline: TimelineItem[];
 }
 
 // Generate random tracking ID
@@ -42,19 +27,19 @@ export const calculateEstimatedDelivery = (): string => {
   return deliveryDate.toISOString().split('T')[0];
 };
 
-// Create new order
-export const createOrder = (items: OrderItem[], shippingAddress: any): Order => {
+// Create new order in Supabase
+export const createOrder = async (items: OrderItem[], shippingAddress: any): Promise<Order> => {
   const trackingId = generateTrackingId();
   const orderDate = new Date().toISOString().split('T')[0];
   const estimatedDelivery = calculateEstimatedDelivery();
   
-  const newOrder: Order = {
-    trackingId,
-    orderDate,
+  const orderData = {
+    tracking_id: trackingId,
+    order_date: orderDate,
     status: "confirmed",
-    estimatedDelivery,
+    estimated_delivery: estimatedDelivery,
     items,
-    shippingAddress,
+    shipping_address: shippingAddress,
     timeline: [
       {
         status: "confirmed",
@@ -64,31 +49,92 @@ export const createOrder = (items: OrderItem[], shippingAddress: any): Order => 
     ]
   };
 
-  // Store in localStorage for now (in future, this will be API call)
-  const existingOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
-  existingOrders.push(newOrder);
-  localStorage.setItem('beebotix_orders', JSON.stringify(existingOrders));
+  const { data, error } = await supabase
+    .from('orders')
+    .insert([orderData])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating order:', error);
+    throw error;
+  }
+
+  // Convert database format to frontend format
+  const newOrder: Order = {
+    trackingId: data.tracking_id,
+    orderDate: data.order_date,
+    status: data.status,
+    estimatedDelivery: data.estimated_delivery || estimatedDelivery,
+    items: data.items,
+    shippingAddress: data.shipping_address,
+    timeline: data.timeline
+  };
 
   return newOrder;
 };
 
-// Get order by tracking ID
-export const getOrderByTrackingId = (trackingId: string): Order | null => {
-  // First check localStorage
-  const localOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
-  const localOrder = localOrders.find((order: Order) => order.trackingId === trackingId);
-  
-  if (localOrder) {
-    return localOrder;
-  }
+// Get order by tracking ID from Supabase
+export const getOrderByTrackingId = async (trackingId: string): Promise<Order | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('orders')
+      .select('*')
+      .eq('tracking_id', trackingId)
+      .single();
 
-  // Fallback to sample orders from JSON
-  const sampleOrder = orderTrackingData.sampleOrders.find(order => order.trackingId === trackingId);
-  return sampleOrder || null;
+    if (error) {
+      console.log('Order not found in Supabase, checking sample orders');
+      // Fallback to sample orders from JSON
+      const sampleOrder = orderTrackingData.sampleOrders.find(order => order.trackingId === trackingId);
+      return sampleOrder || null;
+    }
+
+    // Convert database format to frontend format
+    const order: Order = {
+      trackingId: data.tracking_id,
+      orderDate: data.order_date,
+      status: data.status,
+      estimatedDelivery: data.estimated_delivery || '',
+      items: data.items,
+      shippingAddress: data.shipping_address,
+      timeline: data.timeline
+    };
+
+    return order;
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    return null;
+  }
 };
 
-// Get all orders
-export const getAllOrders = (): Order[] => {
-  const localOrders = JSON.parse(localStorage.getItem('beebotix_orders') || '[]');
-  return [...localOrders, ...orderTrackingData.sampleOrders];
+// Get all orders from Supabase
+export const getAllOrders = async (): Promise<Order[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching orders:', error);
+      return orderTrackingData.sampleOrders;
+    }
+
+    // Convert database format to frontend format
+    const orders: Order[] = data.map((dbOrder: DatabaseOrder) => ({
+      trackingId: dbOrder.tracking_id,
+      orderDate: dbOrder.order_date,
+      status: dbOrder.status,
+      estimatedDelivery: dbOrder.estimated_delivery || '',
+      items: dbOrder.items,
+      shippingAddress: dbOrder.shipping_address,
+      timeline: dbOrder.timeline
+    }));
+
+    return [...orders, ...orderTrackingData.sampleOrders];
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    return orderTrackingData.sampleOrders;
+  }
 };
