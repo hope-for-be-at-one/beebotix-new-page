@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Cpu, Bot, Code, Settings, Briefcase, GraduationCap, Box, Package } from "lucide-react";
+import { Cpu, Bot, Code, Settings, Briefcase, GraduationCap, Box, Package, Truck } from "lucide-react";
 
 const services = [
   {
@@ -117,18 +117,26 @@ const ServicesSection = () => {
           ))}
         </div>
 
-        <div className="mt-12 text-center space-y-4">
-          <Link to="/services">
-            <Button className="button-primary mr-4">
-              View All Services
-            </Button>
-          </Link>
-          <Link to="/order-tracking">
-            <Button className="bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy">
-              <Package className="h-4 w-4 mr-2" />
-              Track Your Order
-            </Button>
-          </Link>
+        <div className="mt-12 text-center">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Link to="/services">
+              <Button className="button-primary">
+                View All Services
+              </Button>
+            </Link>
+            <Link to="/order-tracking">
+              <Button className="bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy relative overflow-hidden group px-6 py-3 font-medium">
+                <div className="absolute inset-0 w-full h-full">
+                  <div className="absolute top-1/2 -translate-y-1/2 -left-8 group-hover:left-full transition-all duration-1000 ease-in-out">
+                    <Truck className="h-4 w-4 text-beebotix-navy/70" />
+                  </div>
+                </div>
+                <Package className="h-4 w-4 mr-2 relative z-10" />
+                <span className="relative z-10">Track Your Order</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

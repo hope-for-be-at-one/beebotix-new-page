@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -96,6 +97,18 @@ const OrderTracking = () => {
     if (stepIndex < currentStatusIndex) return "completed";
     return "pending";
   };
+
+  const getDisplayStatuses = () => {
+    if (!orderStatus) return [];
+    
+    if (orderStatus.status === 'cancelled') {
+      // For cancelled orders, only show confirmed and cancelled steps
+      return orderTrackingData.statuses.filter(s => s.id === 'confirmed' || s.id === 'cancelled');
+    }
+    
+    // For non-cancelled orders, show all statuses except cancelled
+    return orderTrackingData.statuses.filter(s => s.id !== 'cancelled');
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -164,7 +177,7 @@ const OrderTracking = () => {
                     </div>
                     <div className="text-right">
                       {getStatusIcon(orderStatus.status)}
-                      {orderStatus.estimatedDelivery && (
+                      {orderStatus.estimatedDelivery && orderStatus.status !== 'cancelled' && (
                         <p className="text-sm text-beebotix-gray-dark mt-1">
                           Estimated Delivery: {new Date(orderStatus.estimatedDelivery).toLocaleDateString()}
                         </p>
@@ -203,7 +216,7 @@ const OrderTracking = () => {
                   <h3 className="text-lg font-bold mb-6">Order Progress</h3>
                   
                   <div className="space-y-4">
-                    {orderTrackingData.statuses.filter(s => s.id !== 'cancelled' || orderStatus.status === 'cancelled').map((statusStep, index) => {
+                    {getDisplayStatuses().map((statusStep, index, array) => {
                       const stepStatus = getStepStatus(statusStep.id, orderStatus.timeline);
                       const timelineItem = orderStatus.timeline.find(item => item.status === statusStep.id);
                       
@@ -228,7 +241,7 @@ const OrderTracking = () => {
                                 <div className="w-3 h-3 bg-current rounded-full" />
                               )}
                             </div>
-                            {index < orderTrackingData.statuses.filter(s => s.id !== 'cancelled' || orderStatus.status === 'cancelled').length - 1 && (
+                            {index < array.length - 1 && (
                               <div className={`w-0.5 h-8 mt-2 ${
                                 stepStatus === "completed" ? 
                                   (statusStep.id === 'cancelled' ? "bg-red-500" : "bg-green-500") : 
