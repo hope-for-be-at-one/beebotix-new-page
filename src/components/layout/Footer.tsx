@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,9 +13,49 @@ import {
   Linkedin, 
   Facebook 
 } from "lucide-react";
+import emailjs from "emailjs-com";
+import { toast } from "sonner";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const templateParams = {
+        to_email: email,
+        subject: "Newsletter Subscription",
+        message: `New newsletter subscription from: ${email}`,
+        from_name: "BeeBotix Newsletter Subscriber",
+        user_email: email
+      };
+
+      await emailjs.send(
+        'service_id', // Replace with your EmailJS service ID
+        'template_id', // Replace with your EmailJS template ID
+        templateParams,
+        'user_id' // Replace with your EmailJS user ID
+      );
+
+      toast.success("Successfully subscribed to our newsletter!");
+      setEmail("");
+    } catch (error) {
+      console.error("Email subscription error:", error);
+      toast.error("Failed to subscribe. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   
   return (
     <footer className="bg-beebotix-navy text-white">
@@ -157,16 +198,23 @@ const Footer = () => {
             <p className="text-gray-300 mb-4">
               Subscribe to our newsletter for the latest updates on robotics innovations.
             </p>
-            <div className="flex flex-col space-y-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col space-y-2">
               <Input
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-400"
+                required
               />
-              <Button className="bg-beebotix-yellow hover:bg-yellow-400 text-beebotix-navy">
-                Subscribe
+              <Button 
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-beebotix-yellow hover:bg-yellow-400 text-beebotix-navy"
+              >
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
               </Button>
-            </div>
+            </form>
           </div>
         </div>
 
