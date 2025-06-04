@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -33,25 +32,30 @@ const Footer = () => {
 
     try {
       const templateParams = {
-        to_email: email,
-        subject: "Newsletter Subscription",
-        message: `New newsletter subscription from: ${email}`,
-        from_name: "BeeBotix Newsletter Subscriber",
-        user_email: email
+        from_name: "BeeBotix Website",
+        from_email: "noreply@beebotix.com",
+        to_name: "BeeBotix Team",
+        to_email: "info@beebotix.com",
+        subject: "New Newsletter Subscription",
+        message: `A new user has subscribed to the BeeBotix newsletter with the email: ${email}`,
+        user_email: email,
+        reply_to: email
       };
 
+      console.log("Sending email with params:", templateParams);
+
       await emailjs.send(
-        'service_id', // Replace with your EmailJS service ID
-        'template_id', // Replace with your EmailJS template ID
+        'YOUR_SERVICE_ID', // Replace with your actual EmailJS service ID
+        'YOUR_TEMPLATE_ID', // Replace with your actual EmailJS template ID
         templateParams,
-        'user_id' // Replace with your EmailJS user ID
+        'YOUR_PUBLIC_KEY' // Replace with your actual EmailJS public key
       );
 
       toast.success("Successfully subscribed to our newsletter!");
       setEmail("");
     } catch (error) {
       console.error("Email subscription error:", error);
-      toast.error("Failed to subscribe. Please try again.");
+      toast.error("Failed to subscribe. Please update your EmailJS configuration.");
     } finally {
       setIsSubmitting(false);
     }
