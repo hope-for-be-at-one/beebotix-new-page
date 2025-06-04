@@ -1,4 +1,3 @@
-
 import { supabase, type DatabaseOrder, type OrderItem, type ShippingAddress, type TimelineItem } from "@/lib/supabase";
 import orderTrackingData from "@/metadata/orderTracking.json";
 
@@ -16,7 +15,7 @@ export interface Order {
 export const generateTrackingId = (): string => {
   const prefix = "BB";
   const timestamp = Date.now().toString().slice(-8); // Last 8 digits of timestamp
-  const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+  const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0'); // Increased randomness
   return prefix + timestamp + randomNum;
 };
 
@@ -34,13 +33,14 @@ export const createOrder = async (items: OrderItem[], shippingAddress: any): Pro
   const orderDate = new Date().toISOString().split('T')[0];
   const estimatedDelivery = calculateEstimatedDelivery();
   
+  // Ensure all required fields are present and valid
   const orderData = {
     tracking_id: trackingId,
     order_date: orderDate,
     status: "confirmed",
     estimated_delivery: estimatedDelivery,
-    items,
-    shipping_address: shippingAddress,
+    items: items || [],
+    shipping_address: shippingAddress || {},
     timeline: [
       {
         status: "confirmed",
@@ -50,33 +50,63 @@ export const createOrder = async (items: OrderItem[], shippingAddress: any): Pro
     ]
   };
 
-  console.log('Attempting to create order with data:', orderData);
+  console.log('Attempting to create order with data:', JSON.stringify(orderData, null, 2));
+  console.log('Tracking ID generated:', trackingId);
+  console.log('Order date:', orderDate);
+  console.log('Items count:', items?.length || 0);
 
-  const { data, error } = await supabase
-    .from('orders')
-    .insert([orderData])
-    .select()
-    .single();
+  try {
+    // First, check if tracking ID already exists
+    const { data: existingOrder } = await supabase
+      .from('orders')
+      .select('tracking_id')
+      .eq('tracking_id', trackingId)
+      .single();
 
-  if (error) {
-    console.error('Error creating order:', error);
-    throw new Error(`Failed to create order: ${error.message}`);
+    if (existingOrder) {
+      console.warn('Tracking ID already exists, generating new one');
+      return createOrder(items, shippingAddress); // Retry with new ID
+    }
+
+    const { data, error } = await supabase
+      .from('orders')
+      .insert([orderData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Supabase insert error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
+      throw new Error(`Failed to create order: ${error.message} (Code: ${error.code})`);
+    }
+
+    if (!data) {
+      console.error('No data returned from insert operation');
+      throw new Error('Failed to create order: No data returned');
+    }
+
+    console.log('Order created successfully:', data);
+
+    // Convert database format to frontend format
+    const newOrder: Order = {
+      trackingId: data.tracking_id,
+      orderDate: data.order_date,
+      status: data.status,
+      estimatedDelivery: data.estimated_delivery || estimatedDelivery,
+      items: data.items,
+      shippingAddress: data.shipping_address,
+      timeline: data.timeline
+    };
+
+    return newOrder;
+  } catch (error) {
+    console.error('Error in createOrder function:', error);
+    throw error;
   }
-
-  console.log('Order created successfully:', data);
-
-  // Convert database format to frontend format
-  const newOrder: Order = {
-    trackingId: data.tracking_id,
-    orderDate: data.order_date,
-    status: data.status,
-    estimatedDelivery: data.estimated_delivery || estimatedDelivery,
-    items: data.items,
-    shippingAddress: data.shipping_address,
-    timeline: data.timeline
-  };
-
-  return newOrder;
 };
 
 // Get order by tracking ID from Supabase
