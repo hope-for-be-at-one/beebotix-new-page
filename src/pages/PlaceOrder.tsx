@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
@@ -28,6 +29,7 @@ const PlaceOrder = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [dbSaveFailed, setDbSaveFailed] = useState(false);
   
   // Initialize EmailJS
   emailjs.init("K9PmDAw2eoItuAJgX");
@@ -54,7 +56,7 @@ const PlaceOrder = () => {
     try {
       const order = await createOrder(items, shippingData);
       console.log('Order created in Supabase:', order);
-      return order.trackingId;
+      return { trackingId: order.trackingId, dbSuccess: true };
     } catch (error) {
       console.error('Failed to create order in Supabase:', error);
       // Fallback to localStorage as before
@@ -78,7 +80,7 @@ const PlaceOrder = () => {
       existingOrders.push(newOrder);
       localStorage.setItem('beebotix_orders', JSON.stringify(existingOrders));
       
-      return newOrder.trackingId;
+      return { trackingId: newOrder.trackingId, dbSuccess: false };
     }
   };
 
@@ -161,7 +163,7 @@ Please contact the customer to confirm payment and processing details.
       };
 
       // Create order in Supabase
-      const newOrderId = await addOrderToTracking(orderItems, shippingData);
+      const { trackingId: newOrderId, dbSuccess } = await addOrderToTracking(orderItems, shippingData);
       
       // Send email notification
       await sendOrderEmail(newOrderId);
@@ -169,14 +171,22 @@ Please contact the customer to confirm payment and processing details.
       // Show success
       setTimeout(() => {
         setOrderId(newOrderId);
+        setDbSaveFailed(!dbSuccess);
         setOrderPlaced(true);
         setIsSubmitting(false);
         clearCart();
         
-        toast({
-          title: "Order Request Submitted Successfully! 🎉",
-          description: `Your order ID is ${newOrderId}. We'll contact you soon for payment and confirmation.`,
-        });
+        if (dbSuccess) {
+          toast({
+            title: "Order Request Submitted Successfully! 🎉",
+            description: `Your order ID is ${newOrderId}. We'll contact you soon for payment and confirmation.`,
+          });
+        } else {
+          toast({
+            title: "Order Request Submitted! ⚠️",
+            description: `Your order ID is ${newOrderId}. Please check back after 24 hours for tracking updates.`,
+          });
+        }
       }, 1000);
     } catch (error) {
       setIsSubmitting(false);
@@ -201,6 +211,22 @@ Please contact the customer to confirm payment and processing details.
                 <p className="text-xl text-beebotix-gray-dark mb-6">
                   Thank you for your order request. We have received your inquiry successfully.
                 </p>
+                
+                {dbSaveFailed && (
+                  <Card className="bg-yellow-50 border-yellow-200 mb-6">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-3 mb-4">
+                        <AlertCircle className="h-6 w-6 text-yellow-600 mt-1 flex-shrink-0" />
+                        <div className="text-left">
+                          <h3 className="font-bold text-yellow-800 mb-2">Tracking Update Notice</h3>
+                          <p className="text-yellow-700 text-sm">
+                            Your order has been received and we'll process it manually. Please check your Order ID after 24 hours for tracking status updates. Don't worry - we have received your order and will contact you soon!
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
                 
                 <Card className="bg-blue-50 border-blue-200 mb-6">
                   <CardContent className="p-6">
