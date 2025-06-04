@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -259,14 +258,13 @@ const OrderTracking = () => {
                             }`}>
                               {statusStep.name}
                             </h4>
-                            <p className="text-sm text-beebotix-gray-dark">{statusStep.description}</p>
+                            <p className="text-sm text-beebotix-gray-dark">
+                              {timelineItem ? timelineItem.message : statusStep.description}
+                            </p>
                             {timelineItem && (
-                              <>
-                                <p className="text-sm text-beebotix-gray-dark mt-1">
-                                  {new Date(timelineItem.timestamp).toLocaleDateString()} at {new Date(timelineItem.timestamp).toLocaleTimeString()}
-                                </p>
-                                <p className="text-sm text-beebotix-gray-dark">{timelineItem.message}</p>
-                              </>
+                              <p className="text-sm text-beebotix-gray-dark mt-1">
+                                {new Date(timelineItem.timestamp).toLocaleDateString()} at {new Date(timelineItem.timestamp).toLocaleTimeString()}
+                              </p>
                             )}
                           </div>
                         </div>
