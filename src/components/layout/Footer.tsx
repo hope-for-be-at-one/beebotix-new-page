@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,9 @@ const Footer = () => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Initialize EmailJS with the working public key
+  emailjs.init("K9PmDAw2eoItuAJgX");
+
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -40,18 +44,17 @@ const Footer = () => {
 
       console.log("Sending email with params:", templateParams);
 
-      await emailjs.send(
-        'YOUR_SERVICE_ID', // Replace with your actual EmailJS service ID
-        'YOUR_TEMPLATE_ID', // Replace with your actual EmailJS template ID
-        templateParams,
-        'YOUR_PUBLIC_KEY' // Replace with your actual EmailJS public key
-      );
+      // Use the same working EmailJS configuration from Contact page
+      const serviceID = "service_rwc5cf5";
+      const templateID = "template_tkr2wgr";
+
+      await emailjs.send(serviceID, templateID, templateParams);
 
       toast.success("Successfully subscribed to our newsletter!");
       setEmail("");
     } catch (error) {
       console.error("Email subscription error:", error);
-      toast.error("Failed to subscribe. Please update your EmailJS configuration.");
+      toast.error("Failed to subscribe. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
