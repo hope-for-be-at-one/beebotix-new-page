@@ -32,14 +32,10 @@ const Footer = () => {
 
     try {
       const templateParams = {
-        from_name: "BeeBotix Website",
-        from_email: "noreply@beebotix.com",
-        to_name: "BeeBotix Team",
-        to_email: "info@beebotix.com",
-        subject: "New Newsletter Subscription",
-        message: `A new user has subscribed to the BeeBotix newsletter with the email: ${email}`,
-        user_email: email,
-        reply_to: email
+        name: "Viewer(SubScriber)",
+        email: "self@self.com",
+        subject: "subsciber",
+        message: `this email id user want to get daly updates: ${email}`
       };
 
       console.log("Sending email with params:", templateParams);
