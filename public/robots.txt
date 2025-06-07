@@ -29,6 +29,15 @@ Disallow: /api/
 Disallow: /private/
 Disallow: /*.json$
 
+# Allow important pages for SEO
+Allow: /portfolio
+Allow: /3d-printing
+Allow: /products/
+Allow: /services
+Allow: /classroom
+Allow: /our-stories
+Allow: /contact
+
 # Sitemap location
 Sitemap: https://beebotix.com/sitemap.xml
 

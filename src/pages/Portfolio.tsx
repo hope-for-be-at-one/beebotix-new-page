@@ -7,77 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import SEOHead from "@/components/seo/SEOHead";
+import portfolioData from "@/metadata/portfolio-data.json";
 
 const Portfolio = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const portfolioItems = [
-    {
-      id: 1,
-      title: "Custom Robot Enclosure",
-      description: "Weather-resistant enclosure for BeeBotix robotics module with integrated cooling system",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PETG",
-      complexity: "Medium",
-      category: "Robotics",
-      size: "large"
-    },
-    {
-      id: 2,
-      title: "IoT Sensor Housing",
-      description: "Compact housing for environmental sensors",
-      image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PETG",
-      complexity: "Low",
-      category: "IoT",
-      size: "small"
-    },
-    {
-      id: 3,
-      title: "Educational Robotics Kit",
-      description: "Complete set of replacement parts for BeeBotix educational kits",
-      image: "https://images.unsplash.com/photo-1487887235947-a955ef187fcc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PLA",
-      complexity: "High",
-      category: "Education",
-      size: "medium"
-    },
-    {
-      id: 4,
-      title: "Flexible Gripper Mechanism",
-      description: "Advanced robot gripper with custom flexibility patterns",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "TPU",
-      complexity: "High",
-      category: "Robotics",
-      size: "medium"
-    },
-    {
-      id: 8,
-      title: "Prototype Phone Stand",
-      description: "Ergonomic phone stand with cable management",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PLA",
-      complexity: "Low",
-      category: "Accessories",
-      size: "small"
-    },
-    {
-      id: 10,
-      title: "Smart Home Hub Case",
-      description: "Sleek enclosure for home automation controller",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "ABS",
-      complexity: "Medium",
-      category: "Smart Home",
-      size: "small"
-    }
-  ];
-
+  const { portfolioItems, categories } = portfolioData;
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const categories = ["All", "Robotics", "IoT", "Education", "Smart Home", "Accessories"];
 
   const filteredItems = selectedCategory === "All" 
     ? portfolioItems 
@@ -97,6 +36,12 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="3D Printing Portfolio - BeeBotix | Custom Robotics Solutions"
+        description="Explore BeeBotix's comprehensive portfolio of 3D printing projects including robotics enclosures, IoT housings, educational kits, and smart home solutions."
+        keywords="3D printing portfolio, robotics enclosures, IoT housings, educational robotics, smart home cases, custom 3D printing, BeeBotix projects"
+        url="https://beebotix.com/portfolio"
+      />
       <Navbar />
       <main className="flex-grow pt-24">
         <div className="container-custom py-12">
@@ -136,7 +81,7 @@ const Portfolio = () => {
                 key={item.id} 
                 className={`overflow-hidden hover:shadow-lg transition-all duration-300 group ${getGridClasses(item.size, index)}`}
               >
-                <div className="relative h-48 md:h-full min-h-[200px] overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
                   <img 
                     src={item.image} 
                     alt={item.title}
@@ -153,7 +98,7 @@ const Portfolio = () => {
                 </div>
                 <CardContent className="p-4">
                   <h3 className="font-bold text-lg mb-2 text-beebotix-navy">{item.title}</h3>
-                  <p className="text-sm text-beebotix-gray-dark mb-3 line-clamp-2">{item.description}</p>
+                  <p className="text-sm text-beebotix-gray-dark mb-3">{item.description}</p>
                   <div className="flex justify-between items-center">
                     <div className="flex gap-2">
                       <Badge variant="outline" className="text-xs">
