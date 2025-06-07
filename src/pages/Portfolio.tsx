@@ -55,36 +55,6 @@ const Portfolio = () => {
       size: "medium"
     },
     {
-      id: 5,
-      title: "Custom PCB Enclosure",
-      description: "Protective case for electronic components with heat dissipation",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PLA",
-      complexity: "Medium",
-      category: "Electronics",
-      size: "small"
-    },
-    {
-      id: 6,
-      title: "Mechanical Gear System",
-      description: "Precision gear set for high-torque robotics applications",
-      image: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "ABS",
-      complexity: "High",
-      category: "Mechanical",
-      size: "large"
-    },
-    {
-      id: 7,
-      title: "Drone Frame Components",
-      description: "Lightweight frame parts for custom drone builds",
-      image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PLA",
-      complexity: "Medium",
-      category: "Aerospace",
-      size: "medium"
-    },
-    {
       id: 8,
       title: "Prototype Phone Stand",
       description: "Ergonomic phone stand with cable management",
@@ -95,16 +65,6 @@ const Portfolio = () => {
       size: "small"
     },
     {
-      id: 9,
-      title: "Custom Tool Holder",
-      description: "Modular tool organization system",
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PETG",
-      complexity: "Low",
-      category: "Organization",
-      size: "medium"
-    },
-    {
       id: 10,
       title: "Smart Home Hub Case",
       description: "Sleek enclosure for home automation controller",
@@ -113,31 +73,11 @@ const Portfolio = () => {
       complexity: "Medium",
       category: "Smart Home",
       size: "small"
-    },
-    {
-      id: 11,
-      title: "Automotive Dashboard Mount",
-      description: "Custom mount for automotive applications",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "ABS",
-      complexity: "High",
-      category: "Automotive",
-      size: "large"
-    },
-    {
-      id: 12,
-      title: "Medical Device Prototype",
-      description: "Biocompatible prototype for medical applications",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      material: "PETG",
-      complexity: "High",
-      category: "Medical",
-      size: "medium"
     }
   ];
 
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const categories = ["All", "Robotics", "IoT", "Education", "Electronics", "Mechanical", "Aerospace", "Accessories", "Organization", "Smart Home", "Automotive", "Medical"];
+  const categories = ["All", "Robotics", "IoT", "Education", "Smart Home", "Accessories"];
 
   const filteredItems = selectedCategory === "All" 
     ? portfolioItems 
