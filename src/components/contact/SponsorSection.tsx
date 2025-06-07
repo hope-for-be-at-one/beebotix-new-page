@@ -3,17 +3,16 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Coffee, Star } from "lucide-react";
+import { Heart, Coffee, Star, Mail } from "lucide-react";
+import sponsorData from "@/metadata/sponsor-data.json";
 
 const SponsorSection = () => {
-  const [currentGoal] = useState(50000); // Goal amount in INR
-  const [currentAmount] = useState(12500); // Current amount raised
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => setProgress((currentAmount / currentGoal) * 100), 500);
+    const timer = setTimeout(() => setProgress((sponsorData.currentAmount / sponsorData.goal) * 100), 500);
     return () => clearTimeout(timer);
-  }, [currentAmount, currentGoal]);
+  }, []);
 
   return (
     <Card className="shadow-lg">
@@ -23,7 +22,7 @@ const SponsorSection = () => {
           Sponsor Us
         </CardTitle>
         <p className="text-beebotix-gray-dark">
-          Help us explore the underwater world through advanced robotics
+          {sponsorData.description}
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -31,7 +30,7 @@ const SponsorSection = () => {
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span>Progress</span>
-            <span>₹{currentAmount.toLocaleString()} / ₹{currentGoal.toLocaleString()}</span>
+            <span>₹{sponsorData.currentAmount.toLocaleString()} / ₹{sponsorData.goal.toLocaleString()}</span>
           </div>
           <Progress value={progress} className="h-3" />
           <p className="text-center text-sm text-beebotix-gray-dark">
@@ -40,7 +39,7 @@ const SponsorSection = () => {
         </div>
 
         {/* Sponsor Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Button 
             className="bg-orange-500 hover:bg-orange-600 text-white"
             onClick={() => window.open('https://www.patreon.com', '_blank')}
@@ -54,6 +53,13 @@ const SponsorSection = () => {
           >
             <Coffee className="h-4 w-4 mr-2" />
             Buy Me a Coffee
+          </Button>
+          <Button 
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+            onClick={() => window.location.href = 'mailto:sponsor@beebotix.com?subject=Sponsorship Inquiry&body=Hello BeeBotix Team,%0D%0A%0D%0AI am interested in sponsoring your underwater robotics research project. Please provide more details about sponsorship opportunities.%0D%0A%0D%0AThank you!'}
+          >
+            <Mail className="h-4 w-4 mr-2" />
+            Email Us
           </Button>
         </div>
 

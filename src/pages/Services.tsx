@@ -226,19 +226,48 @@ ${serviceFormData.requirements}
               </Link>
             </div>
 
-            {/* Long-term Vision */}
-            <div className="bg-gradient-to-r from-blue-50 to-beebotix-yellow/10 rounded-lg p-6 max-w-2xl mx-auto">
-              <div className="flex items-center justify-center mb-4">
-                <Waves className="h-8 w-8 text-blue-600 mr-3" />
-                <h3 className="text-xl font-bold text-beebotix-navy">Our Vision</h3>
+            {/* Enhanced Aquatic Vision */}
+            <div className="relative bg-gradient-to-br from-blue-900/20 via-teal-800/15 to-blue-950/25 rounded-2xl p-8 max-w-3xl mx-auto overflow-hidden border border-blue-200/30">
+              {/* ROV Background Image */}
+              <div 
+                className="absolute inset-0 opacity-10 bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: "url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')"
+                }}
+              ></div>
+              
+              {/* Ocean Wave Animation */}
+              <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-blue-500/20 to-transparent opacity-30 animate-pulse"></div>
+              
+              {/* Content */}
+              <div className="relative z-10">
+                <div className="flex items-center justify-center mb-6">
+                  <div className="bg-blue-500/20 p-3 rounded-full mr-4">
+                    <Waves className="h-10 w-10 text-blue-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-blue-900">Our Underwater Vision</h3>
+                </div>
+                <p className="text-blue-800 text-lg leading-relaxed mb-4">
+                  Dive deep into the future of marine exploration with our cutting-edge underwater robotics. 
+                  Our long-term mission is to revolutionize ocean discovery through autonomous underwater vehicles (AUVs) 
+                  and remotely operated vehicles (ROVs).
+                </p>
+                <p className="text-blue-700">
+                  From deep-sea research to marine conservation, we're building the technology that will unlock 
+                  the mysteries of our planet's last frontier - the ocean depths.
+                </p>
+                
+                {/* Ocean Elements */}
+                <div className="flex justify-center items-center mt-6 space-x-4 opacity-60">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                  <div className="w-3 h-3 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-blue-300 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                </div>
               </div>
-              <p className="text-beebotix-gray-dark">
-                Our long-term goal is to explore the underwater world through advanced robotics and 
-                autonomous systems, pushing the boundaries of marine technology and ocean exploration.
-              </p>
             </div>
           </div>
 
+          {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {serviceData.map(service => (
               <Card key={service.id} className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 border-l-beebotix-yellow">
@@ -261,6 +290,7 @@ ${serviceFormData.requirements}
             ))}
           </div>
 
+          {/* Service Request Form */}
           <div className="mt-16">
             <h2 className="heading-md mb-8 text-center">Request a Service</h2>
             <Card className="shadow-lg max-w-4xl mx-auto">
