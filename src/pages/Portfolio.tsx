@@ -22,18 +22,6 @@ const Portfolio = () => {
     ? portfolioItems 
     : portfolioItems.filter(item => item.category === selectedCategory);
 
-  // Function to get grid classes based on size for random layout
-  const getGridClasses = (size: string, index: number) => {
-    const patterns = [
-      { large: "md:col-span-2 md:row-span-2", medium: "md:col-span-1 md:row-span-1", small: "md:col-span-1 md:row-span-1" },
-      { large: "md:col-span-2 md:row-span-1", medium: "md:col-span-1 md:row-span-2", small: "md:col-span-1 md:row-span-1" },
-      { large: "md:col-span-1 md:row-span-2", medium: "md:col-span-2 md:row-span-1", small: "md:col-span-1 md:row-span-1" }
-    ];
-    
-    const pattern = patterns[index % patterns.length];
-    return pattern[size as keyof typeof pattern];
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <SEOHead 
@@ -74,12 +62,12 @@ const Portfolio = () => {
             </div>
           </div>
 
-          {/* Portfolio Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr">
-            {filteredItems.map((item, index) => (
+          {/* Portfolio Grid - Fixed uniform grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredItems.map((item) => (
               <Card 
                 key={item.id} 
-                className={`overflow-hidden hover:shadow-lg transition-all duration-300 group ${getGridClasses(item.size, index)}`}
+                className="overflow-hidden hover:shadow-lg transition-all duration-300 group h-full"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img 
@@ -96,9 +84,9 @@ const Portfolio = () => {
                     </Badge>
                   </div>
                 </div>
-                <CardContent className="p-4">
+                <CardContent className="p-4 flex flex-col h-full">
                   <h3 className="font-bold text-lg mb-2 text-beebotix-navy">{item.title}</h3>
-                  <p className="text-sm text-beebotix-gray-dark mb-3">{item.description}</p>
+                  <p className="text-sm text-beebotix-gray-dark mb-3 flex-grow">{item.description}</p>
                   <div className="flex justify-between items-center">
                     <div className="flex gap-2">
                       <Badge variant="outline" className="text-xs">

@@ -1,0 +1,46 @@
+
+{
+  "purchasingChannels": [
+    {
+      "id": 1,
+      "name": "Our Platform",
+      "description": "Direct purchase from BeeBotix platform with full support",
+      "link": "/products",
+      "type": "internal",
+      "available": true,
+      "benefits": ["Direct support", "Warranty included", "Latest products"]
+    },
+    {
+      "id": 2,
+      "name": "Instagram",
+      "description": "Purchase through our Instagram for quick orders",
+      "link": "https://instagram.com/beebotix",
+      "type": "external",
+      "available": true,
+      "benefits": ["Quick ordering", "Social support", "Latest updates"]
+    },
+    {
+      "id": 3,
+      "name": "Amazon.in",
+      "description": "Buy from Amazon for fast delivery across India",
+      "link": "https://amazon.in/beebotix",
+      "type": "external",
+      "available": true,
+      "benefits": ["Fast delivery", "Amazon guarantee", "Easy returns"]
+    }
+  ],
+  "businessOptions": {
+    "b2b": {
+      "title": "B2B Solutions",
+      "description": "Bulk orders and enterprise solutions for businesses",
+      "contact": "mailto:business@beebotix.com",
+      "benefits": ["Volume discounts", "Custom solutions", "Priority support", "Extended warranties"]
+    },
+    "massOrder": {
+      "title": "Mass Orders",
+      "description": "Large quantity orders for educational institutions and organizations",
+      "contact": "mailto:orders@beebotix.com",
+      "benefits": ["Special pricing", "Flexible payment terms", "Dedicated account manager", "Custom packaging"]
+    }
+  }
+}

@@ -66,7 +66,7 @@ const HeroSection = () => {
               </Button>
             </Link>
             
-            <Link to="/products/hardware">
+            <Link to="/products">
               <Button className="button-secondary">
                 Visit Marketplace
               </Button>
