@@ -14,6 +14,7 @@ import Hardware from "@/pages/Hardware";
 import Software from "@/pages/Software";
 import Gifting from "@/pages/Gifting";
 import ThreeDPrinting from "@/pages/Printing";
+import Portfolio from "@/pages/Portfolio";
 import Cart from "@/pages/Cart";
 import PlaceOrder from "@/pages/PlaceOrder";
 import OrderTracking from "@/pages/OrderTracking";
@@ -49,6 +50,7 @@ function App() {
               <Route path="/products/software" element={<Software />} />
               <Route path="/gifting" element={<Gifting />} />
               <Route path="/3d-printing" element={<ThreeDPrinting />} />
+              <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/place-order" element={<PlaceOrder />} />
               <Route path="/order-tracking" element={<OrderTracking />} />

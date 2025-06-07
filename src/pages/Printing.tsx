@@ -206,6 +206,13 @@ const Printing = () => {
     }
   ];
 
+  const scrollToQuoteForm = () => {
+    const quoteSection = document.getElementById('quote-section');
+    if (quoteSection) {
+      quoteSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -224,12 +231,14 @@ const Printing = () => {
                 and custom tech gifts with fast turnaround times.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button className="button-primary">
+                <Button className="button-primary" onClick={scrollToQuoteForm}>
                   Get Started
                 </Button>
-                <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20">
-                  View Portfolio
-                </Button>
+                <Link to="/portfolio">
+                  <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20">
+                    View Portfolio
+                  </Button>
+                </Link>
               </div>
               
               <div className="flex flex-wrap gap-8 mt-12">
@@ -563,7 +572,7 @@ const Printing = () => {
           </section>
           
           {/* Pricing & Quote Form - Updated to use rupees and modify form */}
-          <section className="bg-gray-50 rounded-xl p-8 mb-16">
+          <section id="quote-section" className="bg-gray-50 rounded-xl p-8 mb-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div>
                 <h2 className="heading-md mb-6">Pricing & Quotation</h2>
@@ -808,12 +817,14 @@ const Printing = () => {
               From concept to physical product, we'll help bring your ideas to life with precision and quality.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button className="button-primary">
+              <Button className="button-primary" onClick={scrollToQuoteForm}>
                 Get Started Now
               </Button>
-              <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
-                View Portfolio
-              </Button>
+              <Link to="/portfolio">
+                <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
+                  View Portfolio
+                </Button>
+              </Link>
             </div>
           </section>
         </div>
