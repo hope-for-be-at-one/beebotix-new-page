@@ -3,52 +3,89 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, Calendar, Users, Video } from "lucide-react";
+import { useState, useEffect } from "react";
 import classroomData from "@/metadata/classroom.json";
 
 const LiveClasses = () => {
-  const upcomingClasses = classroomData.liveClasses || [
-    {
-      id: 1,
-      title: "Arduino Programming Basics",
-      instructor: "Prof. Rajesh Kumar",
-      date: "2024-01-25",
-      time: "10:00 AM",
-      duration: "90 minutes",
-      participants: 24,
-      maxParticipants: 30,
-      status: "upcoming",
-      meetingLink: "https://meet.google.com/abc-defg-hij"
-    },
-    {
-      id: 2,
-      title: "IoT Project Development",
-      instructor: "Dr. Priya Sharma",
-      date: "2024-01-26", 
-      time: "2:00 PM",
-      duration: "120 minutes",
-      participants: 18,
-      maxParticipants: 25,
-      status: "upcoming",
-      meetingLink: "https://zoom.us/j/123456789"
-    }
-  ];
+  const [currentTime, setCurrentTime] = useState(new Date());
+  
+  // Update current time every minute
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // Update every minute
+    
+    return () => clearInterval(timer);
+  }, []);
+
+  const upcomingClasses = classroomData.liveClasses || [];
 
   const getTimeUntilClass = (date: string, time: string) => {
-    const classDateTime = new Date(`${date} ${time}`);
-    const now = new Date();
+    // Parse the date and time properly
+    const classDateTime = new Date(`${date}T${convertTo24Hour(time)}`);
+    const now = currentTime;
     const diff = classDateTime.getTime() - now.getTime();
     
-    if (diff < 0) return "Class has started";
-    
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
-    if (hours > 24) {
-      const days = Math.floor(hours / 24);
-      return `${days} day${days > 1 ? 's' : ''} remaining`;
+    if (diff < 0) {
+      // Check if class started within the last 3 hours (assume class duration)
+      const hoursElapsed = Math.abs(diff) / (1000 * 60 * 60);
+      if (hoursElapsed <= 3) {
+        return "Class in progress";
+      }
+      return "Class has ended";
     }
     
-    return `${hours}h ${minutes}m remaining`;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (days > 0) {
+      return `${days} day${days > 1 ? 's' : ''}, ${hours}h ${minutes}m remaining`;
+    } else if (hours > 0) {
+      return `${hours}h ${minutes}m remaining`;
+    } else if (minutes > 0) {
+      return `${minutes} minute${minutes > 1 ? 's' : ''} remaining`;
+    } else {
+      return "Starting soon!";
+    }
+  };
+
+  const convertTo24Hour = (time12h: string) => {
+    const [time, modifier] = time12h.split(' ');
+    let [hours, minutes] = time.split(':');
+    
+    if (hours === '12') {
+      hours = '00';
+    }
+    
+    if (modifier === 'PM') {
+      hours = String(parseInt(hours, 10) + 12);
+    }
+    
+    return `${hours}:${minutes}:00`;
+  };
+
+  const getStatusColor = (date: string, time: string) => {
+    const classDateTime = new Date(`${date}T${convertTo24Hour(time)}`);
+    const now = currentTime;
+    const diff = classDateTime.getTime() - now.getTime();
+    
+    if (diff < 0) {
+      const hoursElapsed = Math.abs(diff) / (1000 * 60 * 60);
+      if (hoursElapsed <= 3) {
+        return "text-green-600"; // Class in progress
+      }
+      return "text-gray-500"; // Class ended
+    }
+    
+    const hours = diff / (1000 * 60 * 60);
+    if (hours <= 1) {
+      return "text-red-600"; // Starting soon
+    } else if (hours <= 24) {
+      return "text-orange-600"; // Starting today
+    }
+    
+    return "text-blue-600"; // Future class
   };
 
   const handleJoinClass = (meetingLink: string) => {
@@ -79,7 +116,7 @@ const LiveClasses = () => {
                   </p>
                 </div>
                 <Badge className="bg-beebotix-yellow text-beebotix-navy w-fit">
-                  Next Class
+                  {classItem.status === "upcoming" ? "Upcoming" : classItem.status}
                 </Badge>
               </div>
               
@@ -87,7 +124,12 @@ const LiveClasses = () => {
                 <div className="flex items-center gap-2 text-sm md:text-base">
                   <Calendar className="h-4 w-4 text-beebotix-navy flex-shrink-0" />
                   <span className="text-beebotix-gray-dark">
-                    {new Date(classItem.date).toLocaleDateString()}
+                    {new Date(classItem.date).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
                   </span>
                 </div>
                 
@@ -108,8 +150,8 @@ const LiveClasses = () => {
               
               <div className="bg-beebotix-gray-light/20 p-3 rounded-lg mb-4">
                 <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-orange-600 flex-shrink-0" />
-                  <span className="text-sm font-medium text-orange-600">
+                  <Clock className="h-4 w-4 flex-shrink-0" />
+                  <span className={`text-sm font-medium ${getStatusColor(classItem.date, classItem.time)}`}>
                     {getTimeUntilClass(classItem.date, classItem.time)}
                   </span>
                 </div>
