@@ -1,0 +1,119 @@
+
+{
+  "robots": [
+    {
+      "id": 1,
+      "name": "PickBot Pro",
+      "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop",
+      "shortDescription": "Industrial pick and place robot for warehouse automation",
+      "keyPoints": [
+        "Precision ±0.1mm accuracy",
+        "5kg payload capacity",
+        "360° rotation capability",
+        "Real-time object detection"
+      ],
+      "applications": [
+        "Warehouse sorting",
+        "Assembly line automation",
+        "Quality inspection",
+        "Packaging operations"
+      ],
+      "rentPerHour": 2500
+    },
+    {
+      "id": 2,
+      "name": "CleanBot 360",
+      "image": "https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=400&h=300&fit=crop",
+      "shortDescription": "Autonomous cleaning robot for commercial spaces",
+      "keyPoints": [
+        "8-hour battery life",
+        "LIDAR navigation",
+        "Multi-surface cleaning",
+        "Smart obstacle avoidance"
+      ],
+      "applications": [
+        "Office cleaning",
+        "Hospital sanitation",
+        "Shopping mall maintenance",
+        "Industrial floor cleaning"
+      ],
+      "rentPerHour": 1800
+    },
+    {
+      "id": 3,
+      "name": "InspectBot AI",
+      "image": "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop",
+      "shortDescription": "AI-powered inspection robot for quality control",
+      "keyPoints": [
+        "Computer vision analysis",
+        "Defect detection AI",
+        "High-resolution cameras",
+        "Automated reporting"
+      ],
+      "applications": [
+        "Manufacturing QC",
+        "Electronic component testing",
+        "Surface defect detection",
+        "Dimensional analysis"
+      ],
+      "rentPerHour": 3200
+    },
+    {
+      "id": 4,
+      "name": "DeliveryBot Express",
+      "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop",
+      "shortDescription": "Autonomous delivery robot for last-mile logistics",
+      "keyPoints": [
+        "GPS navigation",
+        "Secure cargo compartment",
+        "Weather resistant",
+        "Real-time tracking"
+      ],
+      "applications": [
+        "Food delivery",
+        "Medical supply transport",
+        "Document delivery",
+        "Campus logistics"
+      ],
+      "rentPerHour": 2000
+    },
+    {
+      "id": 5,
+      "name": "WeldBot Master",
+      "image": "https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=400&h=300&fit=crop",
+      "shortDescription": "Precision welding robot for manufacturing",
+      "keyPoints": [
+        "6-axis movement",
+        "Arc welding capability",
+        "Programmable patterns",
+        "Safety sensors"
+      ],
+      "applications": [
+        "Automotive welding",
+        "Metal fabrication",
+        "Pipeline welding",
+        "Structural assembly"
+      ],
+      "rentPerHour": 4500
+    },
+    {
+      "id": 6,
+      "name": "SecurityBot Guardian",
+      "image": "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop",
+      "shortDescription": "Autonomous security patrol robot with AI surveillance",
+      "keyPoints": [
+        "Night vision cameras",
+        "Motion detection",
+        "Facial recognition",
+        "Emergency alerts"
+      ],
+      "applications": [
+        "Perimeter security",
+        "Building surveillance",
+        "Event monitoring",
+        "Campus patrol"
+      ],
+      "rentPerHour": 2800
+    }
+  ]
+}

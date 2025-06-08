@@ -72,6 +72,13 @@ const HeroSection = () => {
               </Button>
             </Link>
             
+            <Link to="/rent-robot">
+              <Button className="button-primary">
+                <Bot className="mr-2 h-4 w-4" />
+                Rent A Robot
+              </Button>
+            </Link>
+            
             <Link to="/contact">
               <Button className="button-outline">
                 Contact Us

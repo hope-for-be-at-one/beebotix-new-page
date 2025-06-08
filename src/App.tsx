@@ -22,6 +22,7 @@ import Classroom from "@/pages/Classroom";
 import OurStories from "@/pages/OurStories";
 import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import RentRobot from "@/pages/RentRobot";
 
 // Create QueryClient instance outside of component to avoid recreation
 const queryClient = new QueryClient({
@@ -58,6 +59,7 @@ function App() {
               <Route path="/our-stories" element={<OurStories />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/rent-robot" element={<RentRobot />} />
             </Routes>
           </div>
           <Toaster />
