@@ -60,6 +60,57 @@
           "youtubeUrl": "https://www.youtube.com/watch?v=CqrQmQqpHXc"
         }
       ]
+    },
+    {
+      "id": "python-robotics",
+      "title": "Python for Robotics",
+      "description": "Learn how to use Python programming for robotics applications",
+      "tags": ["Intermediate", "Python", "Robotics"],
+      "chapters": [
+        {
+          "id": "py-ch1",
+          "title": "Python Basics for Robotics",
+          "videoId": "rfscVS0vtbw",
+          "isPremium": false,
+          "youtubeUrl": "https://www.youtube.com/watch?v=rfscVS0vtbw"
+        },
+        {
+          "id": "py-ch2",
+          "title": "Robot Control with Python",
+          "videoId": "kqzJVFP2FKc",
+          "isPremium": true,
+          "youtubeUrl": "https://www.youtube.com/watch?v=kqzJVFP2FKc"
+        }
+      ]
+    },
+    {
+      "id": "iot-fundamentals",
+      "title": "IoT Fundamentals",
+      "description": "Understanding Internet of Things concepts and applications",
+      "tags": ["Intermediate", "IoT", "Connectivity"],
+      "chapters": [
+        {
+          "id": "iot-ch1",
+          "title": "What is IoT?",
+          "videoId": "LlhmzVL5bm8",
+          "isPremium": false,
+          "youtubeUrl": "https://www.youtube.com/watch?v=LlhmzVL5bm8"
+        },
+        {
+          "id": "iot-ch2",
+          "title": "IoT Protocols and Communication",
+          "videoId": "F302E9Ej8e4",
+          "isPremium": true,
+          "youtubeUrl": "https://www.youtube.com/watch?v=F302E9Ej8e4"
+        },
+        {
+          "id": "iot-ch3",
+          "title": "Building Your First IoT Project",
+          "videoId": "h4YS-QjTzbE",
+          "isPremium": true,
+          "youtubeUrl": "https://www.youtube.com/watch?v=h4YS-QjTzbE"
+        }
+      ]
     }
   ],
   "resources": [
@@ -76,6 +127,20 @@
       "description": "Comprehensive guide to electronic components and their uses",
       "categories": ["Resistors", "Capacitors", "ICs", "Sensors"],
       "count": 300
+    },
+    {
+      "id": "code-library",
+      "title": "Code Library",
+      "description": "Ready-to-use code snippets and libraries for common robotics tasks",
+      "categories": ["Arduino", "Python", "C++", "JavaScript"],
+      "count": 85
+    },
+    {
+      "id": "troubleshooting",
+      "title": "Troubleshooting Guide",
+      "description": "Common problems and solutions in robotics projects",
+      "categories": ["Hardware", "Software", "Connectivity", "Power"],
+      "count": 120
     }
   ],
   "liveClasses": [
@@ -102,6 +167,78 @@
       "maxParticipants": 25,
       "status": "upcoming",
       "meetingLink": "https://zoom.us/j/123456789"
+    },
+    {
+      "id": 3,
+      "title": "Robotics Workshop: Building Your First Robot",
+      "instructor": "Eng. Amit Patel",
+      "date": "2024-01-28",
+      "time": "11:00 AM",
+      "duration": "180 minutes",
+      "participants": 15,
+      "maxParticipants": 20,
+      "status": "upcoming",
+      "meetingLink": "https://meet.google.com/xyz-abcd-efg"
+    },
+    {
+      "id": 4,
+      "title": "Python for Robotics - Advanced Concepts",
+      "instructor": "Dr. Sneha Reddy",
+      "date": "2024-01-30",
+      "time": "3:00 PM",
+      "duration": "120 minutes",
+      "participants": 22,
+      "maxParticipants": 30,
+      "status": "upcoming",
+      "meetingLink": "https://zoom.us/j/987654321"
+    },
+    {
+      "id": 5,
+      "title": "Smart Home Automation with IoT",
+      "instructor": "Prof. Vikram Singh",
+      "date": "2024-02-02",
+      "time": "1:00 PM",
+      "duration": "150 minutes",
+      "participants": 12,
+      "maxParticipants": 25,
+      "status": "upcoming",
+      "meetingLink": "https://meet.google.com/smart-home-iot"
+    },
+    {
+      "id": 6,
+      "title": "3D Printing for Robotics Parts",
+      "instructor": "Eng. Kavya Nair",
+      "date": "2024-02-05",
+      "time": "10:30 AM",
+      "duration": "120 minutes",
+      "participants": 8,
+      "maxParticipants": 15,
+      "status": "upcoming",
+      "meetingLink": "https://zoom.us/j/3dprinting123"
+    },
+    {
+      "id": 7,
+      "title": "Machine Learning in Robotics",
+      "instructor": "Dr. Arjun Krishnamurthy",
+      "date": "2024-02-08",
+      "time": "4:00 PM",
+      "duration": "180 minutes",
+      "participants": 20,
+      "maxParticipants": 35,
+      "status": "upcoming",
+      "meetingLink": "https://meet.google.com/ml-robotics-class"
+    },
+    {
+      "id": 8,
+      "title": "Drone Programming and Control",
+      "instructor": "Capt. Ravi Gupta",
+      "date": "2024-02-12",
+      "time": "11:30 AM",
+      "duration": "150 minutes",
+      "participants": 14,
+      "maxParticipants": 20,
+      "status": "upcoming",
+      "meetingLink": "https://zoom.us/j/drone-control-456"
     }
   ]
 }

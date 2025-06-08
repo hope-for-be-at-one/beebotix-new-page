@@ -22,94 +22,6 @@ const Products = () => {
             Browse our range of innovative hardware and software solutions designed for robotics enthusiasts, makers, and innovators.
           </p>
 
-          {/* Where to Buy Section */}
-          <div className="mb-16">
-            <h2 className="heading-md mb-6">Where to Buy Our Products</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              {purchasingChannels.map((channel) => (
-                <Card key={channel.id} className="hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <ShoppingCart className="h-6 w-6 text-beebotix-orange mr-2" />
-                      <h3 className="text-lg font-bold">{channel.name}</h3>
-                    </div>
-                    <p className="text-sm text-beebotix-gray-dark mb-4">{channel.description}</p>
-                    <ul className="text-xs space-y-1 mb-4">
-                      {channel.benefits.map((benefit, index) => (
-                        <li key={index} className="flex items-center">
-                          <span className="h-1 w-1 rounded-full bg-beebotix-orange mr-2"></span>
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
-                    {channel.type === "internal" ? (
-                      <Link to={channel.link}>
-                        <Button className="button-primary w-full">
-                          Shop Now <ChevronRight className="ml-1 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    ) : (
-                      <a href={channel.link} target="_blank" rel="noopener noreferrer">
-                        <Button className="button-primary w-full">
-                          Visit Store <ExternalLink className="ml-1 h-4 w-4" />
-                        </Button>
-                      </a>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Business & Mass Orders */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    <Mail className="h-6 w-6 text-beebotix-navy mr-2" />
-                    <h3 className="text-lg font-bold">{businessOptions.b2b.title}</h3>
-                  </div>
-                  <p className="text-sm text-beebotix-gray-dark mb-4">{businessOptions.b2b.description}</p>
-                  <ul className="text-xs space-y-1 mb-4">
-                    {businessOptions.b2b.benefits.map((benefit, index) => (
-                      <li key={index} className="flex items-center">
-                        <span className="h-1 w-1 rounded-full bg-beebotix-navy mr-2"></span>
-                        {benefit}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href={businessOptions.b2b.contact}>
-                    <Button className="button-outline w-full">
-                      Mail Us <Mail className="ml-1 h-4 w-4" />
-                    </Button>
-                  </a>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    <Mail className="h-6 w-6 text-beebotix-navy mr-2" />
-                    <h3 className="text-lg font-bold">{businessOptions.massOrder.title}</h3>
-                  </div>
-                  <p className="text-sm text-beebotix-gray-dark mb-4">{businessOptions.massOrder.description}</p>
-                  <ul className="text-xs space-y-1 mb-4">
-                    {businessOptions.massOrder.benefits.map((benefit, index) => (
-                      <li key={index} className="flex items-center">
-                        <span className="h-1 w-1 rounded-full bg-beebotix-navy mr-2"></span>
-                        {benefit}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href={businessOptions.massOrder.contact}>
-                    <Button className="button-outline w-full">
-                      Mail Us <Mail className="ml-1 h-4 w-4" />
-                    </Button>
-                  </a>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {/* Hardware Section */}
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -220,6 +132,94 @@ const Products = () => {
                 </Link>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Where to Buy Section - Moved here */}
+          <div className="mb-16">
+            <h2 className="heading-md mb-6">Where to Buy Our Products</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              {purchasingChannels.map((channel) => (
+                <Card key={channel.id} className="hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <ShoppingCart className="h-6 w-6 text-beebotix-orange mr-2" />
+                      <h3 className="text-lg font-bold">{channel.name}</h3>
+                    </div>
+                    <p className="text-sm text-beebotix-gray-dark mb-4">{channel.description}</p>
+                    <ul className="text-xs space-y-1 mb-4">
+                      {channel.benefits.map((benefit, index) => (
+                        <li key={index} className="flex items-center">
+                          <span className="h-1 w-1 rounded-full bg-beebotix-orange mr-2"></span>
+                          {benefit}
+                        </li>
+                      ))}
+                    </ul>
+                    {channel.type === "internal" ? (
+                      <Link to={channel.link}>
+                        <Button className="button-primary w-full">
+                          Shop Now <ChevronRight className="ml-1 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    ) : (
+                      <a href={channel.link} target="_blank" rel="noopener noreferrer">
+                        <Button className="button-primary w-full">
+                          Visit Store <ExternalLink className="ml-1 h-4 w-4" />
+                        </Button>
+                      </a>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Business & Mass Orders */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Mail className="h-6 w-6 text-beebotix-navy mr-2" />
+                    <h3 className="text-lg font-bold">{businessOptions.b2b.title}</h3>
+                  </div>
+                  <p className="text-sm text-beebotix-gray-dark mb-4">{businessOptions.b2b.description}</p>
+                  <ul className="text-xs space-y-1 mb-4">
+                    {businessOptions.b2b.benefits.map((benefit, index) => (
+                      <li key={index} className="flex items-center">
+                        <span className="h-1 w-1 rounded-full bg-beebotix-navy mr-2"></span>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href={businessOptions.b2b.contact}>
+                    <Button className="button-outline w-full">
+                      Mail Us <Mail className="ml-1 h-4 w-4" />
+                    </Button>
+                  </a>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Mail className="h-6 w-6 text-beebotix-navy mr-2" />
+                    <h3 className="text-lg font-bold">{businessOptions.massOrder.title}</h3>
+                  </div>
+                  <p className="text-sm text-beebotix-gray-dark mb-4">{businessOptions.massOrder.description}</p>
+                  <ul className="text-xs space-y-1 mb-4">
+                    {businessOptions.massOrder.benefits.map((benefit, index) => (
+                      <li key={index} className="flex items-center">
+                        <span className="h-1 w-1 rounded-full bg-beebotix-navy mr-2"></span>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href={businessOptions.massOrder.contact}>
+                    <Button className="button-outline w-full">
+                      Mail Us <Mail className="ml-1 h-4 w-4" />
+                    </Button>
+                  </a>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
           {/* Call-to-Action Section */}
