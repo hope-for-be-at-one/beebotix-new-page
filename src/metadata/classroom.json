@@ -111,6 +111,28 @@
           "youtubeUrl": "https://www.youtube.com/watch?v=h4YS-QjTzbE"
         }
       ]
+    },
+    {
+      "id": "advanced-robotics",
+      "title": "Advanced Robotics",
+      "description": "Deep dive into advanced robotics concepts and applications",
+      "tags": ["Advanced", "Robotics", "AI"],
+      "chapters": [
+        {
+          "id": "adv-ch1",
+          "title": "Robot Vision Systems",
+          "videoId": "abc123xyz",
+          "isPremium": true,
+          "youtubeUrl": "https://www.youtube.com/watch?v=abc123xyz"
+        },
+        {
+          "id": "adv-ch2",
+          "title": "Autonomous Navigation",
+          "videoId": "def456uvw",
+          "isPremium": true,
+          "youtubeUrl": "https://www.youtube.com/watch?v=def456uvw"
+        }
+      ]
     }
   ],
   "resources": [
@@ -141,39 +163,58 @@
       "description": "Common problems and solutions in robotics projects",
       "categories": ["Hardware", "Software", "Connectivity", "Power"],
       "count": 120
+    },
+    {
+      "id": "simulation-tools",
+      "title": "Simulation Tools",
+      "description": "Virtual environments for testing robotics projects",
+      "categories": ["Gazebo", "Webots", "V-REP", "MATLAB"],
+      "count": 45
     }
   ],
   "liveClasses": [
     {
       "id": 1,
-      "title": "Arduino Programming Basics",
+      "title": "Introduction to Machine Learning in Robotics",
+      "instructor": "Dr. Sarah Chen",
+      "date": "2025-06-05",
+      "time": "2:00 PM",
+      "duration": "120 minutes",
+      "participants": 28,
+      "maxParticipants": 30,
+      "status": "ended",
+      "meetingLink": "https://meet.google.com/past-class-ml"
+    },
+    {
+      "id": 2,
+      "title": "Arduino Programming Workshop",
       "instructor": "Prof. Rajesh Kumar",
-      "date": "2024-01-25",
+      "date": "2025-06-07",
       "time": "10:00 AM",
       "duration": "90 minutes",
       "participants": 24,
       "maxParticipants": 30,
-      "status": "upcoming",
-      "meetingLink": "https://meet.google.com/abc-defg-hij"
+      "status": "ended",
+      "meetingLink": "https://meet.google.com/arduino-workshop"
     },
     {
-      "id": 2,
-      "title": "IoT Project Development",
+      "id": 3,
+      "title": "Live: IoT Project Development",
       "instructor": "Dr. Priya Sharma",
-      "date": "2024-01-26", 
+      "date": "2025-06-08",
       "time": "2:00 PM",
       "duration": "120 minutes",
       "participants": 18,
       "maxParticipants": 25,
-      "status": "upcoming",
+      "status": "live",
       "meetingLink": "https://zoom.us/j/123456789"
     },
     {
-      "id": 3,
+      "id": 4,
       "title": "Robotics Workshop: Building Your First Robot",
       "instructor": "Eng. Amit Patel",
-      "date": "2024-01-28",
-      "time": "11:00 AM",
+      "date": "2025-06-08",
+      "time": "7:00 PM",
       "duration": "180 minutes",
       "participants": 15,
       "maxParticipants": 20,
@@ -181,11 +222,11 @@
       "meetingLink": "https://meet.google.com/xyz-abcd-efg"
     },
     {
-      "id": 4,
+      "id": 5,
       "title": "Python for Robotics - Advanced Concepts",
       "instructor": "Dr. Sneha Reddy",
-      "date": "2024-01-30",
-      "time": "3:00 PM",
+      "date": "2025-06-09",
+      "time": "11:00 AM",
       "duration": "120 minutes",
       "participants": 22,
       "maxParticipants": 30,
@@ -193,11 +234,11 @@
       "meetingLink": "https://zoom.us/j/987654321"
     },
     {
-      "id": 5,
+      "id": 6,
       "title": "Smart Home Automation with IoT",
       "instructor": "Prof. Vikram Singh",
-      "date": "2024-02-02",
-      "time": "1:00 PM",
+      "date": "2025-06-10",
+      "time": "3:00 PM",
       "duration": "150 minutes",
       "participants": 12,
       "maxParticipants": 25,
@@ -205,10 +246,10 @@
       "meetingLink": "https://meet.google.com/smart-home-iot"
     },
     {
-      "id": 6,
+      "id": 7,
       "title": "3D Printing for Robotics Parts",
       "instructor": "Eng. Kavya Nair",
-      "date": "2024-02-05",
+      "date": "2025-06-12",
       "time": "10:30 AM",
       "duration": "120 minutes",
       "participants": 8,
@@ -217,28 +258,64 @@
       "meetingLink": "https://zoom.us/j/3dprinting123"
     },
     {
-      "id": 7,
-      "title": "Machine Learning in Robotics",
-      "instructor": "Dr. Arjun Krishnamurthy",
-      "date": "2024-02-08",
-      "time": "4:00 PM",
-      "duration": "180 minutes",
-      "participants": 20,
-      "maxParticipants": 35,
-      "status": "upcoming",
-      "meetingLink": "https://meet.google.com/ml-robotics-class"
-    },
-    {
       "id": 8,
       "title": "Drone Programming and Control",
       "instructor": "Capt. Ravi Gupta",
-      "date": "2024-02-12",
+      "date": "2025-06-15",
       "time": "11:30 AM",
       "duration": "150 minutes",
       "participants": 14,
       "maxParticipants": 20,
       "status": "upcoming",
       "meetingLink": "https://zoom.us/j/drone-control-456"
+    },
+    {
+      "id": 9,
+      "title": "Computer Vision for Robotics",
+      "instructor": "Dr. Arjun Krishnamurthy",
+      "date": "2025-06-18",
+      "time": "4:00 PM",
+      "duration": "180 minutes",
+      "participants": 20,
+      "maxParticipants": 35,
+      "status": "upcoming",
+      "meetingLink": "https://meet.google.com/cv-robotics-class"
+    },
+    {
+      "id": 10,
+      "title": "ROS (Robot Operating System) Fundamentals",
+      "instructor": "Prof. Anita Verma",
+      "date": "2025-06-20",
+      "time": "1:00 PM",
+      "duration": "150 minutes",
+      "participants": 16,
+      "maxParticipants": 25,
+      "status": "upcoming",
+      "meetingLink": "https://zoom.us/j/ros-fundamentals"
+    },
+    {
+      "id": 11,
+      "title": "Embedded Systems Programming",
+      "instructor": "Eng. Suresh Babu",
+      "date": "2025-06-22",
+      "time": "9:00 AM",
+      "duration": "120 minutes",
+      "participants": 19,
+      "maxParticipants": 30,
+      "status": "upcoming",
+      "meetingLink": "https://meet.google.com/embedded-systems"
+    },
+    {
+      "id": 12,
+      "title": "AI and Machine Learning in Automation",
+      "instructor": "Dr. Meera Nair",
+      "date": "2025-06-25",
+      "time": "2:30 PM",
+      "duration": "180 minutes",
+      "participants": 25,
+      "maxParticipants": 40,
+      "status": "upcoming",
+      "meetingLink": "https://zoom.us/j/ai-automation"
     }
   ]
 }
