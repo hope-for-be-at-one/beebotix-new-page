@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { Bot, Clock, CheckCircle, Zap } from "lucide-react";
+import { Bot, Clock, CheckCircle, Zap, Mail } from "lucide-react";
 import robotRentalData from "@/metadata/robot-rental.json";
 
 interface Robot {
@@ -26,8 +26,10 @@ const RentRobot = () => {
   }, []);
 
   const handleRentNow = (robotName: string) => {
-    // This could be expanded to handle actual rental booking
-    alert(`Initiating rental process for ${robotName}. Contact us to proceed!`);
+    const subject = `Rental Inquiry for ${robotName}`;
+    const body = `Hello,\n\nI am interested in renting the ${robotName}. Please provide more details about availability and booking process.\n\nThank you.`;
+    const mailtoLink = `mailto:contact@beebotix.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
   };
 
   return (
@@ -50,13 +52,13 @@ const RentRobot = () => {
           {/* Robots Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {robots.map((robot) => (
-              <Card key={robot.id} className="border-2 border-beebotix-yellow/20 hover:border-beebotix-yellow/40 transition-all duration-300 hover:shadow-lg">
+              <Card key={robot.id} className="border-2 border-beebotix-yellow/20 hover:border-beebotix-yellow/40 transition-all duration-300 hover:shadow-lg group">
                 <CardHeader className="p-0">
-                  <div className="relative">
+                  <div className="relative overflow-hidden">
                     <img 
                       src={robot.image} 
                       alt={robot.name}
-                      className="w-full h-48 object-cover rounded-t-lg"
+                      className="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
                     />
                     <Badge className="absolute top-4 right-4 bg-beebotix-yellow text-beebotix-navy">
                       <Clock className="h-3 w-3 mr-1" />
@@ -112,10 +114,12 @@ const RentRobot = () => {
                     </div>
                     <Button 
                       onClick={() => handleRentNow(robot.name)}
-                      className="w-full bg-beebotix-yellow hover:bg-beebotix-yellow/80 text-beebotix-navy font-medium"
+                      className="w-full bg-gradient-to-r from-beebotix-yellow to-beebotix-orange hover:from-beebotix-orange hover:to-beebotix-yellow text-beebotix-navy font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg relative overflow-hidden group"
                     >
-                      <Bot className="h-4 w-4 mr-2" />
-                      Rent Now
+                      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                      <Mail className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:rotate-12" />
+                      <span className="relative">Rent Now</span>
+                      <div className="absolute -inset-1 bg-gradient-to-r from-beebotix-yellow to-beebotix-orange rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
                     </Button>
                   </div>
                 </CardContent>
