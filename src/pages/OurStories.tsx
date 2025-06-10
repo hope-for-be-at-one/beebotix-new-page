@@ -13,7 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Calendar, Award, Star, Trophy, ExternalLink } from "lucide-react";
+import { Calendar, Award, Star, Trophy, ExternalLink, Youtube, Play, Clock } from "lucide-react";
 
 interface BlogPost {
   id: number;
@@ -24,6 +24,17 @@ interface BlogPost {
   readTime: string;
   image: string;
   readMoreLink: string;
+}
+
+interface Video {
+  id: number;
+  title: string;
+  description: string;
+  youtubeUrl: string;
+  thumbnail: string;
+  duration: string;
+  category: string;
+  knowMoreLink: string;
 }
 
 interface Testimonial {
@@ -45,6 +56,7 @@ interface AwardData {
 
 interface OurStoriesData {
   blogPosts: BlogPost[];
+  videos: Video[];
   testimonials: Testimonial[];
   awards: AwardData[];
 }
@@ -100,7 +112,7 @@ const OurStories = () => {
     );
   }
 
-  const { blogPosts, testimonials, awards } = storiesData;
+  const { blogPosts, videos, testimonials, awards } = storiesData;
 
   return (
     <>
@@ -209,6 +221,101 @@ const OurStories = () => {
                       Read More
                       <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                     </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Videos Section */}
+        <section className="py-20 bg-gradient-to-b from-gray-50/50 to-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23000000%22%20fill-opacity%3D%220.1%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] bg-repeat"></div>
+          </div>
+          
+          <div className="container-custom relative z-10">
+            <div className="text-center mb-16 animate-fade-in">
+              <h2 className="text-3xl md:text-4xl font-bold text-beebotix-navy mb-4 hover-scale">
+                Featured Videos
+              </h2>
+              <p className="text-lg text-beebotix-gray-dark max-w-2xl mx-auto">
+                Watch our innovative projects in action and see the impact we're making in the tech community
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {videos.map((video, index) => (
+                <Card 
+                  key={video.id} 
+                  className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group bg-white/90 backdrop-blur-sm border-0 shadow-lg animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="aspect-video bg-gray-200 relative overflow-hidden cursor-pointer" onClick={() => window.open(video.youtubeUrl, '_blank')}>
+                    <img 
+                      src={video.thumbnail} 
+                      alt={video.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=450&fit=crop';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300"></div>
+                    
+                    {/* Play Button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-red-600/90 rounded-full flex items-center justify-center group-hover:bg-red-600 transition-all duration-300 transform group-hover:scale-110">
+                        <Play className="h-8 w-8 text-white ml-1" fill="currentColor" />
+                      </div>
+                    </div>
+                    
+                    {/* Duration Badge */}
+                    <div className="absolute bottom-4 right-4">
+                      <Badge className="bg-black/70 text-white border-0">
+                        <Clock className="h-3 w-3 mr-1" />
+                        {video.duration}
+                      </Badge>
+                    </div>
+                    
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-beebotix-yellow text-beebotix-navy hover:bg-beebotix-orange transition-colors duration-300">
+                        {video.category}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <CardHeader>
+                    <CardTitle className="text-xl text-beebotix-navy line-clamp-2 group-hover:text-beebotix-orange transition-colors duration-300">
+                      {video.title}
+                    </CardTitle>
+                  </CardHeader>
+                  
+                  <CardContent>
+                    <p className="text-beebotix-gray-dark mb-6 line-clamp-3 leading-relaxed">
+                      {video.description}
+                    </p>
+                    
+                    <div className="flex gap-3">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 border-red-600 text-red-600 hover:bg-red-600 hover:text-white group/btn transform hover:scale-105 transition-all duration-300"
+                        onClick={() => window.open(video.youtubeUrl, '_blank')}
+                      >
+                        <Youtube className="mr-2 h-4 w-4 transition-transform group-hover/btn:scale-110" />
+                        Watch Video
+                      </Button>
+                      
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 border-beebotix-navy text-beebotix-navy hover:bg-beebotix-navy hover:text-white group/btn transform hover:scale-105 transition-all duration-300"
+                        onClick={() => window.open(video.knowMoreLink, '_blank')}
+                      >
+                        Know More
+                        <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               ))}

@@ -42,6 +42,48 @@
       "readMoreLink": "https://agritech.beebotix.com/smart-farming-solutions"
     }
   ],
+  "videos": [
+    {
+      "id": 1,
+      "title": "Robotics Workshop Highlights 2023",
+      "description": "Watch our students build and program their first robots in our intensive robotics workshop. See the amazing projects they created!",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "/placeholder.svg",
+      "duration": "5:23",
+      "category": "Education",
+      "knowMoreLink": "https://beebotix.com/robotics-workshop-program"
+    },
+    {
+      "id": 2,
+      "title": "Smart Home Automation Demo",
+      "description": "A complete walkthrough of our IoT-based smart home automation system. See how we control lights, temperature, and security remotely.",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "/placeholder.svg",
+      "duration": "8:47",
+      "category": "IoT",
+      "knowMoreLink": "https://beebotix.com/smart-home-solutions"
+    },
+    {
+      "id": 3,
+      "title": "3D Printing Custom Prosthetics",
+      "description": "Discover how we're using 3D printing technology to create affordable, custom prosthetics for patients in need.",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "/placeholder.svg",
+      "duration": "12:15",
+      "category": "Healthcare",
+      "knowMoreLink": "https://beebotix.com/healthcare-solutions"
+    },
+    {
+      "id": 4,
+      "title": "Agricultural Sensors in Action",
+      "description": "See our smart farming sensors in real-world applications, helping farmers increase crop yield and reduce water usage.",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "/placeholder.svg",
+      "duration": "6:32",
+      "category": "Agriculture",
+      "knowMoreLink": "https://beebotix.com/smart-farming"
+    }
+  ],
   "testimonials": [
     {
       "name": "Dr. Rajesh Kumar",
