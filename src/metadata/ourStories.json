@@ -8,7 +8,7 @@
       "date": "2024-01-15",
       "category": "IoT Project",
       "readTime": "5 min read",
-      "image": "/placeholder.svg",
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop",
       "readMoreLink": "https://medium.com/@beebotix/smart-home-automation-iot-project"
     },
     {
@@ -18,7 +18,7 @@
       "date": "2023-12-10",
       "category": "Education",
       "readTime": "3 min read",
-      "image": "/placeholder.svg",
+      "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
       "readMoreLink": "https://techcrunch.com/beebotix-robotics-championship-victory"
     },
     {
@@ -28,7 +28,7 @@
       "date": "2023-11-22",
       "category": "Healthcare",
       "readTime": "7 min read",
-      "image": "/placeholder.svg",
+      "image": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=800&h=600&fit=crop",
       "readMoreLink": "https://healthtech.beebotix.com/3d-printing-prosthetics"
     },
     {
@@ -38,8 +38,28 @@
       "date": "2023-10-05",
       "category": "Agriculture",
       "readTime": "6 min read",
-      "image": "/placeholder.svg",
+      "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&h=600&fit=crop",
       "readMoreLink": "https://agritech.beebotix.com/smart-farming-solutions"
+    },
+    {
+      "id": 5,
+      "title": "METADATA UPDATE TEST: AI-Powered Drone Delivery System",
+      "excerpt": "Developing autonomous drones for last-mile delivery in urban areas using machine learning algorithms.",
+      "date": "2024-02-20",
+      "category": "AI & Drones",
+      "readTime": "8 min read",
+      "image": "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800&h=600&fit=crop",
+      "readMoreLink": "https://beebotix.com/ai-drone-delivery"
+    },
+    {
+      "id": 6,
+      "title": "VERIFICATION: Underwater ROV for Marine Research",
+      "excerpt": "Custom-built remotely operated vehicle helping marine biologists study deep-sea ecosystems.",
+      "date": "2024-03-10",
+      "category": "Marine Tech",
+      "readTime": "10 min read",
+      "image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
+      "readMoreLink": "https://beebotix.com/marine-rov-project"
     }
   ],
   "videos": [
@@ -48,7 +68,7 @@
       "title": "Robotics Workshop Highlights 2023",
       "description": "Watch our students build and program their first robots in our intensive robotics workshop. See the amazing projects they created!",
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "thumbnail": "/placeholder.svg",
+      "thumbnail": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=450&fit=crop",
       "duration": "5:23",
       "category": "Education",
       "knowMoreLink": "https://beebotix.com/robotics-workshop-program"
@@ -58,7 +78,7 @@
       "title": "Smart Home Automation Demo",
       "description": "A complete walkthrough of our IoT-based smart home automation system. See how we control lights, temperature, and security remotely.",
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "thumbnail": "/placeholder.svg",
+      "thumbnail": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=450&fit=crop",
       "duration": "8:47",
       "category": "IoT",
       "knowMoreLink": "https://beebotix.com/smart-home-solutions"
@@ -68,7 +88,7 @@
       "title": "3D Printing Custom Prosthetics",
       "description": "Discover how we're using 3D printing technology to create affordable, custom prosthetics for patients in need.",
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "thumbnail": "/placeholder.svg",
+      "thumbnail": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=800&h=450&fit=crop",
       "duration": "12:15",
       "category": "Healthcare",
       "knowMoreLink": "https://beebotix.com/healthcare-solutions"
@@ -78,10 +98,30 @@
       "title": "Agricultural Sensors in Action",
       "description": "See our smart farming sensors in real-world applications, helping farmers increase crop yield and reduce water usage.",
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "thumbnail": "/placeholder.svg",
+      "thumbnail": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&h=450&fit=crop",
       "duration": "6:32",
       "category": "Agriculture",
       "knowMoreLink": "https://beebotix.com/smart-farming"
+    },
+    {
+      "id": 5,
+      "title": "METADATA TEST: AI Robot Assembly Line",
+      "description": "Behind the scenes of our automated robot manufacturing process using artificial intelligence and precision engineering.",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=450&fit=crop",
+      "duration": "15:30",
+      "category": "Manufacturing",
+      "knowMoreLink": "https://beebotix.com/robot-manufacturing"
+    },
+    {
+      "id": 6,
+      "title": "VERIFICATION: Drone Swarm Coordination",
+      "description": "Watch our latest breakthrough in drone swarm technology for search and rescue operations in disaster zones.",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800&h=450&fit=crop",
+      "duration": "9:45",
+      "category": "Emergency Response",
+      "knowMoreLink": "https://beebotix.com/drone-swarm-tech"
     }
   ],
   "testimonials": [
@@ -91,7 +131,7 @@
       "company": "Indian Institute of Technology",
       "testimonial": "BeeBotix has been instrumental in enhancing our robotics curriculum. Their expertise and innovative approach have significantly improved our students' practical learning experience.",
       "rating": 5,
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
     },
     {
       "name": "Priya Sharma",
@@ -99,7 +139,7 @@
       "company": "TechStart Innovations",
       "testimonial": "The IoT solutions provided by BeeBotix transformed our manufacturing process. Their team's dedication and technical expertise are unmatched.",
       "rating": 5,
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1494790108755-2616b612b1fc?w=150&h=150&fit=crop&crop=face"
     },
     {
       "name": "Amit Patel",
@@ -107,7 +147,7 @@
       "company": "GreenTech Solutions",
       "testimonial": "Working with BeeBotix on our smart farming project was amazing. They delivered beyond our expectations and helped us achieve remarkable results.",
       "rating": 5,
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
     },
     {
       "name": "Sarah Johnson",
@@ -115,7 +155,7 @@
       "company": "Karnataka University",
       "testimonial": "The robotics workshop by BeeBotix opened up a whole new world for me. Their teaching methodology is practical and engaging.",
       "rating": 5,
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
     },
     {
       "name": "Vikram Singh",
@@ -123,7 +163,7 @@
       "company": "Innovation Labs",
       "testimonial": "BeeBotix's 3D printing solutions revolutionized our prototyping process. The quality and precision are exceptional.",
       "rating": 5,
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
     },
     {
       "name": "Maya Desai",
@@ -131,7 +171,15 @@
       "company": "Future Tech Institute",
       "testimonial": "Collaborating with BeeBotix has been a game-changer for our research projects. Their innovative approach is truly inspiring.",
       "rating": 5,
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face"
+    },
+    {
+      "name": "METADATA TEST - Dr. Alex Chen",
+      "position": "Director of AI Research",
+      "company": "Future Robotics Lab",
+      "testimonial": "BeeBotix's cutting-edge AI integration in robotics has pushed the boundaries of what's possible. Their solutions are truly next-generation.",
+      "rating": 5,
+      "image": "https://images.unsplash.com/photo-1556157382-97eda2d62296?w=150&h=150&fit=crop&crop=face"
     }
   ],
   "awards": [
@@ -140,28 +188,35 @@
       "organization": "Karnataka State Education Board",
       "year": "2023",
       "description": "Recognized for outstanding contribution to robotics education and student development programs.",
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=400&h=400&fit=crop"
     },
     {
       "title": "Startup Excellence Award",
       "organization": "Bangalore Chamber of Commerce",
       "year": "2023",
       "description": "Awarded for innovative solutions in technology education and community impact.",
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=400&fit=crop"
     },
     {
       "title": "Social Impact Recognition",
       "organization": "Tech for Good Foundation",
       "year": "2022",
       "description": "Honored for using technology to create positive social impact in education and healthcare.",
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1556740749-887f6717d7e4?w=400&h=400&fit=crop"
     },
     {
       "title": "Innovation in 3D Printing",
       "organization": "Indian Manufacturing Association",
       "year": "2022",
       "description": "Recognized for pioneering work in accessible 3D printing solutions for healthcare applications.",
-      "image": "/placeholder.svg"
+      "image": "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=400&h=400&fit=crop"
+    },
+    {
+      "title": "METADATA VERIFICATION - AI Excellence Award",
+      "organization": "National Technology Council",
+      "year": "2024",
+      "description": "Outstanding achievement in artificial intelligence and machine learning applications for robotics.",
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop"
     }
   ]
 }
