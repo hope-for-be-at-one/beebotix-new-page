@@ -1,6 +1,6 @@
 
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CartProvider } from "@/hooks/useCart";
 import { Toaster } from "@/components/ui/sonner";
@@ -23,6 +23,7 @@ import OurStories from "@/pages/OurStories";
 import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import RentRobot from "@/pages/RentRobot";
+import NotFound from "@/pages/NotFound";
 
 // Create QueryClient instance outside of component to avoid recreation
 const queryClient = new QueryClient({
@@ -60,6 +61,7 @@ function App() {
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/rent-robot" element={<RentRobot />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
           <Toaster />
