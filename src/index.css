@@ -45,6 +45,15 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* BeeBotix brand colors */
+    --beebotix-navy: 210 100% 8%;
+    --beebotix-yellow: 52 96% 55%;
+    --beebotix-orange: 21 94% 53%;
+    --beebotix-teal: 170 76% 29%;
+    --beebotix-gray: 220 9% 68%;
+    --beebotix-gray-light: 220 14% 96%;
+    --beebotix-gray-dark: 220 9% 39%;
   }
 
   .dark {
