@@ -1,9 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeeBotix - Robotics As A Service | 3D Printing & IoT Solutions</title>
     <meta name="description" content="BeeBotix offers Robotics as a Service (RAAS) with custom 3D printing, IoT solutions, educational robotics kits, and smart home automation. Professional development boards and robotics consulting." />
     <meta name="keywords" content="robotics as a service, 3D printing services, IoT solutions, educational robotics, custom robotics, development boards, smart home automation, STEM education, BeeBotix" />
@@ -29,12 +29,443 @@
     <!-- Additional SEO -->
     <link rel="canonical" href="https://beebotix.com" />
     <meta name="msapplication-TileColor" content="#fbbf24" />
-  </head>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header id="navbar" class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#home" class="logo">
+                    <span class="logo-text">Bee<span class="logo-accent">Botix</span></span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-desktop">
+                    <ul class="nav-links">
+                        <li><a href="#home" class="nav-link">Home</a></li>
+                        <li><a href="#services" class="nav-link">Services</a></li>
+                        <li class="dropdown">
+                            <a href="#products" class="nav-link dropdown-trigger">
+                                Marketplace <i data-lucide="chevron-down"></i>
+                            </a>
+                            <div class="dropdown-content">
+                                <div class="dropdown-section">
+                                    <h4>Products</h4>
+                                    <a href="#hardware">Hardware</a>
+                                    <a href="#software">Software</a>
+                                </div>
+                                <div class="dropdown-section">
+                                    <h4>Other Services</h4>
+                                    <a href="#3d-printing">3D Printing Service</a>
+                                    <a href="#gifting">Gifting</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a href="#classroom" class="nav-link">ClassRoom</a></li>
+                        <li><a href="#stories" class="nav-link">Our Stories</a></li>
+                    </ul>
+                    
+                    <!-- Cart Icon -->
+                    <div class="cart-container">
+                        <button class="cart-btn" id="cartBtn">
+                            <i data-lucide="shopping-cart"></i>
+                            <span class="cart-badge" id="cartBadge">0</span>
+                        </button>
+                        <div class="cart-dropdown" id="cartDropdown">
+                            <div class="cart-header">Your Cart</div>
+                            <div class="cart-items" id="cartItems">
+                                <div class="cart-empty">Your cart is empty</div>
+                            </div>
+                            <div class="cart-actions">
+                                <button class="btn btn-secondary">View Cart</button>
+                                <button class="btn btn-primary">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="btn btn-primary">Contact Us</a>
+                </nav>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i data-lucide="menu" class="menu-icon"></i>
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav class="nav-mobile" id="mobileNav">
+                <ul class="nav-links-mobile">
+                    <li><a href="#home" class="nav-link-mobile">Home</a></li>
+                    <li><a href="#services" class="nav-link-mobile">Services</a></li>
+                    <li>
+                        <div class="mobile-dropdown">
+                            <span class="nav-link-mobile">Marketplace <i data-lucide="chevron-down"></i></span>
+                            <div class="mobile-dropdown-content">
+                                <h5>Products</h5>
+                                <a href="#hardware">Hardware</a>
+                                <a href="#software">Software</a>
+                                <h5>Other Services</h5>
+                                <a href="#3d-printing">3D Printing Service</a>
+                                <a href="#gifting">Gifting</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#classroom" class="nav-link-mobile">ClassRoom</a></li>
+                    <li><a href="#stories" class="nav-link-mobile">Our Stories</a></li>
+                    <li><a href="#contact" class="btn btn-primary btn-mobile">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-bg">
+                <div class="bg-blur bg-blur-1"></div>
+                <div class="bg-blur bg-blur-2"></div>
+                <div class="bg-blur bg-blur-3"></div>
+                
+                <!-- Floating Icons -->
+                <div class="floating-icon icon-1">
+                    <i data-lucide="circle-dot"></i>
+                </div>
+                <div class="floating-icon icon-2">
+                    <i data-lucide="box"></i>
+                </div>
+                <div class="floating-icon icon-3">
+                    <i data-lucide="bot"></i>
+                </div>
+                <div class="floating-icon icon-4">
+                    <i data-lucide="circle-dashed"></i>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            Welcome to <span class="gradient-text">BeeBotix</span>
+                        </h1>
+                        
+                        <p class="hero-subtitle">
+                            "Buzz in Robotics, and we are the buzzing army"
+                        </p>
+                        
+                        <p class="hero-description">
+                            Innovative Robotics as a Service solutions for industries, hobbyists, and innovators alike. Custom robotics, development boards, and 3D printing services.
+                        </p>
+                        
+                        <div class="hero-buttons">
+                            <a href="#services" class="btn btn-primary">
+                                Explore Services <i data-lucide="arrow-right"></i>
+                            </a>
+                            <a href="#products" class="btn btn-secondary">
+                                Visit Marketplace
+                            </a>
+                            <a href="#rent-robot" class="btn btn-primary">
+                                <i data-lucide="bot"></i> Rent A Robot
+                            </a>
+                            <a href="#contact" class="btn btn-outline">
+                                Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">About BeeBotix</h2>
+                    <p class="section-subtitle">Leading the future of robotics with innovative solutions</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Our Mission</h3>
+                        <p>BeeBotix is dedicated to making robotics accessible to everyone. We provide comprehensive Robotics as a Service (RAAS) solutions that empower businesses, educators, and enthusiasts to harness the power of automation and intelligent systems.</p>
+                        
+                        <h3>What We Do</h3>
+                        <ul>
+                            <li>Custom robotics development and consulting</li>
+                            <li>Professional 3D printing and prototyping services</li>
+                            <li>Educational robotics kits and classroom solutions</li>
+                            <li>IoT and smart automation systems</li>
+                            <li>Development boards and electronic components</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">100+</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Happy Clients</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="section services">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Services</h2>
+                    <p class="section-subtitle">Comprehensive robotics solutions for every need</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="cpu"></i>
+                        </div>
+                        <h3>Custom Robotics</h3>
+                        <p>Tailored robotic solutions designed specifically for your industry and requirements.</p>
+                        <a href="#contact" class="service-link">Learn More <i data-lucide="arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="printer"></i>
+                        </div>
+                        <h3>3D Printing</h3>
+                        <p>Professional 3D printing services for prototypes, parts, and custom designs.</p>
+                        <a href="#3d-printing" class="service-link">Learn More <i data-lucide="arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="graduation-cap"></i>
+                        </div>
+                        <h3>Education</h3>
+                        <p>STEM education kits and classroom solutions to inspire the next generation.</p>
+                        <a href="#classroom" class="service-link">Learn More <i data-lucide="arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i data-lucide="wifi"></i>
+                        </div>
+                        <h3>IoT Solutions</h3>
+                        <p>Smart automation and IoT systems for homes and businesses.</p>
+                        <a href="#contact" class="service-link">Learn More <i data-lucide="arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Why Choose BeeBotix?</h2>
+                    <p class="section-subtitle">Industry-leading expertise and innovation</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <h3>Fast Delivery</h3>
+                        <p>Quick turnaround times without compromising on quality.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <h3>Quality Assured</h3>
+                        <p>Rigorous testing and quality control for all our products and services.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i data-lucide="headphones"></i>
+                        </div>
+                        <h3>24/7 Support</h3>
+                        <p>Round-the-clock technical support and customer service.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h3>Expert Team</h3>
+                        <p>Experienced robotics engineers and industry professionals.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="section faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Common questions about our services</p>
+                </div>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What is Robotics as a Service (RAAS)?</h3>
+                            <i data-lucide="plus" class="faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Robotics as a Service (RAAS) is a business model where we provide complete robotic solutions including hardware, software, maintenance, and support as a service rather than a one-time purchase.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Do you provide custom robotics solutions?</h3>
+                            <i data-lucide="plus" class="faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we specialize in custom robotics development tailored to your specific industry needs and requirements. Our team works closely with you from concept to deployment.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What 3D printing materials do you support?</h3>
+                            <i data-lucide="plus" class="faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We support a wide range of materials including PLA, ABS, PETG, TPU, and specialty materials for industrial applications. Contact us for specific material requirements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="section-subtitle">Ready to start your robotics journey?</p>
+                </div>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <div class="contact-item">
+                            <i data-lucide="mail"></i>
+                            <span>info@beebotix.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i data-lucide="phone"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <i data-lucide="map-pin"></i>
+                            <span>123 Innovation Drive, Tech City, TC 12345</span>
+                        </div>
+                    </div>
+                    
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">BeeBotix</h3>
+                    <p>Leading the future of robotics with innovative solutions and exceptional service.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i data-lucide="facebook"></i></a>
+                        <a href="#" class="social-link"><i data-lucide="twitter"></i></a>
+                        <a href="#" class="social-link"><i data-lucide="linkedin"></i></a>
+                        <a href="#" class="social-link"><i data-lucide="instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Custom Robotics</a></li>
+                        <li><a href="#3d-printing">3D Printing</a></li>
+                        <li><a href="#classroom">Education</a></li>
+                        <li><a href="#contact">Consulting</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="#hardware">Hardware</a></li>
+                        <li><a href="#software">Software</a></li>
+                        <li><a href="#gifting">Gifting</a></li>
+                        <li><a href="#rent-robot">Robot Rental</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#stories">Our Stories</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 BeeBotix. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
 </html>
