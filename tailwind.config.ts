@@ -63,14 +63,18 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// BeeBotix custom colors using CSS custom properties
-				'beebotix-navy': 'hsl(var(--beebotix-navy))',
-				'beebotix-yellow': 'hsl(var(--beebotix-yellow))',
-				'beebotix-orange': 'hsl(var(--beebotix-orange))',
-				'beebotix-teal': 'hsl(var(--beebotix-teal))',
-				'beebotix-gray': 'hsl(var(--beebotix-gray))',
-				'beebotix-gray-light': 'hsl(var(--beebotix-gray-light))',
-				'beebotix-gray-dark': 'hsl(var(--beebotix-gray-dark))'
+				// BeeBotix custom colors
+				beebotix: {
+					navy: "#1A1F2C",
+					yellow: "#F9D923",
+					orange: "#F97316",
+					teal: "#0D9488",
+					gray: {
+						light: "#F3F4F6",
+						DEFAULT: "#9CA3AF",
+						dark: "#4B5563"
+					}
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
